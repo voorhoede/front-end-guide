@@ -1,0 +1,20 @@
+@import (reference) "../app-core-styles/styles/mixins/clearfix";
+@import (reference) "../app-core-styles/styles/variables";
+@import (once) "../app-core-styles/app-core-styles";
+
+.app-header {
+	.clearfix();
+	position: relative;
+	background-color: @nav-bg-color;
+	color: white;
+	a { color: white; }
+	.app-logo    { float: left; }
+	.meta-menu   { float: left; }
+	.user-menu   { float: right; }
+	.search-menu { float: right; }
+}
+.app-header-quick-menu {
+	position: absolute;
+	left: 1em;
+	top: 5em;
+}

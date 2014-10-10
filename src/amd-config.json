@@ -1,0 +1,9 @@
+{
+	"baseUrl": "src",
+	"paths": {
+		"airhooks": "vendor/airhooks/airhooks",
+		"expandible": "vendor/expandible/expandible",
+		"search-menu": "components/search-menu/search-menu"
+	},
+	"umd": true
+}
