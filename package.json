@@ -38,6 +38,10 @@
     "gulp-filter": "^1.0.2",
     "gulp-sourcemaps": "^1.2.4",
     "gulp-concat": "^2.4.1",
-    "gulp-amd-optimizer": "^0.1.0"
+    "gulp-amd-optimizer": "^0.1.0",
+    "run-sequence": "^1.0.1",
+    "lazypipe": "^0.2.2",
+    "gulp-watch": "^1.1.0",
+    "gulp-debug": "^1.0.1"
   }
 }

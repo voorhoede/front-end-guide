@@ -4,14 +4,14 @@
      data-search-menu
      data-expandible-open-on-focus="true"
      data-expandible-close-on-blur="true">
-    <a id="search" rel="search" href="https://example.com/search"
+    <a id="search" rel="search" href="/views/search/search.html"
        class="menu-link"
        data-expandible-handle="toggle">
         <span class="search-menu-open  app-icon icon-search"></span>
         <span class="search-menu-close app-icon icon-cross"></span>
         <span class="a11y-sr-only">Search</span>
     </a>
-    <form method="GET" action="https://www.example.com/search"
+    <form method="GET" action="/views/search/search.html"
           class="search-menu-form"
           data-expandible-content>
         <label>
@@ -20,7 +20,7 @@
         </label>
         <button>
             <span class="app-icon icon-search"></span>
-            <span class="a11y-sr-only">Search on example.com</span>
+            <span class="a11y-sr-only">Search {{ pkg.name }}</span>
         </button>
     </form>
 </div>

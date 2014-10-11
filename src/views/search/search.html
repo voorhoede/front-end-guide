@@ -1,0 +1,21 @@
+{% extends "views/_base-view/base-view.html" %}
+
+{% block content %}
+    <h1>Search</h1>
+
+    <!-- Mark search controls for enhanced a11y: http://www.w3.org/TR/wai-aria/roles#search -->
+    <form role="search" method="GET" action="/views/search/search.html">
+        <label>
+            <span class="a11y-sr-only">Keywords</span>
+            <input type="search" name="q" placeholder="keyword(s)" />
+        </label>
+        <button>
+            <span class="app-icon icon-search"></span>
+            <span class="a11y-sr-only">Search {{ pkg.name }}</span>
+        </button>
+    </form>
+
+    <section>
+        <h2>XX Results</h2>
+    </section>
+{% endblock %}

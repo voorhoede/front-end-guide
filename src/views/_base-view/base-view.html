@@ -1,0 +1,51 @@
+<!doctype html>
+<html class="no-js" lang="en"><!-- specify language: http://www.w3.org/TR/html401/struct/dirlang.html#h-8.1 -->
+<head prefix="og: http://ogp.me/ns#"><!-- enable Open Graph: http://ogp.me/ -->
+
+    <!-- charset & http-equiv may be set via response header: https://github.com/h5bp/html5-boilerplate/blob/master/doc/html.md#x-ua-compatible -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>{{ pkg.name }}</title>
+    <meta name="description" content="{{ pkg.description }}">
+    <meta name="keywords" content="{{ pkg.keywords | join(', ') }}">
+    <meta property="og:image" content="http://voorhoede.github.io/a11y-boilerplate/a11y-boilerplate.png">
+    <meta property="og:url"   content="http://voorhoede.github.io/">
+    <!-- optionally add more Open Graph metadata: http://ogp.me/#metadata -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- specify viewport: https://developers.google.com/speed/docs/insights/ConfigureViewport -->
+    <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+
+    <!-- Enable styling differentiation between JavaScript and non-JavaScript enabled browsers -->
+    <script>(function (e) { e.className = e.className.replace('no-js', 'js'); }(document.documentElement));</script>
+    <!-- Enable styling of HTML5 sectioning elements in legacy browsers. Simplified inline version of HTML5Shiv (https://github.com/aFarkas/html5shiv) for enhanced performance -->
+    <!--[if lt IE 9]>
+    <script>
+        (function (d, a) {
+            d.documentElement.className = 'lt-ie9'; var l = a.length; while(l--){ d.createElement(a[l]); }
+        }(document, ['HEADER', 'NAV', 'SECTION', 'FOOTER', 'ARTICLE', 'MAIN', 'FIGCAPTION', 'FIGURE', 'ASIDE']));
+    </script>
+    <![endif]-->
+
+    {% block styles %}
+        <!-- Include stylesheets here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
+        <link rel="stylesheet" href="index.css">
+    {% endblock %}
+</head>
+<body>
+{% include "components/app-header/app-header.html" %}
+
+<main id="content" role="main" tabindex="-1">
+    <!-- tabindex fixes focus issue, alternatively use generic script: http://www.nczonline.net/blog/2013/01/15/fixing-skip-to-content-links/ -->
+    <!-- @todo: add nav[role="navigation"] as TOC -->
+    {% block content %}
+    {% endblock %}
+</main>
+
+{% include "components/app-footer/app-footer.html" %}
+
+{% block scripts %}
+    <!-- Include scripts here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
+{% endblock %}
+</body>
+</html>
