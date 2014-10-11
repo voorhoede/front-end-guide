@@ -1,13 +1,6 @@
 <!-- app-header component -->
 <header role="banner" class="app-header">
-    <a class="app-logo" href="http://voorhoede.github.io/" rel="home" title="to homepage">
-        <!-- link to home: http://microformats.org/wiki/rel-home -->
-        <h1>
-            {{ pkg.name }}
-            <!-- vector image with bitmap fallback: https://twitter.com/scottjehl/status/369190249437483008 -->
-            <!-- specify image dimensions for performance: http://www.feedthebot.com/pagespeed/image-dimensions.html -->
-        </h1>
-    </a>
+    {% include "components/app-logo/app-logo.html" %}
 
     <!-- Quick menu (skipnav) to directly jump to specific sections: http://www.jimthatcher.com/skipnav.htm -->
     <nav class="app-header-quick-menu">
@@ -20,7 +13,6 @@
             <li><a class="menu-link a11y-kb-only" href="#user">Jump to user menu</a></li>
         </ul>
     </nav>
-
     {% include "components/search-menu/search-menu.html" %}
 
 </header>
