@@ -29,7 +29,8 @@
 
     {% block styles %}
         <!-- Include stylesheets here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
-        <link rel="stylesheet" href="index.css">
+        {#<link rel="stylesheet" href="../../{{ name | replace('.html', '.css') }}">#}
+        <link rel="stylesheet" href="../../index.css">
     {% endblock %}
 </head>
 <body>

@@ -1,4 +1,5 @@
 /* Dependencies (A-Z) */
+var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var del = require('del');
 var debug = require('gulp-debug');
@@ -12,12 +13,12 @@ var less = require('gulp-less');
 var minifyHtml = require('gulp-minify-html');
 var newer = require('gulp-newer');
 var nunjucksRender = require('gulp-nunjucks-render');
+var path = require('path');
 var prettify = require('gulp-prettify');
 var rename = require('gulp-rename');
 var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
 //var watch = require('gulp-watch');
-//var webserver = require('gulp-webserver');
 
 // @todo properly configure amd optimization
 var amdOptimize = require('gulp-amd-optimizer');
@@ -54,17 +55,17 @@ paths.lessFiles = paths.srcFiles.map(function(path){ return path + '.less'; });
 
 /* Register default & custom tasks (A-Z) */
 gulp.task('default', ['build_clean']);
-gulp.task('build', ['build_html', 'build_less']);
+gulp.task('build', ['build_html', 'build_less', 'build_assets']);
 gulp.task('build_assets', buildAssetsTask);
 gulp.task('build_clean', function(cb) { runSequence('clean_dist', 'build', cb); });
 gulp.task('build_html', buildHtmlTask);
 gulp.task('build_less', buildLessTask);
+gulp.task('build_previews', buildPreviewsTask);
 gulp.task('clean_dist', function (cb) { del([paths.dist], cb); });
 gulp.task('jshint', ['jshint_src', 'jshint_node']);
 gulp.task('jshint_node', jshintNodeTask);
 gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
-
 gulp.task('watch', ['build', 'serve'], watchTask);
 
 /* Tasks and utils (A-Z) */
@@ -85,6 +86,9 @@ function buildHtmlTask() {
 	var moduleIndex = getModuleIndex();
 	return srcFiles('html')
 		.pipe(nunjucksRender({
+//			module: {
+//				name: parsePath(file).basename
+//			},
 			moduleIndex: moduleIndex,
 			paths: {
 				assets: '../../assets/'
@@ -96,11 +100,18 @@ function buildHtmlTask() {
 		.pipe(reloadBrowser({ stream:true }));
 }
 
+function buildPreviewsTask() {
+	getModuleIndex().components.forEach(function(component){
+
+	});
+}
+
 function buildLessTask() {
 	// @todo add sourcemaps
 	return srcFiles('less')
 //		.pipe(sourcemaps.init())
 		.pipe(less())
+		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
 //		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(paths.dist))
 		.pipe(reloadBrowser({ stream:true }));
@@ -164,6 +175,16 @@ function listModuleDirectories(cwd) {
 		});
 }
 
+// borrowed from gulp-rename https://github.com/hparra/gulp-rename/blob/master/index.js#L9
+function parsePath(path) {
+	var extname = path.extname(path);
+	return {
+		dirname: path.dirname(path),
+		basename: path.basename(path, extname),
+		extname: extname
+	};
+}
+
 function reloadBrowser(options){
 	// only reload browserSync if active, otherwise causes an error.
 	return gulpif(browserSync.active, browserSync.reload(options));
@@ -177,12 +198,6 @@ function serveTask() {
 		}
 	});
 }
-//function serveTask() {
-//	gulp.src(paths.dist)
-//		.pipe(webserver({
-//			open: true
-//		}));
-//}
 
 function srcFiles(filetype) {
 	return gulp.src(paths.srcFiles, { base: paths.src })

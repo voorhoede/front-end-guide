@@ -3,7 +3,8 @@
 	"paths": {
 		"airhooks": "vendor/airhooks/airhooks",
 		"expandible": "vendor/expandible/expandible",
-		"search-menu": "components/search-menu/search-menu"
+		"components/app-header": "components/app-header/app-header",
+		"components/search-menu": "components/search-menu/search-menu"
 	},
 	"umd": true
 }
