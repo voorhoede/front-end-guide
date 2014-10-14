@@ -127,12 +127,16 @@ function buildJsTask(cb) {
 		require('./src/amd-config.json'),
 		{
 			baseUrl: paths.src,
+			generateSourceMaps: true, // http://requirejs.org/docs/optimization.html#sourcemaps
 			include: ['index'],
 			name: 'vendor/almond/almond',
-			out: paths.dist + 'index.js'
+			optimize: 'uglify2',
+			out: paths.dist + 'index.js',
+			preserveLicenseComments: false
 		}
 	);
 	rjs.optimize(amdConfig);
+	cb();
 }
 
 function buildLessTask() {

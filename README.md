@@ -52,16 +52,19 @@ If you want to check the build run `gulp serve` after it.
 	* [X] Generate module index with links to views & components.
 	* [X] Make package(.json) info available as data (eg. `{{ pkg.name }}`).
 	* [ ] Make module info (name, type, ...) available as data (eg. `{{ module.name }}`, `{{ module.css }}`).
+	* [X] Setup HTML template watcher.
 	* [ ] Generate HTML Previews.
 
 * [ ] **Stylesheets**
 	* [X] Setup LESS compiler.
 	* [X] Setup autoprefixer.
 	* [ ] Setup LESS/CSS sourcemaps.
+	* [X] Setup LESS watcher.
 	
 * [ ] **JavaScripts**
 	* [X] Setup AMD/RJS Optimizer (with UMDJS pattern support).
-	* [ ] Setup JS sourcemaps.
+	* [X] Setup JS sourcemaps.
+	* [ ] Setup JS watcher.
 	
 * [ ] **Deployment**
 	* [ ] Task for bumping versions? (json meta files, create git tag)
