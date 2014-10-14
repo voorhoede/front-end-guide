@@ -34,7 +34,9 @@
     {% endblock %}
 </head>
 <body>
+{% block app_header %}
 {% include "components/app-header/app-header.html" %}
+{% endblock %}
 
 <main id="content" role="main" tabindex="-1">
     <!-- tabindex fixes focus issue, alternatively use generic script: http://www.nczonline.net/blog/2013/01/15/fixing-skip-to-content-links/ -->
@@ -43,10 +45,13 @@
     {% endblock %}
 </main>
 
+{% block app_footer %}
 {% include "components/app-footer/app-footer.html" %}
+{% endblock %}
 
 {% block scripts %}
     <!-- Include scripts here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
+    <script src="../../index.js"></script>
 {% endblock %}
 </body>
 </html>

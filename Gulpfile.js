@@ -1,4 +1,5 @@
 /* Dependencies (A-Z) */
+var _ = require('lodash-node');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var del = require('del');
@@ -16,6 +17,7 @@ var nunjucksRender = require('gulp-nunjucks-render');
 var path = require('path');
 var prettify = require('gulp-prettify');
 var rename = require('gulp-rename');
+var rjs = require('requirejs');
 var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
 //var watch = require('gulp-watch');
@@ -55,10 +57,11 @@ paths.lessFiles = paths.srcFiles.map(function(path){ return path + '.less'; });
 
 /* Register default & custom tasks (A-Z) */
 gulp.task('default', ['build_clean']);
-gulp.task('build', ['build_html', 'build_less', 'build_assets']);
+gulp.task('build', ['build_html', 'build_js', 'build_less', 'build_assets']);
 gulp.task('build_assets', buildAssetsTask);
 gulp.task('build_clean', function(cb) { runSequence('clean_dist', 'build', cb); });
 gulp.task('build_html', buildHtmlTask);
+gulp.task('build_js', buildJsTask);
 gulp.task('build_less', buildLessTask);
 gulp.task('build_previews', buildPreviewsTask);
 gulp.task('clean_dist', function (cb) { del([paths.dist], cb); });
@@ -106,30 +109,42 @@ function buildPreviewsTask() {
 	});
 }
 
-function buildLessTask() {
-	// @todo add sourcemaps
-	return srcFiles('less')
-//		.pipe(sourcemaps.init())
-		.pipe(less())
-		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
-//		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(paths.dist))
-		.pipe(reloadBrowser({ stream:true }));
-}
-
 // https://github.com/mariusGundersen/gulp-amd-optimize#sourcemap
 // alternatives:
 // * https://github.com/smrtlabs/smrt-gulp-r
 // * regular rjs + almond with task like clean_dist?
-gulp.task('build_js', function () {
-	var amdConfig = require('./src/amd-config.json');
-	return gulp.src('src/*.js', { base: amdConfig.baseUrl })
-		.pipe(sourcemap.init())
-		.pipe(amdOptimize(amdConfig))
-		.pipe(concat('index.js'))
-		.pipe(sourcemap.write('./', { includeContent: false, sourceRoot: '../src' }))
-		.pipe(gulp.dest(paths.dist));
-});
+//gulp.task('build_js', function () {
+//	var amdConfig = require('./src/amd-config.json');
+//	return gulp.src('src/*.js', { base: amdConfig.baseUrl })
+//		.pipe(sourcemap.init())
+//		.pipe(amdOptimize(amdConfig))
+//		.pipe(concat('index.js'))
+//		.pipe(sourcemap.write('./', { includeContent: false, sourceRoot: '../src' }))
+//		.pipe(gulp.dest(paths.dist));
+//});
+function buildJsTask(cb) {
+	var amdConfig = _.extend(
+		require('./src/amd-config.json'),
+		{
+			baseUrl: paths.src,
+			include: ['index'],
+			name: 'vendor/almond/almond',
+			out: paths.dist + 'index.js'
+		}
+	);
+	rjs.optimize(amdConfig);
+}
+
+function buildLessTask() {
+	// @fix sourcemaps: copy less files to dist?
+	return srcFiles('less')
+		.pipe(sourcemaps.init())
+		.pipe(less())
+		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
+		.pipe(sourcemaps.write({includeContent: false, sourceRoot: '' }))
+		.pipe(gulp.dest(paths.dist))
+		.pipe(reloadBrowser({ stream:true }));
+}
 
 var formatHtml = lazypipe()
 	.pipe(function() {

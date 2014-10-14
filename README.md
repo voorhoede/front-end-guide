@@ -34,7 +34,7 @@ If you want to check the build run `gulp serve` after it.
 
 ## To Do
 
-* [X] **App structure**
+* [ ] **App structure**
 	* [X] Source files by module type: `components`, `views`, `vendor`.
 	* [X] Manage vendor components via `bower`.
 	* [X] Simplify naming to {moduleName}/{moduleName}.(html|js|less).
@@ -60,7 +60,7 @@ If you want to check the build run `gulp serve` after it.
 	* [ ] Setup LESS/CSS sourcemaps.
 	
 * [ ] **JavaScripts**
-	* [ ] Setup AMD/RJS Optimizer (with UMDJS pattern support).
+	* [X] Setup AMD/RJS Optimizer (with UMDJS pattern support).
 	* [ ] Setup JS sourcemaps.
 	
 * [ ] **Deployment**
