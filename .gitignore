@@ -2,3 +2,6 @@
 dist
 node_modules
 src/vendor
+
+# project meta
+.idea
