@@ -1,5 +1,8 @@
 # Front-end Guide
 
+[![Dependency Status](https://david-dm.org/jbmoelker/front-end-guide.svg?theme=shields.io)](https://david-dm.org/jbmoelker/front-end-guide)
+[![devDependency Status](https://david-dm.org/jbmoelker/front-end-guide/dev-status.svg?theme=shields.io)](https://david-dm.org/jbmoelker/front-end-guide#info=devDependencies)
+
 Manage your front-end project in unique views and reusable components.
 
 ## Getting started
@@ -34,6 +37,13 @@ If you want to check the build run `gulp serve` after it.
 
 ## To Do
 
+* [ ] **Documentation**
+	* [ ] How to use app?
+	* [ ] How to create views & components?
+	* [ ] How to manage vendor components?
+	* [ ] How to create new release?
+	* [ ] How to change or extend automated tasks?
+
 * [ ] **App structure**
 	* [X] Source files by module type: `components`, `views`, `vendor`.
 	* [X] Manage vendor components via `bower`.
@@ -45,9 +55,10 @@ If you want to check the build run `gulp serve` after it.
 * [ ] **Static assets** (fonts, images, ...)
 	* [X] Copy assets from `src/assets/*` and `src/{moduleType}/{moduleName}/assets/*` to `dist/assets/{moduleType}/{moduleName}`.
 	* [ ] Optimize assets (minify images, ...)?
+	* [ ] Setup assets watcher.
 
 * [ ] **HTML Templates**
-	* [X] Implement templating engine (Nunjucks)
+	* [X] Implement Nunjucks templating engine.
 	* [X] Setup components as reusable partials (`{% include "components/..." %}`) & extensible views (`{% extends "views/..." %}`).
 	* [X] Generate module index with links to views & components.
 	* [X] Make package(.json) info available as data (eg. `{{ pkg.name }}`).
@@ -60,13 +71,23 @@ If you want to check the build run `gulp serve` after it.
 	* [X] Setup autoprefixer.
 	* [ ] Setup LESS/CSS sourcemaps.
 	* [X] Setup LESS watcher.
+	* [ ] Setup LESS linter using external `.recessrc` file?
 	
 * [ ] **JavaScripts**
 	* [X] Setup AMD/RJS Optimizer (with UMDJS pattern support).
 	* [X] Setup JS sourcemaps.
-	* [ ] Setup JS watcher.
+	* [X] Setup JS watcher.
+	* [X] Setup JS hinting using external `.jshintrc` file.
+	* [ ] Setup JS Code Style check using external `.jscs.json` file. See [JSCS rules](https://github.com/jscs-dev/node-jscs#rules)
 	
 * [ ] **Deployment**
 	* [ ] Task for bumping versions? (json meta files, create git tag)
 	* [ ] Task for updating changelog?
+	* [ ] Task for archiving distribution to `.zip`?
 	* [ ] Example `.travis.yml` to deploy to GitHub Pages?
+	
+## Issues
+
+* LESS/CSS sourcemaps should be external files.
+* Modules should be watched and compiled individually?
+* `jshintSrcTask` should be renamed as now also includes `jscs()`.
