@@ -8,6 +8,7 @@ var gulpif = require('gulp-if');
 var filter = require('gulp-filter');
 var jshint = require('gulp-jshint');
 var fs = require('fs');
+var path = require('path');
 var gulp = require('gulp');
 var lazypipe = require('lazypipe');
 var less = require('gulp-less');
@@ -20,6 +21,7 @@ var rename = require('gulp-rename');
 var rjs = require('requirejs');
 var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
+var inquirer = require('inquirer');
 //var watch = require('gulp-watch');
 
 // @todo properly configure amd optimization
@@ -70,6 +72,7 @@ gulp.task('jshint_node', jshintNodeTask);
 gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
 gulp.task('watch', ['build', 'serve'], watchTask);
+gulp.task('ask', ask);
 
 /* Tasks and utils (A-Z) */
 
@@ -106,6 +109,91 @@ function buildHtmlTask() {
 function buildPreviewsTask() {
 	getModuleIndex().components.forEach(function(component){
 
+	});
+}
+//@todo: tame this monster
+function ask(cb){
+	var thing;
+	var answers = inquirer.prompt([{
+		type: 'list',
+		name: 'what',
+		message: 'would you like to create a component or a view?',
+		choices:[
+			'component',
+			'view'
+		]
+	},{
+		type: 'input',
+		name: 'componentName',
+		message: function (answer) {
+			thing = answer.what;
+			return ['Give the new',thing,'a name'].join(' ');
+		},
+		validate: function validateComponentName(componentName) {
+			var validName = /^[a-zA-Z0-9-_]+$/.test(componentName);
+			var pathName = [paths.src,thing,'s/',componentName].join('');
+			var validPath = !fs.existsSync(path.normalize(pathName));
+			if(!validName){
+				return ['bad',thing,'name'].join(' ');
+			}else if(!validPath){
+				return ['the',thing,'already exists'].join(' ');
+			}
+			return true;
+		}
+	},{
+		type:'checkbox',
+		name:'files',
+		message:'Which types of files do you want to include? Press enter when ready..',
+		choices:[
+			{
+				name:'html',
+				value:'html'
+			},
+			{
+				name:'less',
+				value:'less'
+			},
+			{
+				name:'javascript',
+				value:'js'
+			}
+		],
+		validate: function(input){
+			if(!input.length){
+				return 'You must select at least one type of file'
+			}
+			return true;
+		}
+	}
+	],function (response) {
+		if(response.files.length){
+			response.files.map(function makeFile(type) {
+				return path.normalize(
+					[
+						paths.src,
+						[response.what,'s'].join(''),
+						'/',
+						response.componentName,
+						'/',
+						response.componentName,
+						'.',
+						type
+					].join(''));
+				}).forEach(function (file) {
+					var componentDir = [
+						paths.src,
+						[response.what,'s'].join(''),
+						'/',
+						response.componentName
+					].join('');
+
+					if(!fs.existsSync(componentDir)){
+						fs.mkdirSync(componentDir);
+					}
+					fs.writeFileSync(file);
+				});
+			}
+		cb();
 	});
 }
 
