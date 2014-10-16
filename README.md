@@ -39,8 +39,8 @@ If you want to check the build run `gulp serve` after it.
 	* [X] Manage vendor components via `bower`.
 	* [X] Simplify naming to {moduleName}/{moduleName}.(html|js|less).
 	* [X] Abstract module convention (prefix `_` to module directory.
-	* [x] Add component generator (wizard? use HTML, LESS, JS, ...?)
-	* [ ] Add view generator (wizard?)
+	* [X] Add component generator (wizard? use HTML, LESS, JS, ...?)
+	* [X] Add view generator (wizard?)
 
 * [ ] **Static assets** (fonts, images, ...)
 	* [X] Copy assets from `src/assets/*` and `src/{moduleType}/{moduleName}/assets/*` to `dist/assets/{moduleType}/{moduleName}`.
