@@ -24,7 +24,7 @@ var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
 var inquirer = require('inquirer');
 var replace = require('gulp-replace');
-var gutil = require('gulp-util')
+var gutil = require('gulp-util');
 //var watch = require('gulp-watch');
 
 /* Shared configuration (A-Z) */
@@ -160,7 +160,7 @@ function createModulePrompt(cb){
 		],
 		validate: function(input){
 			if(!input.length){
-				return 'You must select at least one type of file'
+				return 'You must select at least one type of file';
 			}
 			return true;
 		}
