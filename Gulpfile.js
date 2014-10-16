@@ -22,6 +22,7 @@ var rjs = require('requirejs');
 var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
 var inquirer = require('inquirer');
+var replace = require('gulp-replace');
 //var watch = require('gulp-watch');
 
 // @todo properly configure amd optimization
@@ -111,7 +112,6 @@ function buildPreviewsTask() {
 
 	});
 }
-//@todo: tame this monster
 function ask(cb){
 	var thing;
 	var answers = inquirer.prompt([{
@@ -165,34 +165,24 @@ function ask(cb){
 			return true;
 		}
 	}
-	],function (response) {
-		if(response.files.length){
-			response.files.map(function makeFile(type) {
-				return path.normalize(
-					[
-						paths.src,
-						[response.what,'s'].join(''),
-						'/',
-						response.componentName,
-						'/',
-						response.componentName,
-						'.',
-						type
-					].join(''));
-				}).forEach(function (file) {
-					var componentDir = [
-						paths.src,
-						[response.what,'s'].join(''),
-						'/',
-						response.componentName
-					].join('');
-
-					if(!fs.existsSync(componentDir)){
-						fs.mkdirSync(componentDir);
-					}
-					fs.writeFileSync(file);
-				});
-			}
+	], function createStuff(answers) {
+		gulp.src(
+			answers.files.map(function (fileType) {
+				return ['src/views/_templates/_TEMPLATE.',fileType].join('');
+			})
+		)
+			.pipe(replace(/\{REPLACE\}/, [answers.what, answers.componentName].join(' ')))
+			.pipe(rename({
+				basename:answers.componentName
+			}))
+			.pipe(gulp.dest([
+					paths.src,
+					answers.what,
+					's/',
+					answers.componentName
+				].join('')
+			)
+		);
 		cb();
 	});
 }
