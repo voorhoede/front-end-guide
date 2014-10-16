@@ -30,7 +30,7 @@
     {% block styles %}
         <!-- Include stylesheets here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
         {#<link rel="stylesheet" href="../../{{ name | replace('.html', '.css') }}">#}
-        <link rel="stylesheet" href="../../index.css">
+        <link rel="stylesheet" href="{{ paths.assets }}index.css">
     {% endblock %}
 </head>
 <body>
@@ -51,7 +51,7 @@
 
 {% block scripts %}
     <!-- Include scripts here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
-    <script src="../../index.js"></script>
+    <script src="{{ paths.assets }}index.js"></script>
 {% endblock %}
 </body>
 </html>

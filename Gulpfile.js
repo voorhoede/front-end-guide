@@ -6,6 +6,7 @@ var del = require('del');
 var debug = require('gulp-debug');
 var gulpif = require('gulp-if');
 var filter = require('gulp-filter');
+var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
 var fs = require('fs');
 var path = require('path');
@@ -25,11 +26,6 @@ var inquirer = require('inquirer');
 var replace = require('gulp-replace');
 var gutil = require('gulp-util')
 //var watch = require('gulp-watch');
-
-// @todo properly configure amd optimization
-var amdOptimize = require('gulp-amd-optimizer');
-var concat = require('gulp-concat');
-var sourcemap = require('gulp-sourcemaps');
 
 /* Shared configuration (A-Z) */
 var pkg = require('./package.json');
@@ -58,6 +54,7 @@ paths.srcFiles = [
 		'!' + paths.srcViews + '_*/*'
 ];
 paths.htmlFiles = paths.srcFiles.map(function(path){ return path + '.html'; });
+paths.jsFiles   = paths.srcFiles.map(function(path){ return path + '.js'; });
 paths.lessFiles = paths.srcFiles.map(function(path){ return path + '.less'; });
 
 /* Register default & custom tasks (A-Z) */
@@ -66,7 +63,7 @@ gulp.task('build', ['build_html', 'build_js', 'build_less', 'build_assets']);
 gulp.task('build_assets', buildAssetsTask);
 gulp.task('build_clean', function(cb) { runSequence('clean_dist', 'build', cb); });
 gulp.task('build_html', buildHtmlTask);
-gulp.task('build_js', buildJsTask);
+gulp.task('build_js',['jshint_src'], buildJsTask);
 gulp.task('build_less', buildLessTask);
 gulp.task('build_previews', buildPreviewsTask);
 gulp.task('clean_dist', function (cb) { del([paths.dist], cb); });
@@ -114,6 +111,7 @@ function buildPreviewsTask() {
 
 	});
 }
+
 function createModulePrompt(cb){
 	var thing;
 	var answers = inquirer.prompt([{
@@ -190,25 +188,13 @@ function createModulePrompt(cb){
 		cb();
 	});
 }
+
 function registerScript(dirName, moduleName){
 	var config = require(paths.amdConfig);
 	config.paths[dirName] = [dirName,moduleName].join('/');
 	fs.writeFileSync(paths.amdConfig, JSON.stringify(config, null,  4));
 }
 
-// https://github.com/mariusGundersen/gulp-amd-optimize#sourcemap
-// alternatives:
-// * https://github.com/smrtlabs/smrt-gulp-r
-// * regular rjs + almond with task like clean_dist?
-//gulp.task('build_js', function () {
-//	var amdConfig = require('./src/amd-config.json');
-//	return gulp.src('src/*.js', { base: amdConfig.baseUrl })
-//		.pipe(sourcemap.init())
-//		.pipe(amdOptimize(amdConfig))
-//		.pipe(concat('index.js'))
-//		.pipe(sourcemap.write('./', { includeContent: false, sourceRoot: '../src' }))
-//		.pipe(gulp.dest(paths.dist));
-//});
 function buildJsTask(cb) {
 	var amdConfig = _.extend(
 		require('./src/amd-config.json'),
@@ -218,11 +204,12 @@ function buildJsTask(cb) {
 			include: ['index'],
 			name: 'vendor/almond/almond',
 			optimize: 'uglify2',
-			out: paths.dist + 'index.js',
+			out: paths.distAssets + 'index.js',
 			preserveLicenseComments: false
 		}
 	);
 	rjs.optimize(amdConfig);
+	if(browserSync.active){ browserSync.reload(); }
 	cb();
 }
 
@@ -233,6 +220,9 @@ function buildLessTask() {
 		.pipe(less())
 		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
 		.pipe(sourcemaps.write({includeContent: false, sourceRoot: '' }))
+		.pipe(rename(function(p){
+			if(p.dirname === '.'){ p.dirname = 'assets'; } // output root src files to assets dir
+		}))
 		.pipe(gulp.dest(paths.dist))
 		.pipe(reloadBrowser({ stream:true }));
 }
@@ -267,6 +257,7 @@ function jshintNodeTask() {
 
 function jshintSrcTask() {
 	return srcFiles('js')
+		.pipe(jscs())
 		.pipe(jshint(paths.src + '.jshintrc'))
 		.pipe(jshint.reporter(require('jshint-stylish')));
 }
@@ -312,5 +303,6 @@ function srcFiles(filetype) {
 
 function watchTask () {
 	gulp.watch(paths.htmlFiles, ['build_html']);
+	gulp.watch(paths.jsFiles,   ['build_js']);
 	gulp.watch(paths.lessFiles, ['build_less']);
 }
