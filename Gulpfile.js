@@ -111,9 +111,13 @@ function buildPreviewsTask() {
 
 	});
 }
-
+/* create a component or a view with files depending on user feedback through inquirer.
+ * if the view or components includes JS, its mapping is added to AMD config.
+ * https://www.npmjs.org/package/inquirer
+*/
 function createModulePrompt(cb){
-	var thing;
+	var thing; // need this answer in the second question
+
 	var answers = inquirer.prompt([{
 		type: 'list',
 		name: 'what',
@@ -165,7 +169,7 @@ function createModulePrompt(cb){
 			return true;
 		}
 	}
-	], function createStuff(answers) {
+	], function createStuff(answers) { // callback to inquirer.prompt.
 		var moduleType = answers.what;
 		var moduleName = answers.componentName;
 		var dirName = [moduleType, moduleName].join('s/');
@@ -188,7 +192,9 @@ function createModulePrompt(cb){
 		cb();
 	});
 }
-
+/*
+*	adds a requirejs predefined path to amd-config.json.
+*/
 function registerScript(dirName, moduleName){
 	var config = require(paths.amdConfig);
 	config.paths[dirName] = [dirName,moduleName].join('/');
