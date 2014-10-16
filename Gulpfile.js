@@ -23,6 +23,7 @@ var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
 var inquirer = require('inquirer');
 var replace = require('gulp-replace');
+var gutil = require('gulp-util')
 //var watch = require('gulp-watch');
 
 // @todo properly configure amd optimization
@@ -38,7 +39,8 @@ var paths = {
 	srcVendor: 'src/vendor/',
 	srcViews: 'src/views/',
 	dist: 'dist/',
-	distAssets: 'dist/assets/'
+	distAssets: 'dist/assets/',
+	amdConfig: './src/amd-config.json'
 };
 paths.assets = [
 	paths.src + 'assets/**/*.*',
@@ -73,7 +75,7 @@ gulp.task('jshint_node', jshintNodeTask);
 gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
 gulp.task('watch', ['build', 'serve'], watchTask);
-gulp.task('ask', ask);
+gulp.task('create-module', createModulePrompt);
 
 /* Tasks and utils (A-Z) */
 
@@ -112,12 +114,12 @@ function buildPreviewsTask() {
 
 	});
 }
-function ask(cb){
+function createModulePrompt(cb){
 	var thing;
 	var answers = inquirer.prompt([{
 		type: 'list',
 		name: 'what',
-		message: 'would you like to create a component or a view?',
+		message: 'Would you like to create a component or a view?',
 		choices:[
 			'component',
 			'view'
@@ -130,7 +132,7 @@ function ask(cb){
 			return ['Give the new',thing,'a name'].join(' ');
 		},
 		validate: function validateComponentName(componentName) {
-			var validName = /^[a-zA-Z0-9-_]+$/.test(componentName);
+			var validName = /^[a-z0-9-_]+$/.test(componentName);
 			var pathName = [paths.src,thing,'s/',componentName].join('');
 			var validPath = !fs.existsSync(path.normalize(pathName));
 			if(!validName){
@@ -166,6 +168,10 @@ function ask(cb){
 		}
 	}
 	], function createStuff(answers) {
+		var moduleType = answers.what;
+		var moduleName = answers.componentName;
+		var dirName = [moduleType, moduleName].join('s/');
+
 		gulp.src(
 			answers.files.map(function (fileType) {
 				return ['src/views/_templates/_TEMPLATE.',fileType].join('');
@@ -173,18 +179,21 @@ function ask(cb){
 		)
 			.pipe(replace(/\{REPLACE\}/, [answers.what, answers.componentName].join(' ')))
 			.pipe(rename({
-				basename:answers.componentName
+				basename:moduleName
 			}))
-			.pipe(gulp.dest([
-					paths.src,
-					answers.what,
-					's/',
-					answers.componentName
-				].join('')
-			)
+			.pipe(gulp.dest([paths.src,dirName].join(''))
 		);
+		if(answers.files.indexOf('js') >= 0){
+			registerScript(dirName, moduleName);
+		}
+		gutil.log([moduleType, moduleName , 'has been created'].join(' '));
 		cb();
 	});
+}
+function registerScript(dirName, moduleName){
+	var config = require(paths.amdConfig);
+	config.paths[dirName] = [dirName,moduleName].join('/');
+	fs.writeFileSync(paths.amdConfig, JSON.stringify(config, null,  4));
 }
 
 // https://github.com/mariusGundersen/gulp-amd-optimize#sourcemap
