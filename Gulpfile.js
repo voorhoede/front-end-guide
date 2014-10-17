@@ -9,6 +9,7 @@ var filter = require('gulp-filter');
 var fs = require('fs');
 var gulp = require('gulp');
 var gulpif = require('gulp-if');
+var gutil = require('gulp-util');
 var inquirer = require('inquirer');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
@@ -140,6 +141,7 @@ function buildLessTask() {
 		.pipe(reloadBrowser({ stream:true }));
 }
 function bump(cb){
+	gutil.log('Make sure your working directory is clean before trying to bump the version');
 	inquirer.prompt([
 		{
 			type:'list',
@@ -150,8 +152,7 @@ function bump(cb){
 				'patch'
 			],
 			default:'patch',
-			message:'Specify type of version bump. ' +
-				'Make sure your working directory is clean before doing this'
+			message:'Specify type of version bump.'
 		},{
 			type:'input',
 			name:'message',
@@ -176,16 +177,17 @@ function bump(cb){
 				return err;
 			}
 			if(answers.pushTag){
-				exec('git push --tags', function gitPushCallback(err,stdout,stderror) {
+				exec('git push --tags --dry-run', function gitPushCallback(err,stdout,stderror) {
 					if(err){
 						console.log(err);
 						return err;
 					}
-					console.log('pushed to remote');
-					return cb();
+					gutil.log('pushed tag to remote');
+					cb();
 				});
+			}else{
+				cb();
 			}
-			cb();
 		});
 	});
 }

@@ -45,6 +45,7 @@
     "gulp-prettify": "^0.3.0",
     "gulp-rename": "^1.2.0",
     "gulp-sourcemaps": "^1.2.4",
+    "gulp-util": "^3.0.1",
     "gulp-watch": "^1.1.0",
     "inquirer": "^0.8.0",
     "jshint-stylish": "^1.0.0",
