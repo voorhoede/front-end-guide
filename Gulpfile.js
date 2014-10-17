@@ -21,6 +21,7 @@ var rename = require('gulp-rename');
 var rjs = require('requirejs');
 var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
+var exec = require('child_process').exec;
 
 /* Shared configuration (A-Z) */
 var pkg = require('./package.json');
@@ -66,6 +67,7 @@ gulp.task('jshint_node', jshintNodeTask);
 gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
 gulp.task('watch', ['build', 'serve'], watchTask);
+gulp.task('bump', bump);
 
 /* Tasks and utils (A-Z) */
 
@@ -136,7 +138,9 @@ function buildLessTask() {
 		.pipe(gulp.dest(paths.dist))
 		.pipe(reloadBrowser({ stream:true }));
 }
-
+function bump(cb){
+	exec('npm version patch -m "test"');
+}
 var formatHtml = lazypipe()
 	.pipe(function() {
 		// strip CDATA, comments & whitespace
