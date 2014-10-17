@@ -4,12 +4,14 @@ var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var del = require('del');
 var debug = require('gulp-debug');
-var gulpif = require('gulp-if');
+var exec = require('child_process').exec;
 var filter = require('gulp-filter');
-var jscs = require('gulp-jscs');
-var jshint = require('gulp-jshint');
 var fs = require('fs');
 var gulp = require('gulp');
+var gulpif = require('gulp-if');
+var inquirer = require('inquirer');
+var jscs = require('gulp-jscs');
+var jshint = require('gulp-jshint');
 var lazypipe = require('lazypipe');
 var less = require('gulp-less');
 var minifyHtml = require('gulp-minify-html');
@@ -21,7 +23,6 @@ var rename = require('gulp-rename');
 var rjs = require('requirejs');
 var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
-var exec = require('child_process').exec;
 
 /* Shared configuration (A-Z) */
 var pkg = require('./package.json');
@@ -139,7 +140,54 @@ function buildLessTask() {
 		.pipe(reloadBrowser({ stream:true }));
 }
 function bump(cb){
-	exec('npm version patch -m "test"');
+	inquirer.prompt([
+		{
+			type:'list',
+			name:'semver',
+			choices:[
+				'major',
+				'minor',
+				'patch'
+			],
+			default:'patch',
+			message:'Specify type of version bump. ' +
+				'Make sure your working directory is clean before doing this'
+		},{
+			type:'input',
+			name:'message',
+			message:'Enter a commit message for the tag',
+			default:'%s'
+		},{
+			type:'confirm',
+			name:'pushTag',
+			message: 'Do you want to push the new new tag to the repository\'s remote?',
+			default:false
+		}
+	],function inquireCallback(answers) {
+		var command = [
+			'npm version',
+			answers.semver,
+			'-m',
+			'"'+ answers.message +'"'
+		].join(' ');
+		exec(command, function bumpCallback(err,stdout,stderror) {
+			if(err){
+				console.error('error:',err);
+				return err;
+			}
+			if(answers.pushTag){
+				exec('git push --tags', function gitPushCallback(err,stdout,stderror) {
+					if(err){
+						console.log(err);
+						return err;
+					}
+					console.log('pushed to remote');
+					return cb();
+				});
+			}
+			cb();
+		});
+	});
 }
 var formatHtml = lazypipe()
 	.pipe(function() {
