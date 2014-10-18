@@ -42,10 +42,10 @@ paths.assets = [
 paths.srcFiles = [
 		paths.src + '*',
 		paths.srcComponents + '*/*',
-		paths.srcViews + '*/*',
-		'!' + paths.src + '_*',
-		'!' + paths.srcComponents + '_*/*',
-		'!' + paths.srcViews + '_*/*'
+		paths.srcViews + '*/*' //,
+//		'!' + paths.src + '_*',
+//		'!' + paths.srcComponents + '_*/*',
+//		'!' + paths.srcViews + '_*/*'
 ];
 paths.htmlFiles = paths.srcFiles.map(function(path){ return path + '.html'; });
 paths.jsFiles   = paths.srcFiles.map(function(path){ return path + '.js'; });

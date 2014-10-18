@@ -62,7 +62,7 @@ If you want to check the build run `gulp serve` after it.
 	* [X] Setup components as reusable partials (`{% include "components/..." %}`) & extensible views (`{% extends "views/..." %}`).
 	* [X] Generate module index with links to views & components.
 	* [X] Make package(.json) info available as data (eg. `{{ pkg.name }}`).
-	* [ ] Make module info (name, type, ...) available as data (eg. `{{ module.name }}`, `{{ module.css }}`).
+	* [ ] Make module info (name, type, ...) available as data (eg. `{{ module.name }}`, `{{ module.css }}`). Extend existing module index?
 	* [X] Setup HTML template watcher.
 	* [ ] Generate HTML Previews.
 
@@ -91,3 +91,4 @@ If you want to check the build run `gulp serve` after it.
 * LESS/CSS sourcemaps should be external files.
 * Modules should be watched and compiled individually?
 * `jshintSrcTask` should be renamed as now also includes `jscs()`.
+* `src/assets/` are copied to `dist/assets/assets/` instead of `dist/assets/`.
