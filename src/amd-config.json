@@ -1,8 +1,8 @@
 {
-	"paths": {
-		"airhooks": "vendor/airhooks/airhooks",
-		"expandible": "vendor/expandible/expandible",
-		"components/app-header": "components/app-header/app-header",
-		"components/search-menu": "components/search-menu/search-menu"
-	}
+    "paths": {
+        "airhooks": "vendor/airhooks/airhooks",
+        "components/app-header": "components/app-header/app-header",
+        "components/search-menu": "components/search-menu/search-menu",
+        "expandible": "vendor/expandible/expandible"
+    }
 }
