@@ -2,6 +2,7 @@
 var _ = require('lodash-node');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
+var changelog = require('conventional-changelog');
 var del = require('del');
 var debug = require('gulp-debug');
 var exec = require('child_process').exec;
@@ -74,6 +75,7 @@ gulp.task('jshint_node', jshintNodeTask);
 gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
 gulp.task('watch', ['build', 'serve'], watchTask);
+gulp.task('changelog', createChangeLog);
 gulp.task('bump', bump);
 
 /* Tasks and utils (A-Z) */
@@ -257,6 +259,19 @@ function bump(cb){
 				cb();
 			}
 		});
+	});
+}
+function createChangeLog() {
+	changelog({
+		version:pkg.version,
+		repository: pkg.repository.url,
+		file:'CHANGELOG.md'
+	},function changelogCallback(err, log) {
+		if(err){
+			console.log(err);
+			return err;
+		}
+		console.log(log);
 	});
 }
 var formatHtml = lazypipe()
