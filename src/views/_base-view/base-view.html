@@ -6,13 +6,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>{{ pkg.name }}</title>
+    <title>{% block title %}{{ pkg.name }}{% endblock %}</title>
     <meta name="description" content="{{ pkg.description }}">
     <meta name="keywords" content="{{ pkg.keywords | join(', ') }}">
     <meta property="og:image" content="http://voorhoede.github.io/a11y-boilerplate/a11y-boilerplate.png">
     <meta property="og:url"   content="http://voorhoede.github.io/">
     <!-- optionally add more Open Graph metadata: http://ogp.me/#metadata -->
-
     <meta name="viewport" content="width=device-width, initial-scale=1"><!-- specify viewport: https://developers.google.com/speed/docs/insights/ConfigureViewport -->
     <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
 
@@ -29,7 +28,6 @@
 
     {% block styles %}
         <!-- Include stylesheets here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
-        {#<link rel="stylesheet" href="../../{{ name | replace('.html', '.css') }}">#}
         <link rel="stylesheet" href="{{ paths.assets }}index.css">
     {% endblock %}
 </head>
@@ -41,6 +39,7 @@
 <main id="content" role="main" tabindex="-1">
     <!-- tabindex fixes focus issue, alternatively use generic script: http://www.nczonline.net/blog/2013/01/15/fixing-skip-to-content-links/ -->
     <!-- @todo: add nav[role="navigation"] as TOC -->
+    {{ name }}
     {% block content %}
     {% endblock %}
 </main>
