@@ -1,6 +1,6 @@
 {
   "name": "front-end-guide",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Manage your front-end project in unique views and reusable components.",
   "main": "source/index.js",
   "private": "yes",
@@ -55,6 +55,7 @@
     "json-stable-stringify": "^1.0.0",
     "lazypipe": "^0.2.2",
     "lodash-node": "^2.4.1",
+    "q": "^1.0.1",
     "requirejs": "^2.1.15",
     "run-sequence": "^1.0.1"
   }

@@ -21,6 +21,7 @@ var newer = require('gulp-newer');
 var nunjucksRender = require('gulp-nunjucks-render');
 var path = require('path');
 var prettify = require('gulp-prettify');
+var Q = require('q');
 var rjs = require('requirejs');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
@@ -38,7 +39,8 @@ var paths = {
 	srcViews: 'src/views/',
 	dist: 'dist/',
 	distAssets: 'dist/assets/',
-	amdConfig: './src/amd-config.json'
+	amdConfig: './src/amd-config.json',
+	changelog: './CHANGELOG.md'
 };
 paths.assets = [
 	paths.src + 'assets/**/*.*',
@@ -76,7 +78,8 @@ gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
 gulp.task('watch', ['build', 'serve'], watchTask);
 gulp.task('changelog', createChangeLog);
-gulp.task('bump', bump);
+gulp.task('bump', ['changelog'], bump);
+gulp.task('test', isChangelogModified);
 
 /* Tasks and utils (A-Z) */
 
@@ -241,37 +244,79 @@ function bump(cb){
 			'-m',
 			'"'+ answers.message +'"'
 		].join(' ');
-		exec(command, function bumpCallback(err,stdout,stderror) {
-			if(err){
-				console.error('error:',err);
-				return err;
-			}
-			if(answers.pushTag){
-				exec('git push --tags --dry-run', function gitPushCallback(err,stdout,stderror) {
+		isChangelogModified()
+			.then(commitChangeLog)
+			.then(function fireBumpCallback() {
+				exec(command, function bumpCallback(err,stdout,stderror) {
+					console.log('bump version');
 					if(err){
-						console.log(err);
+						console.error('error:',err);
 						return err;
 					}
-					gutil.log('pushed tag to remote');
-					cb();
+					if(answers.pushTag){
+						exec('git push --tags --dry-run', function gitPushCallback(err,stdout,stderror) {
+							console.log('push the tags');
+							if(err){
+								console.log(err);
+								return err;
+							}
+							gutil.log('pushed tag to remote');
+							cb();
+						});
+					}else{
+						cb();
+					}
 				});
-			}else{
-				cb();
-			}
-		});
+			});
 	});
 }
-function createChangeLog() {
-	changelog({
-		version:pkg.version,
-		repository: pkg.repository.url,
-		file:'CHANGELOG.md'
-	},function changelogCallback(err, log) {
+function isChangelogModified() {
+	var deferred = Q.defer();
+	exec('git status --short ' + paths.changelog, function getChangelogGitStatus(err,stdout,stderr) {
 		if(err){
-			console.log(err);
 			return err;
 		}
+		console.log('`isChangelogModified`: changelog modified:',Boolean(stdout));
+		deferred.resolve(Boolean(stdout));
+	});
+	return deferred.promise;
+}
+function commitChangeLog(isDirty) {
+	console.log('`commitChangeLog`:',isDirty);
+	var deferred = Q.defer();
+	if(isDirty){
+		exec('git commit ' + paths.changelog + ' -m "edit changelog"', function commitChangelogCallback(err,stdout) {
+			console.log(stdout);
+			if(err){
+				return err;
+			}
+			console.log('`commitChangeLog`: changelog committed');
+			deferred.resolve();
+		});
+	}else{
+		deferred.resolve();
+	}
+	return deferred.promise;
+}
+function createChangeLog(cb) {
+	changelog({
+		version:pkg.version,
+		repository: pkg.repository.url
+	},function changelogCallback(err, log) {
 		console.log(log);
+		if(err){
+			console.log(err);
+			return cb(err);
+		}
+		if(fs.existsSync(paths.changelog)){
+			fs.writeFile(paths.changelog, log, function writeChangelogCallback(err,res) {
+				if(err){
+					return cb(err);
+				}
+				gutil.log('wrote file `',paths.changelog,'`');
+				cb();
+			});
+		}
 	});
 }
 var formatHtml = lazypipe()
