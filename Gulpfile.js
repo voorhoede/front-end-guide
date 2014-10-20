@@ -248,14 +248,14 @@ function bump(cb){
 			.then(commitChangeLog)
 			.then(function fireBumpCallback() {
 				exec(command, function bumpCallback(err,stdout,stderror) {
-					console.log('bump version');
+					gutil.log('bump version');
 					if(err){
 						console.error('error:',err);
 						return err;
 					}
 					if(answers.pushTag){
 						exec('git push --tags --dry-run', function gitPushCallback(err,stdout,stderror) {
-							console.log('push the tags');
+							gutil.log('push the tags');
 							if(err){
 								console.log(err);
 								return err;
@@ -285,7 +285,7 @@ function commitChangeLog(isDirty) {
 	console.log('`commitChangeLog`:',isDirty);
 	var deferred = Q.defer();
 	if(isDirty){
-		exec('git commit ' + paths.changelog + ' -m "edit changelog"', function commitChangelogCallback(err,stdout) {
+		exec('git commit ' + paths.changelog + ' -m "Edit changelog for tag ' + pkg.version + '"', function commitChangelogCallback(err,stdout) {
 			console.log(stdout);
 			if(err){
 				return err;
@@ -303,9 +303,9 @@ function createChangeLog(cb) {
 		version:pkg.version,
 		repository: pkg.repository.url
 	},function changelogCallback(err, log) {
-		console.log(log);
+		gutil.log('Writing to changelog...')
 		if(err){
-			console.log(err);
+			gutil.log(err);
 			return cb(err);
 		}
 		if(fs.existsSync(paths.changelog)){
@@ -313,7 +313,7 @@ function createChangeLog(cb) {
 				if(err){
 					return cb(err);
 				}
-				gutil.log('wrote file `',paths.changelog,'`');
+				gutil.log('Finished writing file `',paths.changelog,'`');
 				cb();
 			});
 		}
