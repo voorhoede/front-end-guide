@@ -15,7 +15,6 @@ var lazypipe = require('lazypipe');
 var less = require('gulp-less');
 var minifyHtml = require('gulp-minify-html');
 var newer = require('gulp-newer');
-var nunjucks = require('nunjucks');
 var nunjucksRender = require('./lib/nunjucks-render');
 var path = require('path');
 var prettify = require('gulp-prettify');
