@@ -1,7 +1,7 @@
 # Front-end Guide
 
-[![Dependency Status](https://david-dm.org/jbmoelker/front-end-guide.svg?theme=shields.io)](https://david-dm.org/jbmoelker/front-end-guide)
-[![devDependency Status](https://david-dm.org/jbmoelker/front-end-guide/dev-status.svg?theme=shields.io)](https://david-dm.org/jbmoelker/front-end-guide#info=devDependencies)
+[![Dependency Status](https://david-dm.org/voorhoede/front-end-guide.svg?theme=shields.io)](https://david-dm.org/voorhoede/front-end-guide)
+[![devDependency Status](https://david-dm.org/voorhoede/front-end-guide/dev-status.svg?theme=shields.io)](https://david-dm.org/voorhoede/front-end-guide#info=devDependencies)
 
 Manage your front-end project in unique views and reusable components.
 
