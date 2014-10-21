@@ -89,5 +89,6 @@ If you want to check the build run `gulp serve` after it.
 ## Issues
 
 * LESS/CSS sourcemaps should be external files.
+* Only LESS files directly in module folders are watched but not in sub folders (`like components/app-core-styles/styles/*`).
 * Modules should be watched and compiled individually?
 * `jshintSrcTask` should be renamed as now also includes `jscs()`.

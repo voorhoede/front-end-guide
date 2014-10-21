@@ -1,11 +1,11 @@
-<a class="app-logo" href="http://voorhoede.github.io/" rel="home" title="to homepage">
+<a class="app-logo" href="{{ paths.root }}" rel="home" title="to homepage">
     <!-- link to home: http://microformats.org/wiki/rel-home -->
     <h1>
         <!-- vector image with bitmap fallback: https://twitter.com/scottjehl/status/369190249437483008 -->
         <!-- specify image dimensions for performance: http://www.feedthebot.com/pagespeed/image-dimensions.html -->
         <img alt="[Logo]"
              src="{{ paths.assets }}components/app-logo/logo.svg"
-             onerror="this.src='{{ paths.assets }}components/app-logo/logo.png'"
+             onerror="this.onerror=null; this.src='{{ paths.assets }}components/app-logo/logo.png';"
              width="75" height="75"
              >
         {{ pkg.name }}

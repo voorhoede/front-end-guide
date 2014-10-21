@@ -74,12 +74,15 @@ gulp.task('watch', ['build', 'serve'], watchTask);
 
 /* Tasks and utils (A-Z) */
 
+/**
+ * Copy all files from `assets/` directories in source root & modules. Only copies file when newer.
+ * The `assets/` string is removed from the original path as the destination is an assets dir itself.
+ */
 function buildAssetsTask() {
 	paths.assets.map(function(path){
 		return gulp.src(path, { base: paths.src })
 			.pipe(newer(paths.distAssets))
 			.pipe(rename(function(p){
-				// remove 'assets' string from path
 				p.dirname = p.dirname
 					.split('/')
 					.filter(function(dir){ return (dir !== 'assets'); })
