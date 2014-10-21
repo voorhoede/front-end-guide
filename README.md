@@ -91,4 +91,3 @@ If you want to check the build run `gulp serve` after it.
 * LESS/CSS sourcemaps should be external files.
 * Modules should be watched and compiled individually?
 * `jshintSrcTask` should be renamed as now also includes `jscs()`.
-* `src/assets/` are copied to `dist/assets/assets/` instead of `dist/assets/`.

@@ -79,7 +79,11 @@ function buildAssetsTask() {
 		return gulp.src(path, { base: paths.src })
 			.pipe(newer(paths.distAssets))
 			.pipe(rename(function(p){
-				p.dirname = p.dirname.replace('/assets', '');
+				// remove 'assets' string from path
+				p.dirname = p.dirname
+					.split('/')
+					.filter(function(dir){ return (dir !== 'assets'); })
+					.join('/');
 			}))
 			.pipe(gulp.dest(paths.distAssets));
 	});
@@ -92,7 +96,8 @@ function buildHtmlTask() {
 		.pipe(nunjucksRender({
 			moduleIndex: moduleIndex,
 			paths: {
-				assets: '../../assets/'
+				assets: '../../assets/',
+				root: '../../'
 			},
 			pkg: pkg
 		}))
