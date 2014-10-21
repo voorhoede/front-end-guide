@@ -32,18 +32,20 @@
     {% endblock %}
 </head>
 <body>
-{% block app_header %}
+{% block appHeader %}
 {% include "components/app-header/app-header.html" %}
 {% endblock %}
 
+{% block main %}
 <main id="content" role="main" tabindex="-1">
     <!-- tabindex fixes focus issue, alternatively use generic script: http://www.nczonline.net/blog/2013/01/15/fixing-skip-to-content-links/ -->
     <!-- @todo: add nav[role="navigation"] as TOC -->
     {% block content %}
     {% endblock %}
 </main>
+{% endblock %}
 
-{% block app_footer %}
+{% block appFooter %}
 {% include "components/app-footer/app-footer.html" %}
 {% endblock %}
 

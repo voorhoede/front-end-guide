@@ -1,0 +1,11 @@
+{% extends "views/_base-view/base-view.html" %}
+
+{% block title %}{{ module.name }} preview{% endblock %}
+
+{% block appHeader %}{% endblock %}
+
+{% block main %}
+    {{ module.html }}
+{% endblock %}
+
+{% block appFooter %}{% endblock %}

@@ -2,7 +2,7 @@
 
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="{{ paths.root }}/views/_app-guide/app-guide.css">
+    <link rel="stylesheet" href="{{ paths.root }}views/_app-guide/app-guide.css">
 {% endblock %}
 
 {% block content %}
@@ -17,14 +17,14 @@
         <section>
             <h2>Views</h2>
             {% for item in moduleIndex.views %}
-                <li><a href="views/{{ item }}/{{ item }}.html">{{ item }}</a></li>
+                <li><a href="{{ paths.root }}views/{{ item }}/{{ item }}.html">{{ item }}</a></li>
             {% endfor %}
         </section>
 
         <section>
             <h2>Components</h2>
             {% for item in moduleIndex.components %}
-                <li><a href="components/{{ item }}/{{ item }}.html">{{ item }}</a></li>
+                <li><a href="{{ paths.root }}components/{{ item }}/{{ item }}-preview.html">{{ item }}</a></li>
             {% endfor %}
         </section>
     </div>

@@ -15,7 +15,8 @@ var lazypipe = require('lazypipe');
 var less = require('gulp-less');
 var minifyHtml = require('gulp-minify-html');
 var newer = require('gulp-newer');
-var nunjucksRender = require('gulp-nunjucks-render');
+var nunjucks = require('nunjucks');
+var nunjucksRender = require('./lib/nunjucks-render');
 var path = require('path');
 var prettify = require('gulp-prettify');
 var rename = require('gulp-rename');
@@ -93,16 +94,16 @@ function buildAssetsTask() {
 }
 
 function buildHtmlTask() {
-	nunjucksRender.nunjucks.configure([paths.src]);
+	nunjucksRender.nunjucks.configure(paths.src);
 	var moduleIndex = getModuleIndex();
 	return srcFiles('html')
-		.pipe(nunjucksRender({
-			moduleIndex: moduleIndex,
-			paths: {
-				assets: '../../assets/',
-				root: '../../'
-			},
-			pkg: pkg
+		.pipe(nunjucksRender(function(file){
+			return _.extend(
+				htmlModuleData(file),
+				{
+					moduleIndex: moduleIndex
+				}
+			);
 		}))
 		.pipe(formatHtml())
 		.pipe(gulp.dest(paths.dist))
@@ -110,9 +111,32 @@ function buildHtmlTask() {
 }
 
 function buildPreviewsTask() {
-	getModuleIndex().components.forEach(function(component){
+	nunjucksRender.nunjucks.configure(paths.src);
+	var templateHtml = fs.readFileSync(paths.srcViews + '_component-preview/component-preview.html', 'utf8');
+	return gulp.src(paths.srcComponents + '*/*.html', { base: paths.src })
+		.pipe(nunjucksRender(htmlModuleData))
+		.pipe(nunjucksRender(htmlModuleData, templateHtml))
+		.pipe(rename(function(p){
+			p.basename += '-preview';
+		}))
+		//.pipe(require('gulp-debug')())
+		.pipe(gulp.dest(paths.dist));
+}
 
-	});
+function htmlModuleData(file) {
+	var pathToRoot = path.relative(file.relative, '.');
+	pathToRoot = pathToRoot.substring(0, pathToRoot.length - 2);
+	return {
+		module: {
+			name: parsePath(file.relative).basename,
+			html: file.contents.toString()
+		},
+		paths: {
+			assets: pathToRoot + 'assets/',
+			root: pathToRoot
+		},
+		pkg: pkg
+	};
 }
 
 /**
@@ -256,6 +280,15 @@ function listModuleDirectories(cwd) {
 		.filter(function(file){
 			return (file.substr(0,1) !== '_');
 		});
+}
+
+function parsePath(filepath) {
+	var extname = path.extname(filepath);
+	return {
+		dirname: path.dirname(filepath),
+		basename: path.basename(filepath, extname),
+		extname: extname
+	};
 }
 
 /**
