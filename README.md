@@ -1,7 +1,7 @@
 # Front-end Guide
 
-[![Dependency Status](https://david-dm.org/jbmoelker/front-end-guide.svg?theme=shields.io)](https://david-dm.org/jbmoelker/front-end-guide)
-[![devDependency Status](https://david-dm.org/jbmoelker/front-end-guide/dev-status.svg?theme=shields.io)](https://david-dm.org/jbmoelker/front-end-guide#info=devDependencies)
+[![Dependency Status](https://david-dm.org/voorhoede/front-end-guide.svg?theme=shields.io)](https://david-dm.org/voorhoede/front-end-guide)
+[![devDependency Status](https://david-dm.org/voorhoede/front-end-guide/dev-status.svg?theme=shields.io)](https://david-dm.org/voorhoede/front-end-guide#info=devDependencies)
 
 Manage your front-end project in unique views and reusable components.
 
@@ -62,9 +62,10 @@ If you want to check the build run `gulp serve` after it.
 	* [X] Setup components as reusable partials (`{% include "components/..." %}`) & extensible views (`{% extends "views/..." %}`).
 	* [X] Generate module index with links to views & components.
 	* [X] Make package(.json) info available as data (eg. `{{ pkg.name }}`).
-	* [ ] Make module info (name, type, ...) available as data (eg. `{{ module.name }}`, `{{ module.css }}`). Extend existing module index?
+	* [X] Make module info (name, type, ...) available as data (eg. `{{ module.name }}`, `{{ module.html }}`).
 	* [X] Setup HTML template watcher.
-	* [ ] Generate HTML Previews.
+	* [X] Generate HTML Previews.
+	* [ ] Build component viewer, with component preview, readme and highlighted syntax of component files (html, css, js)? Option to view with shared assets (css/js) and module's own output only?
 
 * [ ] **Stylesheets**
 	* [X] Setup LESS compiler.
@@ -78,7 +79,8 @@ If you want to check the build run `gulp serve` after it.
 	* [X] Setup JS sourcemaps.
 	* [X] Setup JS watcher.
 	* [X] Setup JS hinting using external `.jshintrc` file.
-	* [ ] Setup JS Code Style check using external `.jscs.json` file. See [JSCS rules](https://github.com/jscs-dev/node-jscs#rules)
+	* [X] Setup JS Code Style check using external `.jscs.json` file. See [JSCS rules](https://github.com/jscs-dev/node-jscs#rules)
+	* [ ] Setup task to build individual optimized module scripts? (eg. `dist/components/search-menu/search-menu.min.js`)
 	
 * [ ] **Deployment**
 	* [ ] Task for bumping versions? (json meta files, create git tag)
@@ -89,6 +91,6 @@ If you want to check the build run `gulp serve` after it.
 ## Issues
 
 * LESS/CSS sourcemaps should be external files.
+* Only LESS files directly in module folders are watched but not in sub folders (`like components/app-core-styles/styles/*`).
 * Modules should be watched and compiled individually?
 * `jshintSrcTask` should be renamed as now also includes `jscs()`.
-* `src/assets/` are copied to `dist/assets/assets/` instead of `dist/assets/`.

@@ -2,7 +2,7 @@
   "name": "front-end-guide",
   "version": "0.0.0",
   "description": "Manage your front-end project in unique views and reusable components.",
-  "homepage": "https://github.com/jbmoelker/front-end-guide",
+  "homepage": "https://github.com/voorhoede/front-end-guide",
   "keywords": [
     "front-end",
     "guide",
@@ -15,8 +15,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "airhooks": "~0.0.1",
-    "expandible": "git@github.com:jbmoelker/expandible.git#b78505ee1a3928744e22c0b446efd69fc60566f0",
-    "almond": "~0.3.0"
+    "almond": "~0.3.0",
+	"expandible": "~0.0.1"
   }
 }

@@ -1,3 +1,5 @@
+@import "variables";
+
 // Reset the box-sizing
 //
 // Heads up! This reset may cause conflicts with some third-party widgets.
@@ -17,11 +19,29 @@
 html {
 	font-size: 10px;
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	margin: 0;
+	padding: 0;
 }
 
 body {
 	font-family: Arial;
 	font-size: 1.2em;
 	line-height: 1.5em;
-	color: cadetblue;
+	color: @brand-default;
+	margin: 0;
+	padding: 0;
+}
+
+a:link {
+	color: @brand-highlight;
+}
+a:visited {
+	color: darken(@brand-highlight, 20%);
+}
+a:hover,
+a:focus {
+	color: lighten(@brand-highlight, 20%);
+}
+a:active {
+
 }
