@@ -76,7 +76,7 @@ gulp.task('watch', ['build', 'serve'], watchTask);
 
 /**
  * Copy all files from `assets/` directories in source root & modules. Only copies file when newer.
- * The `assets/` string is removed from the original path as the destination is an assets dir itself.
+ * The `assets/` string is removed from the original path as the destination is an `assets/` dir itself.
  */
 function buildAssetsTask() {
 	paths.assets.map(function(path){
@@ -93,15 +93,13 @@ function buildAssetsTask() {
 }
 
 function buildHtmlTask() {
-	nunjucksRender.nunjucks.configure(paths.src);
+	configureNunjucks();
 	var moduleIndex = getModuleIndex();
 	return srcFiles('html')
 		.pipe(nunjucksRender(function(file){
 			return _.extend(
 				htmlModuleData(file),
-				{
-					moduleIndex: moduleIndex
-				}
+				{ moduleIndex: moduleIndex }
 			);
 		}))
 		.pipe(formatHtml())
@@ -110,32 +108,50 @@ function buildHtmlTask() {
 }
 
 function buildPreviewsTask() {
-	nunjucksRender.nunjucks.configure(paths.src);
+	configureNunjucks();
 	var templateHtml = fs.readFileSync(paths.srcViews + '_component-preview/component-preview.html', 'utf8');
 	return gulp.src(paths.srcComponents + '*/*.html', { base: paths.src })
 		.pipe(nunjucksRender(htmlModuleData))
 		.pipe(nunjucksRender(htmlModuleData, templateHtml))
-		.pipe(rename(function(p){
-			p.basename += '-preview';
-		}))
-		//.pipe(require('gulp-debug')())
+		.pipe(rename(function(p){ p.basename += '-preview'; }))
 		.pipe(gulp.dest(paths.dist));
 }
 
-function htmlModuleData(file) {
-	var pathToRoot = path.relative(file.relative, '.');
-	pathToRoot = pathToRoot.substring(0, pathToRoot.length - 2);
-	return {
-		module: {
-			name: parsePath(file.relative).basename,
-			html: file.contents.toString()
-		},
-		paths: {
-			assets: pathToRoot + 'assets/',
-			root: pathToRoot
-		},
-		pkg: pkg
-	};
+function buildJsTask(cb) {
+	var amdConfig = _.extend(
+		require('./src/amd-config.json'),
+		{
+			baseUrl: paths.src,
+			generateSourceMaps: true, // http://requirejs.org/docs/optimization.html#sourcemaps
+			include: ['index'],
+			name: 'vendor/almond/almond',
+			optimize: 'uglify2',
+			out: paths.distAssets + 'index.js',
+			preserveLicenseComments: false
+		}
+	);
+	rjs.optimize(amdConfig);
+	if(browserSync.active){ browserSync.reload(); }
+	cb();
+}
+
+function buildLessTask() {
+	// @fix sourcemaps: copy less files to dist?
+	return srcFiles('less')
+		.pipe(sourcemaps.init())
+		.pipe(less())
+		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
+		.pipe(sourcemaps.write({includeContent: false, sourceRoot: '' }))
+		.pipe(rename(function(p){
+			if(p.dirname === '.'){ p.dirname = 'assets'; } // output root src files to assets dir
+		}))
+		.pipe(gulp.dest(paths.dist))
+		.pipe(reloadBrowser({ stream:true }));
+}
+
+function configureNunjucks() {
+	var env = nunjucksRender.nunjucks.configure(paths.src);
+	env.addFilter('match', require('./lib/nunjucks-filter-match'));
 }
 
 /**
@@ -194,8 +210,8 @@ function createModulePrompt(cb){
 			.pipe(rename(function(p){
 				if(p.basename !== 'README'){ p.basename = moduleName; }
 			}))
-			.pipe(gulp.dest(modulePath)
-		);
+			.pipe(gulp.dest(modulePath));
+
 		if(answers.files.indexOf('js') >= 0){
 			registerAmdModule(moduleDir, moduleName);
 		}
@@ -204,45 +220,14 @@ function createModulePrompt(cb){
 	});
 }
 
-function buildJsTask(cb) {
-	var amdConfig = _.extend(
-		require('./src/amd-config.json'),
-		{
-			baseUrl: paths.src,
-			generateSourceMaps: true, // http://requirejs.org/docs/optimization.html#sourcemaps
-			include: ['index'],
-			name: 'vendor/almond/almond',
-			optimize: 'uglify2',
-			out: paths.distAssets + 'index.js',
-			preserveLicenseComments: false
-		}
-	);
-	rjs.optimize(amdConfig);
-	if(browserSync.active){ browserSync.reload(); }
-	cb();
-}
-
-function buildLessTask() {
-	// @fix sourcemaps: copy less files to dist?
-	return srcFiles('less')
-		.pipe(sourcemaps.init())
-		.pipe(less())
-		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
-		.pipe(sourcemaps.write({includeContent: false, sourceRoot: '' }))
-		.pipe(rename(function(p){
-			if(p.dirname === '.'){ p.dirname = 'assets'; } // output root src files to assets dir
-		}))
-		.pipe(gulp.dest(paths.dist))
-		.pipe(reloadBrowser({ stream:true }));
-}
-
 var formatHtml = lazypipe()
 	.pipe(function() {
 		// strip CDATA, comments & whitespace
 		return minifyHtml({
 			empty: true,
 			conditionals: true,
-			spare: true
+			spare: true,
+			quotes: true
 		});
 	})
 	.pipe(function() {
@@ -253,8 +238,24 @@ var formatHtml = lazypipe()
 
 function getModuleIndex() {
 	return {
-		components: listModuleDirectories(paths.srcComponents),
-		views: listModuleDirectories(paths.srcViews)
+		components: listDirectories(paths.srcComponents),
+		views: listDirectories(paths.srcViews)
+	};
+}
+
+function htmlModuleData(file) {
+	var pathToRoot = path.relative(file.relative, '.');
+	pathToRoot = pathToRoot.substring(0, pathToRoot.length - 2);
+	return {
+		module: {
+			name: parsePath(file.relative).basename,
+			html: file.contents.toString()
+		},
+		paths: {
+			assets: pathToRoot + 'assets/',
+			root: pathToRoot
+		},
+		pkg: pkg
 	};
 }
 
@@ -271,13 +272,10 @@ function jshintSrcTask() {
 		.pipe(jshint.reporter(require('jshint-stylish')));
 }
 
-function listModuleDirectories(cwd) {
+function listDirectories(cwd) {
 	return fs.readdirSync(cwd)
 		.filter(function(file){
 			return fs.statSync(cwd + file).isDirectory();
-		})
-		.filter(function(file){
-			return (file.substr(0,1) !== '_');
 		});
 }
 
