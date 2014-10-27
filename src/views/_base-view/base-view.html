@@ -30,7 +30,7 @@
         <link rel="stylesheet" href="{{ paths.assets }}index.css">
     {% endblock %}
 </head>
-<body>
+<body data-module="{{ module.id }}">
 {% block appHeader %}
 {% include "components/app-header/app-header.html" %}
 {% endblock %}

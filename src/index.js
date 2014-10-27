@@ -1,5 +1,5 @@
 require([
 	'views/_base-view/base-view'
 ], function(){
-	console.log('index');
+	//console.log('index');
 });

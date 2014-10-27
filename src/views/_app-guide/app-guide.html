@@ -15,14 +15,16 @@
         <p>Introduction.</p>
         <a href="{{ path.root }}views/_style-guide/style-guide.html">style guide</a>
 
+        <a href="{{ path.root }}views/_app-viewer/app-viewer.html">module viewer</a>
+
         <section>
             <h2>Views</h2>
             <ul>
                 {# only list views starting with lowercase letter #}
-                {% for item in moduleIndex.views | match('^[a-z]') %}
+                {% for item in moduleIndex.views | match('^[a-z]', 'name') %}
                     <li>
-                        <a href="{{ paths.root }}views/{{ item }}/{{ item }}.html">{{ item }}</a>
-                        <a href="{{ paths.root }}views/{{ item }}/{{ item }}.html?debug"
+                        <a href="{{ paths.root }}{{ item.path }}">{{ item.name }}</a>
+                        <a href="{{ paths.root }}{{ item.path }}?annotate"
                            title="annotated view" class="app-guide-icon-tag"></a>
                     </li>
                 {% endfor %}
@@ -33,8 +35,8 @@
             <h2>Components</h2>
             <ul>
                 {# only list components starting with lowercase letter #}
-                {% for item in moduleIndex.components | match('^[a-z]') %}
-                    <li><a href="{{ paths.root }}components/{{ item }}/{{ item }}-preview.html">{{ item }}</a></li>
+                {% for item in moduleIndex.components | match('^[a-z]', 'name') %}
+                    <li><a href="{{ paths.root }}{{ item.path }}">{{ item.name }}</a></li>
                 {% endfor %}
             </ul>
         </section>

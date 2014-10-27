@@ -102,7 +102,7 @@ function buildHtmlTask() {
 				{ moduleIndex: moduleIndex }
 			);
 		}))
-		.pipe(formatHtml())
+		//.pipe(formatHtml())
 		.pipe(gulp.dest(paths.dist))
 		.pipe(reloadBrowser({ stream:true }));
 }
@@ -152,6 +152,7 @@ function buildLessTask() {
 function configureNunjucks() {
 	var env = nunjucksRender.nunjucks.configure(paths.src);
 	env.addFilter('match', require('./lib/nunjucks-filter-match'));
+	env.addFilter('prettyJson', require('./lib/nunjucks-filter-pretty-json'));
 }
 
 /**
@@ -238,8 +239,22 @@ var formatHtml = lazypipe()
 
 function getModuleIndex() {
 	return {
-		components: listDirectories(paths.srcComponents),
-		views: listDirectories(paths.srcViews)
+		components: listDirectories(paths.srcComponents).map(function(name){
+			return {
+				id: 'components/' + name,
+				name: name,
+				path: 'components/' + name + '/' + name + '-preview.html',
+				type: 'component'
+			};
+		}),
+		views: listDirectories(paths.srcViews).map(function(name){
+			return {
+				id: 'views/' + name,
+				name: name,
+				path: 'views/' + name + '/' + name + '.html',
+				type: 'view'
+			};
+		})
 	};
 }
 
@@ -248,6 +263,7 @@ function htmlModuleData(file) {
 	pathToRoot = pathToRoot.substring(0, pathToRoot.length - 2);
 	return {
 		module: {
+			id: path.dirname(file.relative),
 			name: parsePath(file.relative).basename,
 			html: file.contents.toString()
 		},

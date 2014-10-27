@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html data-ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Front-end Guide {{ pkg.name }}</title>
+    <!--[if lt IE 9]>
+    <script>
+        (function (d, a) { var l = a.length; while(l--){ d.createElement(a[l]); } }(document,
+        ['HEADER', 'NAV', 'SECTION', 'FOOTER', 'ARTICLE', 'MAIN', 'FIGCAPTION', 'FIGURE', 'ASIDE']));
+    </script>
+    <![endif]-->
+    <link rel="stylesheet" href="{{ paths.root }}views/_app-viewer/app-viewer.css">
+</head>
+<body class="viewer" data-ng-controller="ViewerController as viewer">
+
+{% raw %}
+<header class="viewer-header" data-viewer-header>
+    <!--<h1 class="viewer-title">Front-end Guide</h1>-->
+    <nav class="viewer-module-selector">
+        <label for="viewer-module" class="a11y-sr-only">module</label>
+        <span data-ng-class="{
+                'viewer-icon-component' : viewer.module.type == 'component',
+                'viewer-icon-view' : viewer.module.type == 'view',
+            }"></span>
+        <select id="viewer-module" data-ng-model="viewer.module"
+                data-ng-options="module.name group by module.type for (id, module) in viewer.modules"></select>
+        <button class="viewer-button" data-ng-class="{ 'is-active': viewer.showAnnotations }"
+                data-ng-click="viewer.toggleAnnotations()"><span class="viewer-icon-tag"></span></button>
+        <button class="viewer-button" data-ng-class="{ 'is-active': viewer.showInfo }"
+                data-ng-click="viewer.showInfo = !viewer.showInfo"><span class="viewer-icon-info"></span></button>
+        <a data-ng-href="{{ viewer.getModulePath() }}" target="_blank" title="open module in new window"
+           class="viewer-icon-launch"></a>
+    </nav>
+    <div class="viewer-size-controls">
+        <button class="viewer-button"
+                data-ng-repeat="breakpoint in ::viewer.breakpoints"
+                data-ng-class="{ 'is-active': (viewer.width == breakpoint.width) }"
+                data-ng-click="viewer.setWidth(breakpoint.width)"
+                >{{ ::breakpoint.name }}</button>
+        <button class="viewer-button"
+                data-ng-class="{ 'is-active': viewer.autoWidth }"
+                data-ng-click="viewer.toggleAutoWidth()">full</button>
+        <label for="viewer-width" class="a11y-sr-only">width</label>
+        <input  id="viewer-width" type="number" min="240" step="10" required="true"
+                data-ng-model="viewer.width"
+                data-ng-readonly="viewer.autoWidth">px
+    </div>
+</header>
+{% endraw %}
+
+{% raw %}
+<main class="viewer-content">
+    <section class="viewer-info"
+             data-ng-show="viewer.showInfo"
+             data-ng-style="{ 'height': viewer.height+'px' }">
+        <h2>{{ viewer.module.name }} {{ viewer.module.type }}</h2>
+        <p>@todo: add README as html.</p>
+        <p>@todo: add code fragments with syntax highlighting and line numbers.</p>
+        <div data-ng-bind-html="viewer.module.readme"></div>
+        <button class="viewer-button viewer-info-close" data-ng-click="viewer.showInfo = false">x</button>
+    </section>
+    <iframe class="viewer-frame"
+            data-viewer-frame
+            data-ng-src="{{ viewer.getModulePath() }}"
+            data-ng-attr-width="{{ viewer.width }}"
+            data-ng-attr-height="{{ viewer.height }}"
+            ></iframe>
+</main>
+{% endraw %}
+
+<script src="https://code.angularjs.org/1.3.0-rc.5/angular.min.js"></script>
+<script src="https://code.angularjs.org/1.3.0-rc.5/angular-sanitize.min.js"></script>
+<script>
+    angular.module('config',[])
+        .constant('ROOT_PATH', '{{ paths.root }}')
+        .constant('MODULES', [
+            {# create list of modules based on module index #}
+            {% for item in moduleIndex.components | match('^[a-z]', 'name') %}
+                {{ item | prettyJson }},
+            {% endfor %}
+            {% for item in moduleIndex.views | match('^[a-z]', 'name') %}
+                {{ item | prettyJson }},
+            {% endfor %}
+            {
+                id: 'app/index',
+                name: 'index',
+                path: 'views/_app-guide/app-guide.html',
+                type: 'app'
+            },
+            {
+                id: 'app/style-guide',
+                name: 'style-guide',
+                path: 'views/_style-guide/style-guide.html',
+                type: 'app'
+            }
+        ]);
+</script>
+<script>{% include "views/_app-viewer/app-viewer.js" %}</script>
+</body>
+</html>

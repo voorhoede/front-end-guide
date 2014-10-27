@@ -4,13 +4,31 @@
 	var isCapableBrowser = ('classList' in doc.documentElement);
 	if(!isCapableBrowser){ return; }
 
+	var moduleId = doc.querySelector('[data-module]').getAttribute('data-module');
 	var components = doc.querySelectorAll('[data-component]');
 
 	annotateComponents();
 
-	if(window.location.href.indexOf('debug') > 0){ toggleDebug(); }
-	window.debug = toggleDebug;
-	//toggleDebug();
+	if(window.location.href.indexOf('annotate') > 0){ toggleAnnotations(true); }
+	window.toggleAnnotations = toggleAnnotations;
+	//toggleAnnotations();
+
+	// setup two-way communication with parent frame
+	if(window.top) {
+		window.addEventListener('load', function (event) {
+			var path = window.location.pathname;
+			window.top.postMessage({
+				moduleId: moduleId
+			}, '*');
+		}, false);
+
+		window.addEventListener('message', function(event) {
+			var message = event.data;
+			if(message.fromViewer && message.showAnnotations !== undefined){
+				toggleAnnotations(message.showAnnotations);
+			}
+		});
+	}
 
 	function annotateComponents() {
 		[].forEach.call(components, function(component){
@@ -23,9 +41,9 @@
 		});
 	}
 
-	function toggleDebug() {
+	function toggleAnnotations(show) {
 		[].forEach.call(components, function(component){
-			component.classList.toggle('debug-component');
+			component.classList.toggle('debug-component', show);
 		});
 	}
 }(document));
