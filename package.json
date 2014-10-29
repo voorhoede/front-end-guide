@@ -5,7 +5,8 @@
   "main": "source/index.js",
   "private": "yes",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"create-module":"node -e \"console.log('TODO: create module');\""
   },
   "repository": {
     "type": "git",
