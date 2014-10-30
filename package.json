@@ -52,6 +52,7 @@
     "gulp-replace": "^0.4.0",
     "json-stable-stringify": "^1.0.0",
     "through2": "^0.6.3",
-    "nunjucks": "^1.1.0"
+    "nunjucks": "^1.1.0",
+    "nunjucks-markdown": "^0.5.2"
   }
 }
