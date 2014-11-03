@@ -11,6 +11,7 @@ var fs = require('fs');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
+var karma = require('karma').server;
 var lazypipe = require('lazypipe');
 var less = require('gulp-less');
 var minifyHtml = require('gulp-minify-html');
@@ -45,6 +46,7 @@ gulp.task('jshint', ['jshint_src', 'jshint_node']);
 gulp.task('jshint_node', jshintNodeTask);
 gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
+gulp.task('test', runKarma);
 gulp.task('watch', ['build', 'serve'], watchTask);
 
 /* Tasks and utils (A-Z) */
@@ -292,6 +294,14 @@ function registerAmdModule(dirName, moduleName){
 function reloadBrowser(options){
 	// only reload browserSync if active, otherwise causes an error.
 	return gulpif(browserSync.active, browserSync.reload(options));
+}
+/* todo: watch relevant js files and their tests instead of running once and the exit. gulp-karma does not work seem to work out of the
+box with requirejs the way it's currently configured */
+function runKarma(cb) {
+	karma.start({
+		configFile:paths.karmaConfig,
+		singleRun: true
+	}, cb);
 }
 
 function serveTask() {
