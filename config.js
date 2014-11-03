@@ -7,7 +7,7 @@ var paths = {
 	dist: 'dist/',
 	distAssets: 'dist/assets/',
 	amdConfig: './src/amd-config.json',
-	karmaConfig:__dirname + '/karma.conf.js'
+	karmaConfig:'./test/karma.conf.js'
 };
 paths.assets = [
 		paths.src + 'assets/**/*.*',

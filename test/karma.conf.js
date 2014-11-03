@@ -3,7 +3,7 @@ module.exports = function(config) {
   config.set({
 
 	// base path that will be used to resolve all patterns (eg. files, exclude)
-	basePath: '',
+	basePath: '../',
 
 
 	// frameworks to use
@@ -21,7 +21,7 @@ module.exports = function(config) {
 			{pattern:'src/vendor/**/*.js', included: false}
 		].concat(
 			// requirejs bootstrap file
-			['test-main.js']
+			['test/test-main.js']
 		),
 	// list of files to exclude
 	exclude: [

@@ -27,6 +27,7 @@ function configureRequireJs(response) {
 	var pathsConfig = (function (paths) {
 		var karmaPaths = {};
 		Object.keys(paths).forEach(function (path) {
+			//todo: prefixed folder should not be hardcoded here
 			karmaPaths[path] = 'src/' + paths[path];
 		});
 		return karmaPaths;
