@@ -18,9 +18,7 @@ module.exports = function(config) {
 			{pattern:'src/amd-config.json', included:false},
 			{pattern:'src/components/**/*.js', included: false},
 			{pattern:'src/views/**/*.js', included: false},
-			{pattern:'src/vendor/**/*.js', included: false},
-			{pattern:'src/components/**/*.test.js', included: false},
-			{pattern:'src/views/**/*.test.js', included: false}
+			{pattern:'src/vendor/**/*.js', included: false}
 		].concat(
 			// requirejs bootstrap file
 			['test-main.js']
