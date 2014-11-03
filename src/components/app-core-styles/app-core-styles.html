@@ -1,0 +1,46 @@
+<!-- app-core-style component -->
+{% set colors = {
+    "@brand-default":   "#000000",
+    "@brand-highlight":	"#428bca",
+    "@brand-success":	"#5cb85c",
+    "@brand-info":		"#5bc0de",
+    "@brand-warning":	"#f0ad4e",
+    "@brand-danger":	"#d9534f"
+} %}
+<ul class="app-guide-swatches flat-list">
+    {% for name, color in colors %}
+        <li title="color-primary">
+            <span class="app-guide-info">{{ color }}</span>
+            <span class="app-guide-swatch" style="background-color:{{ color }};"></span>
+            <span class="app-guide-info">{{ name }}</span>
+        </li>
+    {% endfor %}
+</ul>
+
+<style type="text/css">
+    .app-guide-swatches li {
+        float: left;
+        width: 170px;
+        margin: 15px 16px 15px 16px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #666666;
+    }
+    .app-guide-swatch {
+        display: block;
+        border-width: 16px;
+        border-style: solid;
+        border-color: #e3e3e3;
+        margin: 0 auto;
+        width: 80px;
+        height: 80px;
+    }
+    .app-guide-info {
+        display: block;
+        text-align: center;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        font-size: 0.9em;
+    }
+</style>
+<!-- /app-core-style component -->

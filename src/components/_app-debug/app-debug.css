@@ -1,0 +1,20 @@
+
+.debug-component {
+	outline: 2px solid black;
+	outline-offset: -2px;
+}
+
+.debug-label {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 999;
+	color: white !important;
+	padding: .2em .5em;
+	background: black;
+}
+
+.debug-component .debug-label {
+	display: block;
+}

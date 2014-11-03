@@ -16,6 +16,7 @@
   "private": true,
   "dependencies": {
     "almond": "~0.3.0",
-	"expandible": "~0.0.1"
+    "expandible": "~0.0.1",
+    "fastclick": "~1.0.3"
   }
 }

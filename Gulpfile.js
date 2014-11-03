@@ -2,64 +2,34 @@
 var _ = require('lodash-node');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
-var changelog = require('conventional-changelog');
 var del = require('del');
-var debug = require('gulp-debug');
-var exec = require('child_process').exec;
-var filter = require('gulp-filter');
-var fs = require('fs');
-var gulp = require('gulp');
 var gulpif = require('gulp-if');
-var gutil = require('gulp-util');
-var inquirer = require('inquirer');
+var filter = require('gulp-filter');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
+var fs = require('fs');
+var gulp = require('gulp');
+var gutil = require('gulp-util');
+var inquirer = require('inquirer');
+var karma = require('gulp-karma');
 var lazypipe = require('lazypipe');
 var less = require('gulp-less');
 var minifyHtml = require('gulp-minify-html');
 var newer = require('gulp-newer');
+var nunjucksMarkdown = require('nunjucks-markdown');
 var nunjucksRender = require('./lib/nunjucks-render');
 var path = require('path');
 var prettify = require('gulp-prettify');
-var Q = require('q');
-var rjs = require('requirejs');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
+var stringify = require('json-stable-stringify');
+var rjs = require('requirejs');
 var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
-var stringify = require('json-stable-stringify');
-
 
 /* Shared configuration (A-Z) */
+var paths = require('./config.js').paths;
 var pkg = require('./package.json');
-var paths = {
-	src: 'src/',
-	srcComponents: 'src/components/',
-	srcVendor: 'src/vendor/',
-	srcViews: 'src/views/',
-	dist: 'dist/',
-	distAssets: 'dist/assets/',
-	amdConfig: './src/amd-config.json',
-	changelog: './CHANGELOG.md'
-};
-paths.assets = [
-	paths.src + 'assets/**/*.*',
-	paths.srcComponents + '*/assets/**/*.*',
-	paths.srcViews + '*/assets/**/*.*'
-];
-// source files are all files directly in module sub directories and core files,
-// excluding abstract files/dirs starting with '_'.
-paths.srcFiles = [
-		paths.src + '*',
-		paths.srcComponents + '*/*',
-		paths.srcViews + '*/*' //,
-//		'!' + paths.src + '_*',
-//		'!' + paths.srcComponents + '_*/*',
-//		'!' + paths.srcViews + '_*/*'
-];
-paths.htmlFiles = paths.srcFiles.map(function(path){ return path + '.html'; });
-paths.jsFiles   = paths.srcFiles.map(function(path){ return path + '.js'; });
-paths.lessFiles = paths.srcFiles.map(function(path){ return path + '.less'; });
 
 /* Register default & custom tasks (A-Z) */
 gulp.task('default', ['build_clean']);
@@ -76,16 +46,15 @@ gulp.task('jshint', ['jshint_src', 'jshint_node']);
 gulp.task('jshint_node', jshintNodeTask);
 gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
+gulp.task('test_run', testTask('run'));
+gulp.task('test_watch', testTask('watch'));
 gulp.task('watch', ['build', 'serve'], watchTask);
-gulp.task('changelog', createChangeLog);
-gulp.task('bump', ['changelog'], bump);
-gulp.task('test', isChangelogModified);
 
 /* Tasks and utils (A-Z) */
 
 /**
  * Copy all files from `assets/` directories in source root & modules. Only copies file when newer.
- * The `assets/` string is removed from the original path as the destination is an assets dir itself.
+ * The `assets/` string is removed from the original path as the destination is an `assets/` dir itself.
  */
 function buildAssetsTask() {
 	paths.assets.map(function(path){
@@ -102,49 +71,67 @@ function buildAssetsTask() {
 }
 
 function buildHtmlTask() {
-	nunjucksRender.nunjucks.configure(paths.src);
+	configureNunjucks();
 	var moduleIndex = getModuleIndex();
 	return srcFiles('html')
 		.pipe(nunjucksRender(function(file){
 			return _.extend(
 				htmlModuleData(file),
-				{
-					moduleIndex: moduleIndex
-				}
+				{ moduleIndex: moduleIndex }
 			);
 		}))
-		.pipe(formatHtml())
+		//.pipe(formatHtml())
 		.pipe(gulp.dest(paths.dist))
 		.pipe(reloadBrowser({ stream:true }));
 }
 
 function buildPreviewsTask() {
-	nunjucksRender.nunjucks.configure(paths.src);
+	configureNunjucks();
 	var templateHtml = fs.readFileSync(paths.srcViews + '_component-preview/component-preview.html', 'utf8');
 	return gulp.src(paths.srcComponents + '*/*.html', { base: paths.src })
 		.pipe(nunjucksRender(htmlModuleData))
 		.pipe(nunjucksRender(htmlModuleData, templateHtml))
-		.pipe(rename(function(p){
-			p.basename += '-preview';
-		}))
-		//.pipe(require('gulp-debug')())
+		.pipe(rename(function(p){ p.basename += '-preview'; }))
 		.pipe(gulp.dest(paths.dist));
 }
 
-function htmlModuleData(file) {
-	var pathToRoot = path.relative(file.relative, '.');
-	pathToRoot = pathToRoot.substring(0, pathToRoot.length - 2);
-	return {
-		module: {
-			name: parsePath(file.relative).basename,
-			html: file.contents.toString()
-		},
-		paths: {
-			assets: pathToRoot + 'assets/',
-			root: pathToRoot
-		},
-		pkg: pkg
-	};
+function buildJsTask(cb) {
+	var amdConfig = _.extend(
+		require('./src/amd-config.json'),
+		{
+			baseUrl: paths.src,
+			generateSourceMaps: true, // http://requirejs.org/docs/optimization.html#sourcemaps
+			include: ['index'],
+			name: 'vendor/almond/almond',
+			optimize: 'uglify2',
+			out: paths.distAssets + 'index.js',
+			preserveLicenseComments: false
+		}
+	);
+	rjs.optimize(amdConfig);
+	if(browserSync.active){ browserSync.reload(); }
+	cb();
+}
+
+function buildLessTask() {
+	// @fix sourcemaps: copy less files to dist?
+	return srcFiles('less')
+		.pipe(sourcemaps.init())
+		.pipe(less())
+		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
+		.pipe(sourcemaps.write({includeContent: false, sourceRoot: '' }))
+		.pipe(rename(function(p){
+			if(p.dirname === '.'){ p.dirname = 'assets'; } // output root src files to assets dir
+		}))
+		.pipe(gulp.dest(paths.dist))
+		.pipe(reloadBrowser({ stream:true }));
+}
+
+function configureNunjucks() {
+	var env = nunjucksRender.nunjucks.configure(paths.src);
+	nunjucksMarkdown.register(env);
+	env.addFilter('match', require('./lib/nunjucks-filter-match'));
+	env.addFilter('prettyJson', require('./lib/nunjucks-filter-pretty-json'));
 }
 
 /**
@@ -196,15 +183,27 @@ function createModulePrompt(cb){
 		var moduleName = answers.moduleName;
 		var moduleDir  = [moduleType, moduleName].join('s/');
 
-		gulp.src(answers.files.map(function (extName) {
-				return [paths.src, moduleType + 's/', '_template/*.', extName].join('');
-			}))
+		gulp.src(
+			// weasel in a test file extension if user asked for a script file.
+			(function (files) {
+				if(files.indexOf('js') >= 0){
+					files.push('test.js');
+				}
+				return files.map(function (extName) {
+					return [paths.src, moduleType + 's/', '_template/*.', extName].join('');
+				});
+			}(answers.files)))
 			.pipe(replace(/MODULE_NAME/g, moduleName))
 			.pipe(rename(function(p){
-				if(p.basename !== 'README'){ p.basename = moduleName; }
+				var isTest = /test$/.test(p.basename);
+				if(p.basename !== 'README' && !isTest){p.basename = moduleName; }
+				if(isTest){
+					p.basename = moduleName;
+					p.extname = '.test' + p.extname;
+				}
 			}))
-			.pipe(gulp.dest(modulePath)
-		);
+			.pipe(gulp.dest(modulePath));
+
 		if(answers.files.indexOf('js') >= 0){
 			registerAmdModule(moduleDir, moduleName);
 		}
@@ -213,45 +212,14 @@ function createModulePrompt(cb){
 	});
 }
 
-function buildJsTask(cb) {
-	var amdConfig = _.extend(
-		require('./src/amd-config.json'),
-		{
-			baseUrl: paths.src,
-			generateSourceMaps: true, // http://requirejs.org/docs/optimization.html#sourcemaps
-			include: ['index'],
-			name: 'vendor/almond/almond',
-			optimize: 'uglify2',
-			out: paths.distAssets + 'index.js',
-			preserveLicenseComments: false
-		}
-	);
-	rjs.optimize(amdConfig);
-	if(browserSync.active){ browserSync.reload(); }
-	cb();
-}
-
-function buildLessTask() {
-	// @fix sourcemaps: copy less files to dist?
-	return srcFiles('less')
-		.pipe(sourcemaps.init())
-		.pipe(less())
-		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
-		.pipe(sourcemaps.write({includeContent: false, sourceRoot: '' }))
-		.pipe(rename(function(p){
-			if(p.dirname === '.'){ p.dirname = 'assets'; } // output root src files to assets dir
-		}))
-		.pipe(gulp.dest(paths.dist))
-		.pipe(reloadBrowser({ stream:true }));
-}
-
 var formatHtml = lazypipe()
 	.pipe(function() {
 		// strip CDATA, comments & whitespace
 		return minifyHtml({
 			empty: true,
 			conditionals: true,
-			spare: true
+			spare: true,
+			quotes: true
 		});
 	})
 	.pipe(function() {
@@ -262,8 +230,39 @@ var formatHtml = lazypipe()
 
 function getModuleIndex() {
 	return {
-		components: listModuleDirectories(paths.srcComponents),
-		views: listModuleDirectories(paths.srcViews)
+		components: listDirectories(paths.srcComponents).map(function(name){
+			return {
+				id: 'components/' + name,
+				name: name,
+				path: 'components/' + name + '/' + name + '-preview.html',
+				type: 'component'
+			};
+		}),
+		views: listDirectories(paths.srcViews).map(function(name){
+			return {
+				id: 'views/' + name,
+				name: name,
+				path: 'views/' + name + '/' + name + '.html',
+				type: 'view'
+			};
+		})
+	};
+}
+
+function htmlModuleData(file) {
+	var pathToRoot = path.relative(file.relative, '.');
+	pathToRoot = pathToRoot.substring(0, pathToRoot.length - 2);
+	return {
+		module: {
+			id: path.dirname(file.relative),
+			name: parsePath(file.relative).basename,
+			html: file.contents.toString()
+		},
+		paths: {
+			assets: pathToRoot + 'assets/',
+			root: pathToRoot
+		},
+		pkg: pkg
 	};
 }
 
@@ -280,13 +279,10 @@ function jshintSrcTask() {
 		.pipe(jshint.reporter(require('jshint-stylish')));
 }
 
-function listModuleDirectories(cwd) {
+function listDirectories(cwd) {
 	return fs.readdirSync(cwd)
 		.filter(function(file){
 			return fs.statSync(cwd + file).isDirectory();
-		})
-		.filter(function(file){
-			return (file.substr(0,1) !== '_');
 		});
 }
 
@@ -311,6 +307,21 @@ function registerAmdModule(dirName, moduleName){
 function reloadBrowser(options){
 	// only reload browserSync if active, otherwise causes an error.
 	return gulpif(browserSync.active, browserSync.reload(options));
+}
+
+function testTask(action) {
+	return function () {
+		return gulp.src(
+			// files you put in this array override the files array in karma.conf.js
+			[]
+		).pipe(karma({
+			configFile:paths.karmaConfig,
+			action:action
+		})).on('error', function (err) {
+				throw err;
+			}
+		);
+	};
 }
 
 function serveTask() {

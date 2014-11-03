@@ -1,0 +1,93 @@
+@import (reference) "../../components/app-core-styles/styles/mixins/clearfix";
+@import (reference) "../../components/app-core-styles/styles/variables";
+@import (once) "../../components/app-core-styles/styles/accessibility";
+
+html {
+	font-family: Arial, sans-serif;
+}
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+/**
+ * App Viewer
+ *	* namespace: `viewer-` is used as prefix for all style rules affecting this component and it's descendant.
+ *	* concept: feel of fullscreen app with viewport (frame) for previews, a menu bar (header) and overlay panel (info).
+ */
+html,
+.viewer {
+	overflow: hidden;
+}
+
+.viewer-header {
+	.clearfix();
+	padding: .5em;
+	border-bottom: 1px solid #ccc;
+}
+
+.viewer-module-selector {
+	float: left;
+}
+
+.viewer-size-controls {
+	float: right;
+}
+
+.viewer-frame {
+	background-color: white;
+	border: none;
+	border-right: 1px solid #ccc;
+	//margin: 0 auto;
+}
+
+.viewer-content {
+	position: relative;
+	background-color: #555;
+}
+
+.viewer-info {
+	box-sizing: border-box;
+	position: absolute;
+	background-color: white;
+	width: 100%;
+	overflow-y: scroll;
+	padding: 1em;
+	border-bottom: 1px solid #ccc;
+}
+
+.viewer-info-close {
+	position: absolute;
+	top: 1em;
+	right: 1em;
+}
+
+.viewer-button.is-active {
+	background-color: #ccc;
+}
+
+.viewer-icon {
+	display: inline-block;
+	height: 1em;
+}
+.viewer-icon-info {
+	&:extend(.viewer-icon);
+	content: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22m0%200h24v24h-24z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22m11%2017h2v-6h-2v6zm1-15c-5.52%200-10%204.48-10%2010s4.48%2010%2010%2010%2010-4.48%2010-10-4.48-10-10-10zm0%2018c-4.41%200-8-3.59-8-8s3.59-8%208-8%208%203.59%208%208-3.59%208-8%208zm-1-11h2v-2h-2v2z%22%2F%3E%3C%2Fsvg%3E');
+}
+.viewer-icon-launch {
+	&:extend(.viewer-icon);
+	content: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22m0%200h24v24h-24z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22m19%2019h-14v-14h7v-2h-7c-1.11%200-2%200.9-2%202v14c0%201.1%200.89%202%202%202h14c1.1%200%202-0.9%202-2v-7h-2v7zm-5-16v2h3.59l-9.83%209.83%201.41%201.41%209.83-9.83v3.59h2v-7h-7z%22%2F%3E%3C%2Fsvg%3E');
+}
+.viewer-icon-tag {
+	&:extend(.viewer-icon);
+	content: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22m0%200h24v24h-24z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22m21.41%2011.58l-9-9c-0.36-0.36-0.86-0.58-1.41-0.58h-7c-1.1%200-2%200.9-2%202v7c0%200.55%200.22%201.05%200.59%201.42l9%209c0.36%200.36%200.86%200.58%201.41%200.58s1.05-0.22%201.41-0.59l7-7c0.37-0.36%200.59-0.86%200.59-1.41s-0.23-1.06-0.59-1.42zm-15.91-4.58c-0.83%200-1.5-0.67-1.5-1.5s0.67-1.5%201.5-1.5%201.5%200.67%201.5%201.5-0.67%201.5-1.5%201.5z%22%2F%3E%3C%2Fsvg%3E');
+}
+.viewer-icon-component {
+	&:extend(.viewer-icon);
+	content: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22m0%200h24v24h-24z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22m20.5%2011h-1.5v-4c0-1.1-0.9-2-2-2h-4v-1.5c0-1.38-1.12-2.5-2.5-2.5s-2.5%201.12-2.5%202.5v1.5h-4c-1.1%200-1.99%200.9-1.99%202v3.8h1.49c1.49%200%202.7%201.21%202.7%202.7s-1.21%202.7-2.7%202.7h-1.5v3.8c0%201.1%200.9%202%202%202h3.8v-1.5c0-1.49%201.21-2.7%202.7-2.7s2.7%201.21%202.7%202.7v1.5h3.8c1.1%200%202-0.9%202-2v-4h1.5c1.38%200%202.5-1.12%202.5-2.5s-1.12-2.5-2.5-2.5z%22%2F%3E%3C%2Fsvg%3E');
+}
+.viewer-icon-view {
+	&:extend(.viewer-icon);
+	content: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20height%3D%2224%22%3E%3Cpath%20d%3D%22m10%2018h5v-6h-5v6zm-6%200h5v-13h-5v13zm12%200h5v-6h-5v6zm-6-13v6h11v-6h-11z%22%2F%3E%3Cpath%20d%3D%22m0%200h24v24h-24z%22%20fill%3D%22none%22%2F%3E%3C%2Fsvg%3E');
+}
