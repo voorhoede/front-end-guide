@@ -183,12 +183,24 @@ function createModulePrompt(cb){
 		var moduleName = answers.moduleName;
 		var moduleDir  = [moduleType, moduleName].join('s/');
 
-		gulp.src(answers.files.map(function (extName) {
-				return [paths.src, moduleType + 's/', '_template/*.', extName].join('');
-			}))
+		gulp.src(
+			// weasel in a test file extension if user asked for a script file.
+			(function (files) {
+				if(files.indexOf('js') >= 0){
+					files.push('test.js');
+				}
+				return files.map(function (extName) {
+					return [paths.src, moduleType + 's/', '_template/*.', extName].join('');
+				});
+			}(answers.files)))
 			.pipe(replace(/MODULE_NAME/g, moduleName))
 			.pipe(rename(function(p){
-				if(p.basename !== 'README'){ p.basename = moduleName; }
+				var isTest = /test$/.test(p.basename);
+				if(p.basename !== 'README' && !isTest){p.basename = moduleName; }
+				if(isTest){
+					p.basename = moduleName;
+					p.extname = '.test' + p.extname;
+				}
 			}))
 			.pipe(gulp.dest(modulePath));
 
