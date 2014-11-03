@@ -52,8 +52,7 @@ html,
 	overflow: hidden;
 
 	&.is-small {
-		transition: all 2s ease-in;
-		width: 50px;
+		width: 58px;
 	}
 }
 
@@ -128,9 +127,15 @@ html,
 .viewer-button.is-active {
 	background-color: @dark-green;
 	color: @medium-yellow;
+
+	&:hover {
+		transition: all 0.2s ease-in;
+		color: @light-green;
+	}
 }
 
 .viewer-button-collapse-menu {
+	display: none !important; //do not display button untill there is agreement how this button should work
 	background-color:@medium-yellow;
 	color: @dark-green;
 	&:before {
@@ -139,15 +144,29 @@ html,
 }
 
 .viewer-link {
-	font-size: 0em;
-	background-color: @light-grey;
+	vertical-align: top;
+	display: inline-block;
 	width: 50px;
 	height: 50px;
+	font-size: 1.4em;
+	background-color: @light-grey;
+	color: @dark-green;
+	text-decoration: none;
+	text-align: center;
+
+	&:visited {
+		color: @dark-green;
+	}
 
 	&:hover {
 		transition: all 0.2s ease-in;
 		background-color: @light-green;
 		cursor: pointer;
+	}
+
+	&:before {
+		display:block;
+		margin-top: 12.5px;
 	}
 }
 
@@ -207,11 +226,13 @@ html,
 		font-size: 1em;
 		font-weight: bold;
 		line-height: 3.175em;
+		z-index:10;
 	}
 }
 
 .viewer-width-input {
 	background: @very-light-grey;
+	position: relative;
 	height: 50px;
 	padding: 0 2.5em 0 1em;
 	width: 72px;
@@ -224,37 +245,63 @@ html,
 }
 
 .viewer-header-select-wrapper {
+	position: relative;
 	display: inline-block;
-	width: 180px;
+	width: 200px;
 	vertical-align: top;
 	color: @dark-green;
 	background: @light-grey;
+	padding: 0 0 0 1em;
 	font-size: 1em;
+	box-sizing: border-box;
+	z-index: 1;
+
+	&:before {
+		&:extend(.viewer-icon);
+		text-align: center;
+		font-size: 1.4em;
+		background-color: @light-grey;;
+		position: absolute;
+		width: 50px;
+		height: 50px;
+		padding-top: 12.5px;
+		content: '\e8ab';
+		right: 0;
+		z-index: -1;
+	}
 }
 
 .viewer-header-select {
 	height: 50px;
-	width:100%;
+	width: 100%;
 	vertical-align: top;
 	border: none;
 	-webkit-appearance: none;
 	appearance: none;
-	-webkit-border-radius: 0px;
+	background-color: transparent;
 	border-radius: 0;
 	font-size: 1em;
 	font-weight: bold;
-	padding: 0 0 0 1em;
-	background-color: transparent;
-	background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGQ9Ik0xNi41OSA4LjU5bC00LjU5IDQuNTgtNC41OS00LjU4LTEuNDEgMS40MSA2IDYgNi02eiIvPgogICAgPHBhdGggZD0iTTAgMGgyNHYyNGgtMjR6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo=');
-	background-position: 145px;
-	background-repeat: no-repeat;
-	background-size: 30px 30px;
 
 	&:hover {
 		cursor: pointer;
 	}
 
 	&:focus {
-		outline: 0;
+		outline: none;
 	}
+}
+
+.viewer-header-select-wrapper select::-ms-expand {
+	display: none; /* to ie 10 */
+}
+
+:-moz-any(.viewer-header-select-wrapper):before {
+	background-color: @light-grey; /* this is necessary for overcome the caret default browser */
+	pointer-events: none; /* https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events  */
+	z-index: 1; /* this is necessary for overcome the pseudo element */
+}
+
+::-moz-focus-inner {
+	border: 0;
 }
