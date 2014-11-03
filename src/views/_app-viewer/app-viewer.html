@@ -14,24 +14,26 @@
 <body class="viewer" data-ng-controller="ViewerController as viewer">
 
 {% raw %}
-<header class="viewer-header" data-viewer-header>
+<header class="viewer-header" data-viewer-header data-ng-class="{ 'is-small': viewer.isSmall }">
     <!--<h1 class="viewer-title">Front-end Guide</h1>-->
-    <nav class="viewer-module-selector">
-        <label for="viewer-module" class="a11y-sr-only">module</label>
-        <span data-ng-class="{
-                'viewer-icon-component' : viewer.module.type == 'component',
-                'viewer-icon-view' : viewer.module.type == 'view',
-            }"></span>
-        <select id="viewer-module" data-ng-model="viewer.module"
-                data-ng-options="module.name group by module.type for (id, module) in viewer.modules"></select>
-        <button class="viewer-button" data-ng-class="{ 'is-active': viewer.showAnnotations }"
-                data-ng-click="viewer.toggleAnnotations()"><span class="viewer-icon-tag"></span></button>
-        <button class="viewer-button" data-ng-class="{ 'is-active': viewer.showInfo }"
-                data-ng-click="viewer.showInfo = !viewer.showInfo"><span class="viewer-icon-info"></span></button>
+	<img class="site-logo" src="{{ viewer.rootPath }}assets/components/app-logo/logo.svg" alt="[Logo]"
+		data-ng-class="{ 'is-clickable' : viewer.isSmall }"
+		data-ng-click="viewer.isSmall = false">
+
+	<nav class="viewer-module-selector" data-ng-class="{'is-hidden': viewer.isSmall}">
+		<div class="viewer-header-select-wrapper">
+			<select id="viewer-module" class="viewer-header-select" data-ng-model="viewer.module"
+					data-ng-options="module.name group by module.type for (id, module) in viewer.modules"></select>
+
+		</div>
+        <button class="viewer-button viewer-icon-label" data-ng-class="{ 'is-active': viewer.showAnnotations }"
+                data-ng-click="viewer.toggleAnnotations()"></button>
+        <button class="viewer-button viewer-icon-info-outline" data-ng-class="{ 'is-active': viewer.showInfo }"
+                data-ng-click="viewer.showInfo = !viewer.showInfo "></button>
         <a data-ng-href="{{ viewer.getModulePath() }}" target="_blank" title="open module in new window"
-           class="viewer-icon-launch"></a>
+           class="viewer-link viewer-icon-launch"></a>
     </nav>
-    <div class="viewer-size-controls">
+    <div class="viewer-size-controls" data-ng-class="{'is-hidden': viewer.isSmall}">
         <button class="viewer-button"
                 data-ng-repeat="breakpoint in ::viewer.breakpoints"
                 data-ng-class="{ 'is-active': (viewer.width == breakpoint.width) }"
@@ -39,12 +41,16 @@
                 >{{ ::breakpoint.name }}</button>
         <button class="viewer-button"
                 data-ng-class="{ 'is-active': viewer.autoWidth }"
-                data-ng-click="viewer.toggleAutoWidth()">full</button>
-        <label for="viewer-width" class="a11y-sr-only">width</label>
-        <input  id="viewer-width" type="number" min="240" step="10" required="true"
-                data-ng-model="viewer.width"
-                data-ng-readonly="viewer.autoWidth">px
+                data-ng-click="viewer.toggleAutoWidth()">FULL</button>
+		<div class="viewer-width-input-wrapper">
+			<input	id="viewer-width" class="viewer-width-input" type="number" min="240" step="10" required="true"
+					  data-ng-model="viewer.width"
+					  data-ng-readonly="viewer.autoWidth">
+		</div>
+		<button class="viewer-button viewer-button-collapse-menu viewer-icon-chevron-left"
+				data-ng-click="viewer.isSmall = !viewer.isSmall"></button>
     </div>
+
 </header>
 {% endraw %}
 
