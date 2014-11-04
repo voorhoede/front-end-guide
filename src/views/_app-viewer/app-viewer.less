@@ -61,6 +61,10 @@ html,
 	float: left;
 }
 
+.viewer-module-selector button:first-of-type {
+	margin-left: 50px;
+}
+
 .viewer-size-controls {
 	float: right;
 }
@@ -95,7 +99,7 @@ html,
 .site-logo {
 	max-width: 50px;
 	max-height: 40px;
-	padding: 5px 0.3em 0 0.3em;
+	padding: 5px .3em 0 .3em;
 }
 
 .viewer-button {
@@ -258,16 +262,17 @@ html,
 
 	&:before {
 		&:extend(.viewer-icon);
+		position: absolute;
+		right: 0;
+		width: 50px;
+		height: 50px;
+		padding-top: 13px;
 		text-align: center;
 		font-size: 1.4em;
 		background-color: @light-grey;;
-		position: absolute;
-		width: 50px;
-		height: 50px;
-		padding-top: 12.5px;
 		content: '\e8ab';
-		right: 0;
 		z-index: -1;
+		border-left: 3px solid @very-light-grey;
 	}
 }
 
@@ -290,18 +295,15 @@ html,
 	&:focus {
 		outline: none;
 	}
-}
 
-.viewer-header-select-wrapper select::-ms-expand {
-	display: none; /* to ie 10 */
+	&::-ms-expand {
+		display: none; /* to ie 10 */
+	}
+
 }
 
 :-moz-any(.viewer-header-select-wrapper):before {
 	background-color: @light-grey; /* this is necessary for overcome the caret default browser */
 	pointer-events: none; /* https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events  */
 	z-index: 1; /* this is necessary for overcome the pseudo element */
-}
-
-::-moz-focus-inner {
-	border: 0;
 }
