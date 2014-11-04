@@ -217,6 +217,16 @@ html,
 	content: '\e8ab';
 }
 
+.viewer-icon-view:before {
+	&:extend(.viewer-icon);
+	content: '\e699';
+}
+
+.viewer-icon-component:before {
+	&:extend(.viewer-icon);
+	content: '\e628';
+}
+
 .viewer-width-input-wrapper {
 	position: relative;
 	display: block;
@@ -251,11 +261,11 @@ html,
 .viewer-header-select-wrapper {
 	position: relative;
 	display: inline-block;
-	width: 200px;
+	width: 250px;
 	vertical-align: top;
 	color: @dark-green;
 	background: @light-grey;
-	padding: 0 0 0 1em;
+	padding: 0 0 0 50px;
 	font-size: 1em;
 	box-sizing: border-box;
 	z-index: 1;
@@ -273,6 +283,16 @@ html,
 		content: '\e8ab';
 		z-index: -1;
 		border-left: 3px solid @very-light-grey;
+	}
+
+	.viewer-model-type-icon {
+		position: absolute;
+		left: 0;
+		width: 50px;
+		height: 50px;
+		text-align: center;
+		line-height: 2.2em;
+		font-size: 1.4em;
 	}
 }
 

@@ -22,6 +22,10 @@
 
 	<nav class="viewer-module-selector" data-ng-class="{'is-hidden': viewer.isSmall}">
 		<div class="viewer-header-select-wrapper">
+			  <span class="viewer-model-type-icon" data-ng-class="{
+                'viewer-icon-component' : viewer.module.type == 'component',
+                'viewer-icon-view' : viewer.module.type == 'view',
+            }"></span>
 			<select id="viewer-module" class="viewer-header-select" data-ng-model="viewer.module"
 					data-ng-options="module.name group by module.type for (id, module) in viewer.modules"></select>
 
