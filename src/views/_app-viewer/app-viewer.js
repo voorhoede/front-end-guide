@@ -27,6 +27,7 @@ angular.module('app', ['config', 'ngSanitize'])
 		viewer.toggleAnnotations = toggleAnnotations;
 		viewer.toggleAutoWidth = toggleAutoWidth;
 		viewer.width = setAutoWidth();
+		viewer.rootPath = ROOT_PATH;
 
 		MODULES.forEach(function(module){
 			viewer.modules[module.id] = module;
