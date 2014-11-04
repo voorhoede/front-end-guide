@@ -83,8 +83,8 @@ If you want to check the build run `gulp serve` after it.
 	* [ ] Setup task to build individual optimized module scripts? (eg. `dist/components/search-menu/search-menu.min.js`)
 	
 * [ ] **Deployment**
-	* [ ] Task for bumping versions? (json meta files, create git tag)
-	* [ ] Task for updating changelog?
+	* [X] Task for bumping versions? (json meta files, create git tag)
+	* [X] Task for updating changelog?
 	* [ ] Task for archiving distribution to `.zip`?
 	* [ ] Example `.travis.yml` to deploy to GitHub Pages?
 	
