@@ -10,10 +10,13 @@ var jshint = require('gulp-jshint');
 var fs = require('fs');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var inquirer = require('inquirer');
+var karma = require('gulp-karma');
 var lazypipe = require('lazypipe');
 var less = require('gulp-less');
 var minifyHtml = require('gulp-minify-html');
 var newer = require('gulp-newer');
+var nunjucksMarkdown = require('nunjucks-markdown');
 var nunjucksRender = require('./lib/nunjucks-render');
 var path = require('path');
 var prettify = require('gulp-prettify');
@@ -25,34 +28,8 @@ var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
 
 /* Shared configuration (A-Z) */
+var paths = require('./config.js').paths;
 var pkg = require('./package.json');
-var paths = {
-	src: 'src/',
-	srcComponents: 'src/components/',
-	srcVendor: 'src/vendor/',
-	srcViews: 'src/views/',
-	dist: 'dist/',
-	distAssets: 'dist/assets/',
-	amdConfig: './src/amd-config.json'
-};
-paths.assets = [
-	paths.src + 'assets/**/*.*',
-	paths.srcComponents + '*/assets/**/*.*',
-	paths.srcViews + '*/assets/**/*.*'
-];
-// source files are all files directly in module sub directories and core files,
-// excluding abstract files/dirs starting with '_'.
-paths.srcFiles = [
-		paths.src + '*',
-		paths.srcComponents + '*/*',
-		paths.srcViews + '*/*' //,
-//		'!' + paths.src + '_*',
-//		'!' + paths.srcComponents + '_*/*',
-//		'!' + paths.srcViews + '_*/*'
-];
-paths.htmlFiles = paths.srcFiles.map(function(path){ return path + '.html'; });
-paths.jsFiles   = paths.srcFiles.map(function(path){ return path + '.js'; });
-paths.lessFiles = paths.srcFiles.map(function(path){ return path + '.less'; });
 
 /* Register default & custom tasks (A-Z) */
 gulp.task('default', ['build_clean']);
@@ -64,10 +41,13 @@ gulp.task('build_js',['jshint_src'], buildJsTask);
 gulp.task('build_less', buildLessTask);
 gulp.task('build_previews', buildPreviewsTask);
 gulp.task('clean_dist', function (cb) { del([paths.dist], cb); });
+gulp.task('create_module', createModulePrompt);
 gulp.task('jshint', ['jshint_src', 'jshint_node']);
 gulp.task('jshint_node', jshintNodeTask);
 gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
+gulp.task('test_run', testTask('run'));
+gulp.task('test_watch', testTask('watch'));
 gulp.task('watch', ['build', 'serve'], watchTask);
 
 /* Tasks and utils (A-Z) */
@@ -149,8 +129,87 @@ function buildLessTask() {
 
 function configureNunjucks() {
 	var env = nunjucksRender.nunjucks.configure(paths.src);
+	nunjucksMarkdown.register(env);
 	env.addFilter('match', require('./lib/nunjucks-filter-match'));
 	env.addFilter('prettyJson', require('./lib/nunjucks-filter-pretty-json'));
+}
+
+/**
+ * Create a component or a view with files depending on user feedback through inquirer.
+ * if the view or components includes JS, its mapping is added to AMD config.
+ * https://www.npmjs.org/package/inquirer
+ */
+function createModulePrompt(cb){
+	var moduleType, moduleName, modulePath;
+
+	inquirer.prompt([{
+		type: 'list',
+		name: 'moduleType',
+		message: 'Would you like to create a component or a view?',
+		choices:['component', 'view']
+	},{
+		type: 'input',
+		name: 'moduleName',
+		message: function (answer) {
+			moduleType = answer.moduleType;
+			return ['Give the new',moduleType,'a name'].join(' ');
+		},
+		validate: function validateModuleName(moduleName) {
+			var validName = /^[a-z][a-z0-9-_]+$/.test(moduleName);
+			modulePath  = paths.src + moduleType + 's/' + moduleName;
+			var validPath = !fs.existsSync(path.normalize(modulePath));
+			if(!validName){
+				return ['bad', moduleType, 'name'].join(' ');
+			}else if(!validPath){
+				return ['the', moduleType, 'already exists'].join(' ');
+			}
+			return true;
+		}
+	},{
+		type:'checkbox',
+		name:'files',
+		message:'Which types of files do you want to include? Press enter when ready.',
+		choices:[
+			{ name: 'HTML', value: 'html', checked: true },
+			{ name: 'LESS/CSS', value: 'less', checked: true },
+			{ name: 'JavaScript', value: 'js', checked: false },
+			{ name: 'README', value: 'md', checked: true }
+		],
+		validate: function(input){
+			return (input.length) ? true : 'You must select at least one type of file';
+		}
+	}], function createModule(answers) { // callback to inquirer.prompt.
+		var moduleType = answers.moduleType;
+		var moduleName = answers.moduleName;
+		var moduleDir  = [moduleType, moduleName].join('s/');
+
+		gulp.src(
+			// weasel in a test file extension if user asked for a script file.
+			(function (files) {
+				if(files.indexOf('js') >= 0){
+					files.push('test.js');
+				}
+				return files.map(function (extName) {
+					return [paths.src, moduleType + 's/', '_template/*.', extName].join('');
+				});
+			}(answers.files)))
+			.pipe(replace(/MODULE_NAME/g, moduleName))
+			.pipe(rename(function(p){
+				var isTest = /test$/.test(p.basename);
+				if(p.basename !== 'README' && !isTest){p.basename = moduleName; }
+				if(isTest){
+					p.basename = moduleName;
+					p.extname = '.test' + p.extname;
+				}
+			}))
+			.pipe(gulp.dest(modulePath));
+
+		if(answers.files.indexOf('js') >= 0){
+			registerAmdModule(moduleDir, moduleName);
+		}
+		gutil.log(['Successfully created', moduleName, moduleType].join(' '));
+		cb();
+	});
 }
 
 var formatHtml = lazypipe()
@@ -236,9 +295,33 @@ function parsePath(filepath) {
 	};
 }
 
+/**
+ *  Adds a path to amd-config.json for a convenient alias to the module.
+ */
+function registerAmdModule(dirName, moduleName){
+	var config = require(paths.amdConfig);
+	config.paths[dirName] = [dirName, moduleName].join('/');
+	fs.writeFileSync(paths.amdConfig, stringify(config, {space: 4}));
+}
+
 function reloadBrowser(options){
 	// only reload browserSync if active, otherwise causes an error.
 	return gulpif(browserSync.active, browserSync.reload(options));
+}
+
+function testTask(action) {
+	return function () {
+		return gulp.src(
+			// files you put in this array override the files array in karma.conf.js
+			[]
+		).pipe(karma({
+			configFile:paths.karmaConfig,
+			action:action
+		})).on('error', function (err) {
+				throw err;
+			}
+		);
+	};
 }
 
 function serveTask() {
