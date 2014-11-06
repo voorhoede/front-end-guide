@@ -6,7 +6,9 @@ var paths = {
 	srcViews: 'src/views/',
 	dist: 'dist/',
 	distAssets: 'dist/assets/',
-	amdConfig: './src/amd-config.json'
+	amdConfig: './src/amd-config.json',
+	karmaConfig:'./test/karma.conf.js',
+	changelog:'CHANGELOG.md'
 };
 paths.assets = [
 		paths.src + 'assets/**/*.*',

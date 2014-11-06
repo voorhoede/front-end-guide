@@ -11,6 +11,7 @@ var fs = require('fs');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
+var karma = require('gulp-karma');
 var lazypipe = require('lazypipe');
 var less = require('gulp-less');
 var minifyHtml = require('gulp-minify-html');
@@ -45,6 +46,8 @@ gulp.task('jshint', ['jshint_src', 'jshint_node']);
 gulp.task('jshint_node', jshintNodeTask);
 gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
+gulp.task('test_run', testTask('run'));
+gulp.task('test_watch', testTask('watch'));
 gulp.task('watch', ['build', 'serve'], watchTask);
 
 /* Tasks and utils (A-Z) */
@@ -180,12 +183,24 @@ function createModulePrompt(cb){
 		var moduleName = answers.moduleName;
 		var moduleDir  = [moduleType, moduleName].join('s/');
 
-		gulp.src(answers.files.map(function (extName) {
-				return [paths.src, moduleType + 's/', '_template/*.', extName].join('');
-			}))
+		gulp.src(
+			// weasel in a test file extension if user asked for a script file.
+			(function (files) {
+				if(files.indexOf('js') >= 0){
+					files.push('test.js');
+				}
+				return files.map(function (extName) {
+					return [paths.src, moduleType + 's/', '_template/*.', extName].join('');
+				});
+			}(answers.files)))
 			.pipe(replace(/MODULE_NAME/g, moduleName))
 			.pipe(rename(function(p){
-				if(p.basename !== 'README'){ p.basename = moduleName; }
+				var isTest = /test$/.test(p.basename);
+				if(p.basename !== 'README' && !isTest){p.basename = moduleName; }
+				if(isTest){
+					p.basename = moduleName;
+					p.extname = '.test' + p.extname;
+				}
 			}))
 			.pipe(gulp.dest(modulePath));
 
@@ -292,6 +307,21 @@ function registerAmdModule(dirName, moduleName){
 function reloadBrowser(options){
 	// only reload browserSync if active, otherwise causes an error.
 	return gulpif(browserSync.active, browserSync.reload(options));
+}
+
+function testTask(action) {
+	return function () {
+		return gulp.src(
+			// files you put in this array override the files array in karma.conf.js
+			[]
+		).pipe(karma({
+			configFile:paths.karmaConfig,
+			action:action
+		})).on('error', function (err) {
+				throw err;
+			}
+		);
+	};
 }
 
 function serveTask() {
