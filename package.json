@@ -6,7 +6,10 @@
   "private": "yes",
   "scripts": {
     "changelog": "node -e 'require(\"./lib/changelog\")()'",
-    "release": "node ./lib/release.js"
+    "release": "node ./lib/release.js",
+    "release:patch": "node ./lib/release.js patch",
+    "release:minor": "node ./lib/release.js minor",
+    "release:major": "node ./lib/release.js major"
   },
   "repository": {
     "type": "git",
