@@ -9,7 +9,7 @@
         ['HEADER', 'NAV', 'SECTION', 'FOOTER', 'ARTICLE', 'MAIN', 'FIGCAPTION', 'FIGURE', 'ASIDE']));
     </script>
     <![endif]-->
-    <link rel="stylesheet" href="{{ paths.root }}views/_app-viewer/app-viewer.css">
+    <link rel="stylesheet" href="{{ paths.root }}views/_guide-viewer/guide-viewer.css">
 </head>
 <body class="viewer" data-ng-controller="ViewerController as viewer">
 
@@ -84,7 +84,7 @@
             {
                 id: 'app/index',
                 name: 'index',
-                path: 'views/_app-guide/app-guide.html',
+                path: 'views/_guide-index/guide-index.html',
                 type: 'app'
             },
             {
@@ -95,6 +95,6 @@
             }
         ]);
 </script>
-<script>{% include "views/_app-viewer/app-viewer.js" %}</script>
+<script>{% include "views/_guide-viewer/guide-viewer.js" %}</script>
 </body>
 </html>
