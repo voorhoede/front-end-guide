@@ -9,6 +9,7 @@
         ['HEADER', 'NAV', 'SECTION', 'FOOTER', 'ARTICLE', 'MAIN', 'FIGCAPTION', 'FIGURE', 'ASIDE']));
     </script>
     <![endif]-->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css">
     <link rel="stylesheet" href="{{ paths.root }}views/_guide-viewer/guide-viewer.css">
 </head>
 <body class="viewer" data-ng-controller="ViewerController as viewer">
@@ -60,15 +61,30 @@
 
 {% raw %}
 <main class="viewer-content">
-    <section class="viewer-info"
+    <article class="viewer-info"
              data-ng-show="viewer.showInfo"
              data-ng-style="{ 'height': viewer.height+'px' }">
-        <h2>{{ viewer.module.name }} {{ viewer.module.type }}</h2>
-        <p>@todo: add README as html.</p>
-        <p>@todo: add code fragments with syntax highlighting and line numbers.</p>
-        <div data-ng-bind-html="viewer.module.readme"></div>
+        <h1 data-ng-if="!viewer.module.info.readme">{{ viewer.module.name }} {{ viewer.module.type }}</h1>
+        <div data-ng-bind-html="viewer.module.info.readme"></div>
+        <nav>
+            <ul class="viewer-tabs">
+                <li data-ng-repeat="lang in viewer.languages"
+                    data-ng-if="viewer.module.info[lang]">
+                    <button class="viewer-button"
+                            data-ng-class="{ 'is-active': viewer.module.lang == lang }"
+                            data-ng-click="viewer.setModuleLang(lang)">
+                        {{ lang }}
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        <section data-ng-repeat="lang in viewer.languages"
+                 data-ng-if="viewer.module.lang == lang">
+            <h2 class="a11y-sr-only">{{ lang }}</h2>
+            <div data-ng-bind-html="viewer.module.info[lang]"></div>
+        </section>
         <button class="viewer-button viewer-info-close" data-ng-click="viewer.showInfo = false">x</button>
-    </section>
+    </article>
     <iframe class="viewer-frame"
             data-viewer-frame
             data-ng-src="{{ viewer.getModulePath() }}"

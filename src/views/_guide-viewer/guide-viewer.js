@@ -5,7 +5,7 @@ angular.module('app', ['config', 'ngSanitize'])
  * different viewport (frame) sizes. Also adds shortcuts for predefined breakpoints (XS, S, M, L)
  * and enables user to toggle additional info of the active (selected) component.
  */
-	.controller('ViewerController', function($scope, $timeout, $window, ROOT_PATH, MODULES){
+	.controller('ViewerController', function($http, $scope, $timeout, $window, ROOT_PATH, MODULES){
 		'use strict';
 		/* jshint validthis: true */
 		var viewer = this;
@@ -22,12 +22,14 @@ angular.module('app', ['config', 'ngSanitize'])
 		viewer.getModulePath = getModulePath;
 		viewer.header = document.querySelector('[data-viewer-header]');
 		viewer.height = setAutoHeight();
+		viewer.languages = ['template', 'html', 'less', 'css', 'js'];
 		viewer.setWidth = setWidth;
 		viewer.showInfo = false;
 		viewer.toggleAnnotations = toggleAnnotations;
 		viewer.toggleAutoWidth = toggleAutoWidth;
 		viewer.width = setAutoWidth();
 		viewer.rootPath = ROOT_PATH;
+		viewer.setModuleLang = setModuleLang;
 
 		MODULES.forEach(function(module){
 			viewer.modules[module.id] = module;
@@ -43,6 +45,17 @@ angular.module('app', ['config', 'ngSanitize'])
 				$scope.$apply();
 			}
 		}, false);
+
+		function getModuleInfo() {
+			var module = viewer.module;
+			if(!module.info){
+				module.info = {};
+				$http.get(getModulePath().replace('-preview.html', '-info.json'))
+					.then(function(response){
+						module.info = response.data;
+					});
+			}
+		}
 
 		function getModulePath() {
 			if(!viewer.module || !viewer.module.path){ return ''; }
@@ -104,6 +117,12 @@ angular.module('app', ['config', 'ngSanitize'])
 			};
 		}
 
+		function setModuleLang(lang) {
+			if(viewer.module){
+				viewer.module.lang = lang;
+			}
+		}
+
 		/**
 		 * Set viewer to given width (in pixels).
 		 * @param {Number} width    desired width in pixels.
@@ -145,6 +164,9 @@ angular.module('app', ['config', 'ngSanitize'])
 			if(id) {
 				window.location.hash = id;
 				viewer.showAnnotations = false;
+				viewer.showInfo = false;
+				viewer.module.lang = viewer.languages[0];
+				getModuleInfo();
 			}
 		});
 	});
