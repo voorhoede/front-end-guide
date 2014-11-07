@@ -11,6 +11,7 @@ var fs = require('fs');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var inquirer = require('inquirer');
+var karma = require('gulp-karma');
 var lazypipe = require('lazypipe');
 var less = require('gulp-less');
 var minifyHtml = require('gulp-minify-html');
@@ -19,6 +20,7 @@ var nunjucksMarkdown = require('nunjucks-markdown');
 var nunjucksRender = require('./lib/nunjucks-render');
 var path = require('path');
 var prettify = require('gulp-prettify');
+var prism = require('prismjs');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
 var stringify = require('json-stable-stringify');
@@ -35,9 +37,11 @@ gulp.task('default', ['build_clean']);
 gulp.task('build', ['build_html', 'build_js', 'build_less', 'build_assets']);
 gulp.task('build_assets', buildAssetsTask);
 gulp.task('build_clean', function(cb) { runSequence('clean_dist', 'build', cb); });
+gulp.task('build_guide', function(cb) { runSequence(['build', 'build_previews'], 'build_module_info', cb); });
 gulp.task('build_html', buildHtmlTask);
 gulp.task('build_js',['jshint_src'], buildJsTask);
 gulp.task('build_less', buildLessTask);
+gulp.task('build_module_info', buildModuleInfoTask);
 gulp.task('build_previews', buildPreviewsTask);
 gulp.task('clean_dist', function (cb) { del([paths.dist], cb); });
 gulp.task('create_module', createModulePrompt);
@@ -45,6 +49,8 @@ gulp.task('jshint', ['jshint_src', 'jshint_node']);
 gulp.task('jshint_node', jshintNodeTask);
 gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
+gulp.task('test_run', testTask('run'));
+gulp.task('test_watch', testTask('watch'));
 gulp.task('watch', ['build', 'serve'], watchTask);
 
 /* Tasks and utils (A-Z) */
@@ -80,6 +86,27 @@ function buildHtmlTask() {
 		//.pipe(formatHtml())
 		.pipe(gulp.dest(paths.dist))
 		.pipe(reloadBrowser({ stream:true }));
+}
+
+function buildModuleInfoTask() {
+	var marked = require('marked');
+	// @todo: create info files for views as well
+	listDirectories(paths.srcComponents)
+		.filter(function(name){ return (name.substr(0,1) !== '_'); })
+		.map(function(name){
+			var srcBasename  = paths.srcComponents  + name + '/' + name;
+			var distBasename = paths.distComponents + name + '/' + name;
+			var moduleInfo = {
+				name: name,
+				readme  : marked(getFileContents(paths.srcComponents  + name + '/README.md')),
+				html    : highlightCode(getFileContents(distBasename + '.html'), 'markup'),
+				css     : highlightCode(getFileContents(distBasename + '.css'), 'css'),
+				template: highlightCode(getFileContents(srcBasename + '.html'), 'markup'),
+				less    : highlightCode(getFileContents(srcBasename + '.less'), 'css'),
+				js      : highlightCode(getFileContents(srcBasename + '.js'), 'javascript')
+			};
+			fs.writeFileSync(distBasename + '-info.json', JSON.stringify(moduleInfo, null, 4));
+		});
 }
 
 function buildPreviewsTask() {
@@ -180,12 +207,24 @@ function createModulePrompt(cb){
 		var moduleName = answers.moduleName;
 		var moduleDir  = [moduleType, moduleName].join('s/');
 
-		gulp.src(answers.files.map(function (extName) {
-				return [paths.src, moduleType + 's/', '_template/*.', extName].join('');
-			}))
+		gulp.src(
+			// weasel in a test file extension if user asked for a script file.
+			(function (files) {
+				if(files.indexOf('js') >= 0){
+					files.push('test.js');
+				}
+				return files.map(function (extName) {
+					return [paths.src, moduleType + 's/', '_template/*.', extName].join('');
+				});
+			}(answers.files)))
 			.pipe(replace(/MODULE_NAME/g, moduleName))
 			.pipe(rename(function(p){
-				if(p.basename !== 'README'){ p.basename = moduleName; }
+				var isTest = /test$/.test(p.basename);
+				if(p.basename !== 'README' && !isTest){p.basename = moduleName; }
+				if(isTest){
+					p.basename = moduleName;
+					p.extname = '.test' + p.extname;
+				}
 			}))
 			.pipe(gulp.dest(modulePath));
 
@@ -213,6 +252,14 @@ var formatHtml = lazypipe()
 		});
 	});
 
+function getFileContents(path){
+	if(fs.existsSync(path)){
+		return fs.readFileSync(path, 'utf8');
+	} else {
+		return '';
+	}
+}
+
 function getModuleIndex() {
 	return {
 		components: listDirectories(paths.srcComponents).map(function(name){
@@ -232,6 +279,23 @@ function getModuleIndex() {
 			};
 		})
 	};
+}
+
+/**
+ * Use PrismJS in Node: https://github.com/LeaVerou/prism/pull/179
+ * @param {string} code
+ * @param {string} lang
+ * @returns {string}
+ */
+function highlightCode(code, lang){
+	if(!code.length){ return code; }
+	if(lang === 'markup'){
+		// escape markup
+		code = code.replace('<','&lt;');
+	}
+	code = prism.highlight(code, prism.languages[lang]);
+	code = '<pre class="language-' + lang + '"><code>' + code + '</code></pre>';
+	return code;
 }
 
 function htmlModuleData(file) {
@@ -292,6 +356,21 @@ function registerAmdModule(dirName, moduleName){
 function reloadBrowser(options){
 	// only reload browserSync if active, otherwise causes an error.
 	return gulpif(browserSync.active, browserSync.reload(options));
+}
+
+function testTask(action) {
+	return function () {
+		return gulp.src(
+			// files you put in this array override the files array in karma.conf.js
+			[]
+		).pipe(karma({
+			configFile:paths.karmaConfig,
+			action:action
+		})).on('error', function (err) {
+				throw err;
+			}
+		);
+	};
 }
 
 function serveTask() {
