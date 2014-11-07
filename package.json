@@ -66,6 +66,8 @@
     "q": "^1.0.1",
     "requirejs": "^2.1.15",
     "run-sequence": "^1.0.1",
-    "through2": "^0.6.3"
+    "through2": "^0.6.3",
+    "prismjs": "git://github.com/LeaVerou/prism.git#gh-pages",
+    "marked": "^0.3.2"
   }
 }

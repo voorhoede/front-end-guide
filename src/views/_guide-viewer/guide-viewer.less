@@ -21,7 +21,7 @@
 
 @font-face {
 	font-family: 'google-material-icon-font';
-	src: url('fonts/google-material-icon-font/google-material-icon-font.woff');
+	src: url('/assets/views/_guide-viewer/fonts/google-material-icon-font/google-material-icon-font.woff');
 }
 
 html {
@@ -88,6 +88,16 @@ html,
 	overflow-y: scroll;
 	padding: 1em;
 	border-bottom: 1px solid #ccc;
+}
+
+.viewer-tabs {
+	list-style: none;
+	li {
+		display: inline-block;
+	}
+	li + li {
+		margin-left: 5px;
+	}
 }
 
 .viewer-info-close {
