@@ -90,23 +90,24 @@ function buildHtmlTask() {
 
 function buildModuleInfoTask() {
 	var marked = require('marked');
-	// @todo: create info files for views as well
-	listDirectories(paths.srcComponents)
-		.filter(function(name){ return (name.substr(0,1) !== '_'); })
-		.map(function(name){
-			var srcBasename  = paths.srcComponents  + name + '/' + name;
-			var distBasename = paths.distComponents + name + '/' + name;
-			var moduleInfo = {
-				name: name,
-				readme  : marked(getFileContents(paths.srcComponents  + name + '/README.md')),
-				html    : highlightCode(getFileContents(distBasename + '.html'), 'markup'),
-				css     : highlightCode(getFileContents(distBasename + '.css'), 'css'),
-				template: highlightCode(getFileContents(srcBasename + '.html'), 'markup'),
-				less    : highlightCode(getFileContents(srcBasename + '.less'), 'css'),
-				js      : highlightCode(getFileContents(srcBasename + '.js'), 'javascript')
-			};
-			fs.writeFileSync(distBasename + '-info.json', JSON.stringify(moduleInfo, null, 4));
-		});
+	['Components', 'Views'].forEach(function(moduleType){
+		listDirectories(paths['src' + moduleType])
+			.filter(function(name){ return (name.substr(0,1) !== '_'); })
+			.map(function(name){
+				var srcBasename  = paths['src' + moduleType]  + name + '/' + name;
+				var distBasename = paths['dist' + moduleType] + name + '/' + name;
+				var moduleInfo = {
+					name: name,
+					readme  : marked(getFileContents(paths['src' + moduleType]  + name + '/README.md')),
+					html    : highlightCode(getFileContents(distBasename + '.html'), 'markup'),
+					css     : highlightCode(getFileContents(distBasename + '.css'), 'css'),
+					template: highlightCode(getFileContents(srcBasename + '.html'), 'markup'),
+					less    : highlightCode(getFileContents(srcBasename + '.less'), 'css'),
+					js      : highlightCode(getFileContents(srcBasename + '.js'), 'javascript')
+				};
+				fs.writeFileSync(distBasename + '-info.json', JSON.stringify(moduleInfo, null, 4));
+			});
+	});
 }
 
 function buildPreviewsTask() {
@@ -289,10 +290,6 @@ function getModuleIndex() {
  */
 function highlightCode(code, lang){
 	if(!code.length){ return code; }
-	if(lang === 'markup'){
-		// escape markup
-		code = code.replace('<','&lt;');
-	}
 	code = prism.highlight(code, prism.languages[lang]);
 	code = '<pre class="language-' + lang + '"><code>' + code + '</code></pre>';
 	return code;
@@ -388,7 +385,7 @@ function srcFiles(filetype) {
 }
 
 function watchTask () {
-	gulp.watch(paths.htmlFiles, ['build_html']);
+	gulp.watch(paths.htmlFiles, ['build_html', 'build_previews']);
 	gulp.watch(paths.jsFiles,   ['build_js']);
 	gulp.watch(paths.lessFiles, ['build_less']);
 }

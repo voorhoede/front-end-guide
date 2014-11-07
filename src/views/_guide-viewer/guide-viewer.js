@@ -50,7 +50,9 @@ angular.module('app', ['config', 'ngSanitize'])
 			var module = viewer.module;
 			if(!module.info){
 				module.info = {};
-				$http.get(getModulePath().replace('-preview.html', '-info.json'))
+				// @fix use a proper way to ge the info file url:
+				var infoFileUrl = getModulePath().replace('-preview', '').replace('.html', '-info.json');
+				$http.get(infoFileUrl)
 					.then(function(response){
 						module.info = response.data;
 					});
