@@ -1,0 +1,24 @@
+<!-- These HTML examples are only for demo purposes. Use classes directly on your own content. -->
+
+<!-- empty fixed ratio element: -->
+<div class="fixed-ratio" style="padding-bottom:20%">empty fixed ratio (1:5) element</div>
+
+<!-- custom ratio using inline padding-bottom value: -->
+<div class="fixed-ratio" style="padding-bottom:{{ 100/ (920/360) }}%"><!-- 100/ (23/9) -->
+    <img class="fixed-ratio-content" src="http://lorempixel.com/920/360/" alt="random 23:9 image">
+</div>
+
+<!-- common ratios using predefined class: -->
+<div class="fixed-ratio-2x1">
+    <img class="fixed-ratio-content" src="http://lorempixel.com/800/400/" alt="random 2:1 image">
+</div>
+<div class="fixed-ratio-16x9">
+    <img class="fixed-ratio-content" src="http://lorempixel.com/800/450/" alt="random 16:9 image">
+</div>
+<div class="fixed-ratio-4x3">
+    <img class="fixed-ratio-content" src="http://lorempixel.com/800/600/" alt="random 4:3 image">
+</div>
+
+<!-- demo styles -->
+<style type="text/css">div { background-color: black; color:white; margin-top: .5em; }</style>
+
