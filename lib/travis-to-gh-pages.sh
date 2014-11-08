@@ -28,5 +28,5 @@ cp -Rf $HOME/dist/* .
 
  echo "Done updating gh-pages\n"
  else
- echo "Updating gh-pages skipped, because Travis is not notified from master branch."
+ echo "Updating gh-pages skipped, because Travis is not notified from the master branch."
  fi;
