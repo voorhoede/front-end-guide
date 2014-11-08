@@ -2,7 +2,7 @@
 var _ = require('lodash-node');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
-var changed = require('gulp-changed');
+var cached = require('gulp-cached');
 var del = require('del');
 var gulpif = require('gulp-if');
 var filter = require('gulp-filter');
@@ -329,7 +329,7 @@ function jshintNodeTask() {
 
 function jshintSrcTask() {
 	return srcFiles('js')
-		.pipe(changed()) // filter down to changed files only
+		.pipe(cached('hinting')) // filter down to changed files only
 		.pipe(jscs())
 		.pipe(jshint(paths.src + '.jshintrc'))
 		.pipe(jshint.reporter(require('jshint-stylish')));
