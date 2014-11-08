@@ -5,12 +5,14 @@
   "main": "source/index.js",
   "private": "yes",
   "scripts": {
+	"build": "gulp build_guide",
     "changelog": "node -e 'require(\"./lib/changelog\")()'",
     "release": "node ./lib/release.js",
     "release:patch": "node ./lib/release.js patch",
     "release:minor": "node ./lib/release.js minor",
     "release:major": "node ./lib/release.js major",
-    "test": "gulp test_run"
+    "test": "gulp test_run",
+	"travis": "npm run test && npm run build"
   },
   "repository": {
     "type": "git",
