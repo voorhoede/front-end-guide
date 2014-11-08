@@ -1,0 +1,13 @@
+/* app-logo component */
+.app-logo img {
+  width: 1.5em;
+  height: auto;
+}
+@media screen and (min-width: 1000px) {
+  .app-logo img {
+    width: 2.5em;
+  }
+}
+/* /app-logo component */
+
+/*# sourceMappingURL=../../components/app-logo/app-logo.css.map */

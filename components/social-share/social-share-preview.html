@@ -1,0 +1,154 @@
+<!doctype html>
+<html class="no-js" lang="en"><!-- specify language: http://www.w3.org/TR/html401/struct/dirlang.html#h-8.1 -->
+<head prefix="og: http://ogp.me/ns#"><!-- enable Open Graph: http://ogp.me/ -->
+
+    <!-- charset & http-equiv may be set via response header: https://github.com/h5bp/html5-boilerplate/blob/master/doc/html.md#x-ua-compatible -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>social-share preview</title>
+    <meta name="description" content="Manage your front-end project in unique views and reusable components.">
+    <meta name="keywords" content="front-end, guide, patternlab, reusable, components, modules">
+    <meta property="og:image" content="http://voorhoede.github.io/a11y-boilerplate/a11y-boilerplate.png">
+    <meta property="og:url"   content="http://voorhoede.github.io/">
+    <!-- optionally add more Open Graph metadata: http://ogp.me/#metadata -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- specify viewport: https://developers.google.com/speed/docs/insights/ConfigureViewport -->
+    <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+
+    <!-- Enable styling differentiation between JavaScript and non-JavaScript enabled browsers -->
+    <script>(function (e) { e.className = e.className.replace('no-js', 'js'); }(document.documentElement));</script>
+    <!-- Enable styling of HTML5 sectioning elements in legacy browsers. Simplified inline version of HTML5Shiv (https://github.com/aFarkas/html5shiv) for enhanced performance -->
+    <!--[if lt IE 9]>
+    <script>
+        (function (d, a) { var l = a.length; while(l--){ d.createElement(a[l]); } }(document,
+        ['HEADER', 'NAV', 'SECTION', 'FOOTER', 'ARTICLE', 'MAIN', 'FIGCAPTION', 'FIGURE', 'ASIDE']));
+    </script>
+    <![endif]-->
+
+    
+        <!-- Include stylesheets here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
+        <link rel="stylesheet" href="../../assets/index.css">
+    
+</head>
+<body data-module="components/social-share">
+
+
+
+    
+
+
+
+
+
+
+
+
+
+<!-- example usage of macros -->
+<ul data-component="social-share">
+    <li>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgithub.com%2Fvoorhoede%2Ffront-end-guide">
+        Facebook
+    </a>
+</li>
+    <li>
+    <a href="https://plusone.google.com/_/+1/confirm?url=https%3A%2F%2Fgithub.com%2Fvoorhoede%2Ffront-end-guide">
+        Google+
+    </a>
+</li>
+    <li>
+    <a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fgithub.com%2Fvoorhoede%2Ffront-end-guide&title=front-end-guide&summary=Manage%20your%20front-end%20project%20in%20unique%20views%20and%20reusable%20components.&source=De%20Voorhoede">
+        LinkedIn
+    </a>
+</li>
+    <li>
+    <a href="http://pinterest.com/pin/create/button/?url=https%3A%2F%2Fgithub.com%2Fvoorhoede%2Ffront-end-guide">
+        Pinterest
+    </a>
+</li>
+    <li>
+    <a href="http://twitter.com/intent/tweet?url=https%3A%2F%2Fgithub.com%2Fvoorhoede%2Ffront-end-guide&text=Manage%20your%20front-end%20project%20in%20unique%20views%20and%20reusable%20components.">
+        Twitter
+    </a>
+</li>
+</ul>
+
+
+
+
+
+
+    <!-- Include scripts here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
+    <script src="../../assets/index.js"></script>
+    <script>(function(doc){
+	'use strict';
+
+	var isCapableBrowser = ('classList' in doc.documentElement);
+	if(!isCapableBrowser){ return; }
+
+	var moduleId = doc.querySelector('[data-module]').getAttribute('data-module');
+	var components = doc.querySelectorAll('[data-component]');
+
+	annotateComponents();
+
+	if(window.location.href.indexOf('annotate') > 0){ toggleAnnotations(true); }
+	window.toggleAnnotations = toggleAnnotations;
+	//toggleAnnotations();
+
+	// setup two-way communication with parent frame
+	if(window.top) {
+		window.addEventListener('load', function (event) {
+			var path = window.location.pathname;
+			window.top.postMessage({
+				moduleId: moduleId
+			}, '*');
+		}, false);
+
+		window.addEventListener('message', function(event) {
+			var message = event.data;
+			if(message.fromViewer && message.showAnnotations !== undefined){
+				toggleAnnotations(message.showAnnotations);
+			}
+		});
+	}
+
+	function annotateComponents() {
+		[].forEach.call(components, function(component){
+			var name = component.getAttribute('data-component');
+			var label = doc.createElement('a');
+			label.innerHTML = name;
+			label.href = '../../components/' + name + '/' + name + '-preview.html';
+			label.classList.add('debug-label');
+			component.appendChild(label);
+		});
+	}
+
+	function toggleAnnotations(show) {
+		[].forEach.call(components, function(component){
+			component.classList.toggle('debug-component', show);
+		});
+	}
+}(document));</script>
+    <style type="text/css">
+.debug-component {
+	outline: 2px solid black;
+	outline-offset: -2px;
+}
+
+.debug-label {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 999;
+	color: white !important;
+	padding: .2em .5em;
+	background: black;
+}
+
+.debug-component .debug-label {
+	display: block;
+}</style>
+
+</body>
+</html>

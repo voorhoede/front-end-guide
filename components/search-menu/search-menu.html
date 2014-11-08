@@ -1,0 +1,28 @@
+<!-- search-menu component -->
+<!-- Mark search controls for enhanced a11y: http://www.w3.org/TR/wai-aria/roles#search -->
+<div role="search" class="search-menu"
+     data-search-menu
+     data-expandible-open-on-focus="true"
+     data-expandible-close-on-blur="true"
+     data-component="search-menu">
+    <a id="search" rel="search" href="/views/search/search.html"
+       class="menu-link"
+       data-expandible-handle="toggle">
+        <span class="search-menu-open  app-icon icon-search"></span>
+        <span class="search-menu-close app-icon icon-cross"></span>
+        <span class="a11y-sr-only">Search</span>
+    </a>
+    <form method="GET" action="/views/search/search.html"
+          class="search-menu-form"
+          data-expandible-content>
+        <label>
+            <span class="a11y-sr-only">Keywords</span>
+            <input type="search" name="q" placeholder="keyword(s)" />
+        </label>
+        <button>
+            <span class="app-icon icon-search"></span>
+            <span class="a11y-sr-only">Search front-end-guide</span>
+        </button>
+    </form>
+</div>
+<!-- /search-menu -->
