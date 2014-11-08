@@ -107,7 +107,7 @@ and optionally push a tagged commit.
 * [ ] **Static assets** (fonts, images, ...)
 	* [X] Copy assets from `src/assets/*` and `src/{moduleType}/{moduleName}/assets/*` to `dist/assets/{moduleType}/{moduleName}`.
 	* [ ] Optimize assets (minify images, ...)?
-	* [ ] Setup assets watcher.
+	* [X] Setup assets watcher.
 
 * [ ] **HTML Templates**
 	* [X] Implement Nunjucks templating engine.
@@ -117,7 +117,7 @@ and optionally push a tagged commit.
 	* [X] Make module info (name, type, ...) available as data (eg. `{{ module.name }}`, `{{ module.html }}`).
 	* [X] Setup HTML template watcher.
 	* [X] Generate HTML Previews.
-	* [ ] Build component viewer, with component preview, readme and highlighted syntax of component files (html, css, js)? Option to view with shared assets (css/js) and module's own output only?
+	* [X] Build component viewer, with component preview, readme and highlighted syntax of component files (html, css, js).
 
 * [ ] **Stylesheets**
 	* [X] Setup LESS compiler.
@@ -145,4 +145,5 @@ and optionally push a tagged commit.
 * LESS/CSS sourcemaps should be external files.
 * Only LESS files directly in module folders are watched but not in sub folders (`like components/app-core-styles/styles/*`).
 * Modules should be watched and compiled individually?
-* `jshintSrcTask` should be renamed as now also includes `jscs()`.
+* Move README sections into separate files in `docs/`?
+* Move TO DO list to Github Issues?

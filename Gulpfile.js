@@ -2,6 +2,7 @@
 var _ = require('lodash-node');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
+var changed = require('gulp-changed');
 var del = require('del');
 var gulpif = require('gulp-if');
 var filter = require('gulp-filter');
@@ -19,6 +20,7 @@ var newer = require('gulp-newer');
 var nunjucksMarkdown = require('nunjucks-markdown');
 var nunjucksRender = require('./lib/nunjucks-render');
 var path = require('path');
+var plumber = require('gulp-plumber');
 var prettify = require('gulp-prettify');
 var prism = require('prismjs');
 var rename = require('gulp-rename');
@@ -60,7 +62,7 @@ gulp.task('watch', ['build', 'serve'], watchTask);
  * The `assets/` string is removed from the original path as the destination is an `assets/` dir itself.
  */
 function buildAssetsTask() {
-	paths.assets.map(function(path){
+	paths.assetFiles.map(function(path){
 		return gulp.src(path, { base: paths.src })
 			.pipe(newer(paths.distAssets))
 			.pipe(rename(function(p){
@@ -77,12 +79,14 @@ function buildHtmlTask() {
 	configureNunjucks();
 	var moduleIndex = getModuleIndex();
 	return srcFiles('html')
+		.pipe(plumber()) // prevent pipe break on nunjucks render error
 		.pipe(nunjucksRender(function(file){
 			return _.extend(
 				htmlModuleData(file),
 				{ moduleIndex: moduleIndex }
 			);
 		}))
+		.pipe(plumber.stop())
 		//.pipe(formatHtml())
 		.pipe(gulp.dest(paths.dist))
 		.pipe(reloadBrowser({ stream:true }));
@@ -114,8 +118,10 @@ function buildPreviewsTask() {
 	configureNunjucks();
 	var templateHtml = fs.readFileSync(paths.srcViews + '_component-preview/component-preview.html', 'utf8');
 	return gulp.src(paths.srcComponents + '*/*.html', { base: paths.src })
+		.pipe(plumber()) // prevent pipe break on nunjucks render error
 		.pipe(nunjucksRender(htmlModuleData))
 		.pipe(nunjucksRender(htmlModuleData, templateHtml))
+		.pipe(plumber.stop())
 		.pipe(rename(function(p){ p.basename += '-preview'; }))
 		.pipe(gulp.dest(paths.dist));
 }
@@ -142,13 +148,16 @@ function buildLessTask() {
 	// @fix sourcemaps: copy less files to dist?
 	return srcFiles('less')
 		.pipe(sourcemaps.init())
+		.pipe(plumber()) // prevent pipe break on less parsing
 		.pipe(less())
 		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
 		.pipe(sourcemaps.write({includeContent: false, sourceRoot: '' }))
+		.pipe(plumber.stop())
 		.pipe(rename(function(p){
 			if(p.dirname === '.'){ p.dirname = 'assets'; } // output root src files to assets dir
 		}))
-		.pipe(gulp.dest(paths.dist))
+		.pipe(gulp.dest(paths.dist)) // write the css and source maps
+		.pipe(filter('**/*.css')) // filtering stream to only css files
 		.pipe(reloadBrowser({ stream:true }));
 }
 
@@ -320,6 +329,7 @@ function jshintNodeTask() {
 
 function jshintSrcTask() {
 	return srcFiles('js')
+		.pipe(changed()) // filter down to changed files only
 		.pipe(jscs())
 		.pipe(jshint(paths.src + '.jshintrc'))
 		.pipe(jshint.reporter(require('jshint-stylish')));
@@ -385,6 +395,7 @@ function srcFiles(filetype) {
 }
 
 function watchTask () {
+	gulp.watch(paths.assetFiles, ['build_assets']);
 	gulp.watch(paths.htmlFiles, ['build_html', 'build_previews']);
 	gulp.watch(paths.jsFiles,   ['build_js']);
 	gulp.watch(paths.lessFiles, ['build_less']);

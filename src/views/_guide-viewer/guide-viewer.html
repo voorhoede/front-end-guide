@@ -86,6 +86,7 @@
         <button class="viewer-button viewer-info-close" data-ng-click="viewer.showInfo = false">x</button>
     </article>
     <iframe class="viewer-frame"
+            sandbox="allow-same-origin allow-scripts"
             data-viewer-frame
             data-ng-src="{{ viewer.getModulePath() }}"
             data-ng-attr-width="{{ viewer.width }}"
