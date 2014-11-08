@@ -122,7 +122,8 @@ and optionally push a tagged commit.
 * [ ] **Stylesheets**
 	* [X] Setup LESS compiler.
 	* [X] Setup autoprefixer.
-	* [ ] Setup LESS/CSS sourcemaps.
+	* [X] Setup LESS/CSS sourcemaps.
+	* [ ] Setup CSS minification.
 	* [X] Setup LESS watcher.
 	* [ ] Setup LESS linter using external `.recessrc` file?
 	
@@ -142,7 +143,6 @@ and optionally push a tagged commit.
 	
 ## Issues
 
-* LESS/CSS sourcemaps should be external files.
 * Only LESS files directly in module folders are watched but not in sub folders (`like components/app-core-styles/styles/*`).
 * Modules should be watched and compiled individually?
 * Move README sections into separate files in `docs/`?

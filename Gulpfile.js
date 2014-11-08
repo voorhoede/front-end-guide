@@ -39,7 +39,7 @@ gulp.task('default', ['build_clean']);
 gulp.task('build', ['build_html', 'build_js', 'build_less', 'build_assets']);
 gulp.task('build_assets', buildAssetsTask);
 gulp.task('build_clean', function(cb) { runSequence('clean_dist', 'build', cb); });
-gulp.task('build_guide', function(cb) { runSequence(['build', 'build_previews'], 'build_module_info', cb); });
+gulp.task('build_guide', function(cb) { runSequence('build_clean', 'build_previews', 'build_module_info', cb); });
 gulp.task('build_html', buildHtmlTask);
 gulp.task('build_js',['jshint_src'], buildJsTask);
 gulp.task('build_less', buildLessTask);
@@ -53,7 +53,7 @@ gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
 gulp.task('test_run', testTask('run'));
 gulp.task('test_watch', testTask('watch'));
-gulp.task('watch', ['build', 'serve'], watchTask);
+gulp.task('watch', function(cb) { runSequence(['build_guide', 'serve'], watchTask); });
 
 /* Tasks and utils (A-Z) */
 
@@ -145,13 +145,12 @@ function buildJsTask(cb) {
 }
 
 function buildLessTask() {
-	// @fix sourcemaps: copy less files to dist?
 	return srcFiles('less')
 		.pipe(sourcemaps.init())
 		.pipe(plumber()) // prevent pipe break on less parsing
 		.pipe(less())
 		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
-		.pipe(sourcemaps.write({includeContent: false, sourceRoot: '' }))
+		.pipe(sourcemaps.write('.', {includeContent: true, sourceRoot: '' }))
 		.pipe(plumber.stop())
 		.pipe(rename(function(p){
 			if(p.dirname === '.'){ p.dirname = 'assets'; } // output root src files to assets dir
