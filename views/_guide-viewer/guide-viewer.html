@@ -16,12 +16,9 @@
 
 
 <header class="viewer-header" data-viewer-header data-ng-class="{ 'is-small': viewer.isCompact }">
-    <!--<h1 class="viewer-title">Front-end Guide</h1>-->
-	<img class="viewer-logo" src="{{ viewer.rootPath }}assets/views/_guide-viewer/voorhoede-logo.svg" alt="De Voorhoede"
-		data-ng-class="{ 'is-clickable' : viewer.isCompact }"
-		data-ng-click="viewer.isCompact = false">
-
-	<nav class="viewer-module-selector" data-ng-class="{'is-hidden': viewer.isCompact}">
+	<img alt="De Voorhoede" class="viewer-logo"
+         data-ng-src="{{ viewer.rootPath }}assets/views/_guide-viewer/voorhoede-logo.svg">
+	<nav class="viewer-module-selector">
 		<div class="viewer-header-select-wrapper">
 			  <span class="viewer-model-type-icon" data-ng-class="{
                 'viewer-icon-component' : viewer.module.type == 'component',
@@ -38,7 +35,7 @@
         <a data-ng-href="{{ viewer.getModulePath() }}" target="_blank" title="open module in new window"
            class="viewer-link viewer-icon-launch"></a>
     </nav>
-    <div class="viewer-size-controls" data-ng-class="{'is-hidden': viewer.isCompact}">
+    <div class="viewer-size-controls">
         <button class="viewer-button"
                 data-ng-repeat="breakpoint in ::viewer.breakpoints"
                 data-ng-class="{ 'is-active': (viewer.width == breakpoint.width) }"
@@ -52,8 +49,6 @@
 					  data-ng-model="viewer.width"
 					  data-ng-readonly="viewer.autoWidth">
 		</div>
-		<button class="viewer-button viewer-button-collapse-menu viewer-icon-chevron-left"
-				data-ng-click="viewer.isCompact = !viewer.isCompact"></button>
     </div>
 
 </header>
