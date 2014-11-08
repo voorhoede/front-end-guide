@@ -13,13 +13,13 @@
 }
 
 // standard classes commonly used ratios
-.prefixed-ratio(@ratio){
+.fixed-ratio(@ratio){
 	&:extend(.fixed-ratio);
 	@padding: 100/@ratio;
 	padding-bottom: ~"@{padding}%";
 }
-.fixed-ratio-2x1 	{ .prefixed-ratio(2/1); }
-.fixed-ratio-4x3 	{ .prefixed-ratio(4/3); }
-.fixed-ratio-16x9 	{ .prefixed-ratio(16/9); }
+.fixed-ratio-2x1 	{ .fixed-ratio(2/1); }
+.fixed-ratio-4x3 	{ .fixed-ratio(4/3); }
+.fixed-ratio-16x9 	{ .fixed-ratio(16/9); }
 
 /* /fixed-ratio component */

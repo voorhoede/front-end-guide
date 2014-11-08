@@ -16,13 +16,13 @@ angular.module('app', ['config', 'ngSanitize'])
 			{ name: 'M', width: 620, icon: 'laptop' },
 			{ name: 'L', width: 960, icon: 'desktop' }
 		];
-		viewer.showAnnotations = false;
-		viewer.modules = {};
 		viewer.frame = document.querySelector('[data-viewer-frame]');
 		viewer.getModulePath = getModulePath;
 		viewer.header = document.querySelector('[data-viewer-header]');
 		viewer.height = setAutoHeight();
+		viewer.info = { isCompact: true };
 		viewer.languages = ['template', 'html', 'less', 'css', 'js'];
+		viewer.modules = {};
 		viewer.setWidth = setWidth;
 		viewer.showInfo = false;
 		viewer.toggleAnnotations = toggleAnnotations;
@@ -30,6 +30,7 @@ angular.module('app', ['config', 'ngSanitize'])
 		viewer.width = setAutoWidth();
 		viewer.rootPath = ROOT_PATH;
 		viewer.setModuleLang = setModuleLang;
+		viewer.showAnnotations = false;
 
 		MODULES.forEach(function(module){
 			viewer.modules[module.id] = module;
@@ -166,7 +167,7 @@ angular.module('app', ['config', 'ngSanitize'])
 			if(id) {
 				window.location.hash = id;
 				viewer.showAnnotations = false;
-				viewer.showInfo = false;
+				viewer.info.isOpen = false;
 				viewer.module.lang = viewer.languages[0];
 				getModuleInfo();
 			}

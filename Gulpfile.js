@@ -22,7 +22,7 @@ var nunjucksRender = require('./lib/nunjucks-render');
 var path = require('path');
 var plumber = require('gulp-plumber');
 var prettify = require('gulp-prettify');
-var prism = require('prismjs');
+var prism = require('./lib/prism');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
 var stringify = require('json-stable-stringify');
@@ -105,7 +105,7 @@ function buildModuleInfoTask() {
 					readme  : marked(getFileContents(paths['src' + moduleType]  + name + '/README.md')),
 					html    : highlightCode(getFileContents(distBasename + '.html'), 'markup'),
 					css     : highlightCode(getFileContents(distBasename + '.css'), 'css'),
-					template: highlightCode(getFileContents(srcBasename + '.html'), 'markup'),
+					template: highlightCode(getFileContents(srcBasename + '.html'), 'twig'),
 					less    : highlightCode(getFileContents(srcBasename + '.less'), 'css'),
 					js      : highlightCode(getFileContents(srcBasename + '.js'), 'javascript')
 				};
