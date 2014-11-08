@@ -8,16 +8,7 @@
 @dark-green: #1b363b;
 @light-green: #ccd5d7;
 @medium-yellow: #eddb60;
-
 @button-spacing: 5px;
-
-.is-hidden {
-	display: none;
-}
-
-.is-clickable:hover {
-	cursor: pointer;
-}
 
 @font-face {
 	font-family: 'google-material-icon-font-custom';
@@ -108,7 +99,7 @@ html,
 .viewer-tabs {
 	list-style: none;
 	li { display: inline-block; }
-	li + li { margin-left: 5px; }
+	li + li { margin-left: @button-spacing; }
 }
 
 .viewer-button {
