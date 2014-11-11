@@ -17,7 +17,7 @@ This project requires [NodeJS](http://nodejs.org/) and NPM (comes with NodeJS) f
 
 	$ npm install
     
-The front-end vendor components are managed with [Bower](http://bower.io/) and can be isntall via:
+The front-end vendor components are managed with [Bower](http://bower.io/) and can be install via:
 
 	$ bower install
 
@@ -80,13 +80,58 @@ yet exist. This script's location is `lib/changelog.js`.
 
 After generating the changelog, you have the opportunity to modify it as you see fit. Do 
 however refrain from editing the heading that displays the version. Example:
-> \#\# 0.0.0 (2014-11-05)
+> \#\# 0.0.1 (2014-11-05)
 
 This heading is used as a reference point to check if an update of the log needs to take place. If you
 mess with it, expect to see duplicate entries in the changelog.
 
 When you're done editing, you can commit the changes to the log and do `npm run release` to create 
 and optionally push a tagged commit.
+
+### Build with Travis CI
+
+A (public) Github repository can easily be build automatically with [Travis CI](https://travis-ci.org):
+
+1. [Enable your project in Travis CI](https://travis-ci.org/getting_started). 
+2. [Configure Travis](http://docs.travis-ci.com/user/build-configuration/#.travis.yml-file%3A-what-it-is-and-how-it-is-used) using `.travis.yml` to automatically run our tests and create a build:
+
+		# .travis.yml
+		language: node_js
+		node_js:
+		- '0.10'
+		before_install:
+		- npm install -g bower
+		- bower install
+    	script: npm run test && npm run build
+
+#### Automatically deploy to Github Pages
+
+We can use Travis to automatically publish our build to [Github Pages](https://pages.github.com/).
+Whenever changes are pushed to a Github repository's gh-pages branch, Github automatically deploys these.
+
+1. [Create a gh-pages branch](https://help.github.com/articles/creating-project-pages-manually/).
+2. [Generate an access token](https://help.github.com/articles/creating-an-access-token-for-command-line-use/). Since we don't want to manually update this branch every time we make changes, we'll use Travis to automate this. We'll use the token to grant Travis permission to push to our project's repository. Tip: Store the token somewhere safe.
+3. [Install Travis encrypter](http://docs.travis-ci.com/user/encryption-keys/) by running `gem install travis`. We need to encrypt our token to keep it safe.
+4. **Encrypt the gh-token** and add it to your configure file by running:
+
+		travis encrypt -r username/projectname GH_TOKEN=YoUrToKeN1VZHg5PRfEeRS4F8NbtmuTbTX8kQ3yG --add env.global
+		
+	Your `.travis.yml` should now contain an `env.global.secure` value.
+		
+5. **Trigger deploy to gh-pages**. The `lib/travis-to-gh-pages.sh` uses the encrypted token to push Travis build to the gh-pages branch. To trigger this script we add this to our Travis configuration:
+	
+		# .travis.yml
+		# ...
+    	script: npm run test && npm run build && ./lib/travis-to-gh-pages.sh
+    	env:
+    	  global:
+    	    secure: eNcRyPtEdGhToKeNaSaVeRyLoNgStRiNg
+    	    
+    Note: The deploy script also generates a README with a link to the published project on username.github.io/projectname.
+    
+    Note: By default [Github Pages ignores all files and directories starting with an underscore](https://help.github.com/articles/files-that-start-with-an-underscore-are-missing/). To prevent this the deploy script adds a `.nojekyll` file to gh-pages.
+
+
 
 ## To Do
 
@@ -96,6 +141,7 @@ and optionally push a tagged commit.
 	* [ ] How to manage vendor components?
 	* [ ] How to create new release?
 	* [ ] How to change or extend automated tasks?
+	* [X] How to automatically build distribution with Travis
 
 * [ ] **App structure**
 	* [X] Source files by module type: `components`, `views`, `vendor`.
