@@ -35,7 +35,7 @@ var paths = require('./config.js').paths;
 var pkg = require('./package.json');
 
 /* Register default & custom tasks (A-Z) */
-gulp.task('default', ['build_clean']);
+gulp.task('default', ['build_guide']);
 gulp.task('build', ['build_html', 'build_js', 'build_less', 'build_assets']);
 gulp.task('build_assets', buildAssetsTask);
 gulp.task('build_clean', function(cb) { runSequence('clean_dist', 'build', cb); });

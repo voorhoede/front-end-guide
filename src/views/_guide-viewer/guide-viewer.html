@@ -99,6 +99,12 @@
 <script>
     angular.module('config',[])
         .constant('ROOT_PATH', '{{ paths.root }}')
+        .constant('BREAKPOINTS', [
+                { name: 'XS', width: 320, icon: 'mobile' },
+                { name: 'S', width: 520, icon: 'tablet' },
+                { name: 'M', width: 620, icon: 'laptop' },
+                { name: 'L', width: 960, icon: 'desktop' }
+            ])
         .constant('MODULES', [
             {# create list of modules based on module index #}
             {% for item in moduleIndex.components | match('^[a-z]', 'name') %}

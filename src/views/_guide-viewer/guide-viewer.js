@@ -5,17 +5,12 @@ angular.module('app', ['config', 'ngSanitize'])
  * different viewport (frame) sizes. Also adds shortcuts for predefined breakpoints (XS, S, M, L)
  * and enables user to toggle additional info of the active (selected) component.
  */
-	.controller('ViewerController', function($http, $scope, $timeout, $window, ROOT_PATH, MODULES){
+	.controller('ViewerController', function($http, $scope, $timeout, $window, BREAKPOINTS, ROOT_PATH, MODULES){
 		'use strict';
 		/* jshint validthis: true */
 		var viewer = this;
 		viewer.autoWidth = true;
-		viewer.breakpoints = [
-			{ name: 'XS', width: 320, icon: 'mobile' },
-			{ name: 'S', width: 520, icon: 'tablet' },
-			{ name: 'M', width: 620, icon: 'laptop' },
-			{ name: 'L', width: 960, icon: 'desktop' }
-		];
+		viewer.breakpoints = BREAKPOINTS;
 		viewer.frame = document.querySelector('[data-viewer-frame]');
 		viewer.getModulePath = getModulePath;
 		viewer.header = document.querySelector('[data-viewer-header]');
