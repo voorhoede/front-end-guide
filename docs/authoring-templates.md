@@ -63,3 +63,7 @@ If you've created a custom home view and want to make this the main view simply 
 ## Default template
 
 New modules can be generated using `gulp create_module`. Depending on the module type selected in this task, it creates a module based on the `src/components/_template/` or `src/views/_template/`. These directories contain the [component HTML template](../src/components/_template/template.html) and [view HTML template](../src/views/_template/template.html). You can modify these as you want. The `MODULE_NAME` constant is automatically substituted by the name of the new module.
+
+## Render templates
+
+All templates are rendered by running `gulp build_html`. If you want to author templates and see the changes live in the browser use `gulp watch`.

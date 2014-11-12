@@ -6,38 +6,29 @@
 
 Manage your front-end project in unique views and reusable components.
 
-## Getting started
 
-* For boilerplate development: Fork and clone this repository.
-* For scaffolding a project: Download this source and copy it into your project repository.
+## Kick start
 
-### Install dependencies
-
-This project requires [NodeJS](http://nodejs.org/) and NPM (comes with NodeJS) for the development tools. Install those using:
+**Install all dependencies**
 
 	$ npm install
-    
-The front-end vendor components are managed with [Bower](http://bower.io/) and can be install via:
-
 	$ bower install
 
-### Develop 
+**Build and watch**
 
-You can start a file watcher which rebuilds on every change and a development server which reloads on changes using:
- 
-    $ gulp watch
+	$ gulp watch
 
-### Deploy
+**Deploy locally**
 
-If you only want to create a new distribution without a watcher or a server you can run:
- 
-	$ gulp build_clean
+	$ gulp build_guide
+	$ gulp serve
 
-If you want to check the build run `gulp serve` after it.
+Want installation guide in more detail? Read [Getting started](docs/getting-started.md).
 
 
 ## Documentation
 
+* [Getting started](docs/getting-started.md)
 * [Authoring HTML templates](docs/authoring-templates.md)
 * [Build with Travis CI](docs/build-with-travis-ci.md)
 * [Changelog](docs/changelog.md)
