@@ -38,6 +38,7 @@ If you want to check the build run `gulp serve` after it.
 
 ## Documentation
 
+* [Authoring HTML templates](docs/authoring-templates.md)
 * [Build with Travis CI](docs/build-with-travis-ci.md)
 * [Changelog](docs/changelog.md)
 * [Versioning](docs/versioning.md)
