@@ -6,8 +6,15 @@
 
 Manage your front-end project in unique views and reusable components.
 
+[View demo](http://voorhoede.github.io/front-end-guide/)
+
 
 ## Kick start
+
+**Get a copy**
+
+[Fork](https://github.com/voorhoede/front-end-guide/fork) or 
+[download](https://github.com/voorhoede/front-end-guide/archive/master.zip).
 
 **Install all dependencies**
 
