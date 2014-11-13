@@ -5,14 +5,14 @@
   "main": "source/index.js",
   "private": "yes",
   "scripts": {
-	"build": "gulp build_guide",
+    "build": "gulp build_guide",
     "changelog": "node -e 'require(\"./lib/changelog\")()'",
     "release": "node ./lib/release.js",
     "release:patch": "node ./lib/release.js patch",
     "release:minor": "node ./lib/release.js minor",
     "release:major": "node ./lib/release.js major",
     "test": "gulp test_run",
-	"travis": "npm run test && npm run build && ./lib/travis-to-gh-pages.sh"
+    "travis": "npm run test && npm run build && ./lib/travis-to-gh-pages.sh"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "del": "^0.1.3",
     "gulp": "^3.8.8",
     "gulp-autoprefixer": "^1.0.1",
+    "gulp-cached": "^1.0.1",
     "gulp-debug": "^1.0.1",
     "gulp-filter": "^1.0.2",
     "gulp-if": "^1.2.5",
@@ -49,6 +50,7 @@
     "gulp-less": "^1.3.6",
     "gulp-minify-html": "^0.1.6",
     "gulp-newer": "^0.3.0",
+    "gulp-plumber": "^0.6.6",
     "gulp-prettify": "^0.3.0",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.0",
@@ -64,15 +66,15 @@
     "karma-requirejs": "^0.2.2",
     "lazypipe": "^0.2.2",
     "lodash-node": "^2.4.1",
+    "marked": "^0.3.2",
+    "mkdirp": "^0.5.0",
     "nunjucks": "^1.1.0",
     "nunjucks-markdown": "^0.5.2",
+    "prismjs": "git://github.com/LeaVerou/prism.git#gh-pages",
     "q": "^1.0.1",
     "requirejs": "^2.1.15",
+    "rimraf": "^2.2.8",
     "run-sequence": "^1.0.1",
-    "through2": "^1.1.1",
-    "prismjs": "git://github.com/LeaVerou/prism.git#gh-pages",
-    "marked": "^0.3.2",
-    "gulp-plumber": "^0.6.6",
-    "gulp-cached": "^1.0.1"
+    "through2": "^1.1.1"
   }
 }
