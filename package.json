@@ -5,14 +5,14 @@
   "main": "source/index.js",
   "private": "yes",
   "scripts": {
-	"build": "gulp build_guide",
+    "build": "gulp build_guide",
     "changelog": "node -e 'require(\"./lib/changelog\")()'",
     "release": "node ./lib/release.js",
     "release:patch": "node ./lib/release.js patch",
     "release:minor": "node ./lib/release.js minor",
     "release:major": "node ./lib/release.js major",
     "test": "gulp test_run",
-	"travis": "npm run test && npm run build && ./lib/travis-to-gh-pages.sh"
+    "travis": "npm run test && npm run build && ./lib/travis-to-gh-pages.sh"
   },
   "repository": {
     "type": "git",
@@ -73,6 +73,7 @@
     "prismjs": "git://github.com/LeaVerou/prism.git#gh-pages",
     "marked": "^0.3.2",
     "gulp-plumber": "^0.6.6",
-    "gulp-cached": "^1.0.1"
+    "gulp-cached": "^1.0.1",
+    "gulp-recess": "^1.1.1"
   }
 }
