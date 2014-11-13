@@ -52,6 +52,7 @@
     "gulp-newer": "^0.3.0",
     "gulp-plumber": "^0.6.6",
     "gulp-prettify": "^0.3.0",
+    "gulp-recess": "^1.1.1",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.0",
     "gulp-sourcemaps": "^1.2.4",
@@ -66,17 +67,16 @@
     "karma-requirejs": "^0.2.2",
     "lazypipe": "^0.2.2",
     "lodash-node": "^2.4.1",
+    "marked": "^0.3.2",
+    "minimist": "^1.1.0",
     "mkdirp": "^0.5.0",
     "nunjucks": "^1.1.0",
     "nunjucks-markdown": "^0.5.2",
+    "prismjs": "git://github.com/LeaVerou/prism.git#gh-pages",
     "q": "^1.0.1",
     "requirejs": "^2.1.15",
     "rimraf": "^2.2.8",
     "run-sequence": "^1.0.1",
-    "through2": "^1.1.1",
-    "prismjs": "git://github.com/LeaVerou/prism.git#gh-pages",
-    "marked": "^0.3.2",
-    "gulp-plumber": "^0.6.6",
-    "gulp-recess": "^1.1.1"
+    "through2": "^1.1.1"
   }
 }
