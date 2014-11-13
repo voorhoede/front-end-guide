@@ -7,20 +7,28 @@ The front-end guide uses the [AMD](https://github.com/amdjs/amdjs-api/blob/maste
 
 AMD allows us to define each module as a factory which can require other modules as dependencies. Using the AMD signature `define([/*deps*/], function factory(/*deps*/){ /*module behavior*/ });` we can for instance define a component like:
 
+```js
+
 	// src/components/my-component/my-component.js
 	define([], function myComponent(){ // function name is only for easy debugging		return {
 			greet: function(message){ return 'hello ' + message; }	
 		}
 	});
+```
 	
 Views and components can require each other:
+
+```js
 
 	// src/views/my-view/my-view.js
 	define(['components/my-component'], function(myComponent){
 		window.alert( myComponent.greet('my-view') );
 	});
+```
 
 Modules can also require vendor (third party) components:
+
+```js
 
 	// src/components/search-menu/search-menu.js
 	define(['expandible'], function searchMenu(Expandible){
@@ -28,7 +36,7 @@ Modules can also require vendor (third party) components:
 		var menu = document.querySelector('[data-search-menu]');
 		return new Expandible(menu);
 	});
-
+```
 
 ## AMD configuration
 
@@ -42,18 +50,24 @@ The front-end guide assumes [`src/index.js`](../src/index.js) to be the main scr
 
 Modules are required in a module by using their filepath in a module's array of dependencies. In the front-end guide the `baseUrl` in the AMD config is forced to `src/`, so all paths are relative to `src/`. To prevent having to use the filepaths with the module name in it twice (like components/my-component/my-component) we define aliases as [paths](http://requirejs.org/docs/api.html#config-paths) in the AMD config:
 
+```json
+
 	"paths": {
         "components/my-component": "components/my-component/my-component",
         "views/search-results": "views/search-results"
 	}
+``
 	
 This allows us to simply use `components/my-component`. The `gulp create_module` task automatically registers a path for the new module in the config file.
 
 In addition we can define aliases for vendor scripts here so they are easy to reference:
 
+```json
+
 	"paths": {
         "jquery": "vendor/jquery/dist/jquery"
 	}
+``
 
 This allows us to include jQuery like `define(['jquery'], function($){ $('#foo').hide(); });`.
 
@@ -61,12 +75,15 @@ This allows us to include jQuery like `define(['jquery'], function($){ $('#foo')
 
 [Shims](http://requirejs.org/docs/api.html#config-shim) are a way to use non-AMD scripts in the project and can also be defined in the AMD config. For example:
 
+```json
+
 	"shims": {
 		"foundation.core": {
         	"deps": ["jquery"],
         	"exports": "Foundation"
     	}
 	}
+``
 	
 Note: A shim's dependencies `deps` must be written as an array as the front-end guide uses [AlmondJS](https://github.com/jrburke/almond) for an optimized build, wich does not accept a string value.
 
@@ -78,6 +95,9 @@ The front-end guide includes an opinionated testing environment using [Karma Run
 
 When a new module is generated using `gulp create_module` a test is automatically added to the new module directory, named `my-module.test.js`. The test simply requires the module to test using the AMD pattern and then uses [Jasmine's vocabulary](http://jasmine.github.io/2.0/introduction.html#section-It&rsquo;s_Just_Functions) to describe your module's behavior. For example:
 
+```js
+
+	// src/components/my-component/my-component.test.js:
 	define(['components/my-component'],function (myComponent) {
 		describe('my-component', function () {
 			describe('the `greet` method on my-component',function () {
@@ -87,6 +107,9 @@ When a new module is generated using `gulp create_module` a test is automaticall
 			});
 		});
 	});
+```
+	
+All files ending with `*.test.js` are automatically included in the testing environment.
 
 
 ## Script template
@@ -111,6 +134,8 @@ Note: When using WebStorm, make sure the JSHint configuration is used by checkin
 
 For a clear separation of concerns De Voorhoede uses only data-attributes as JS hooks. See for example De Voorhoede's [Expandlible](https://github.com/voorhoede/expandible):
 
+```html
+
 	<div class="panel" data-expandible>
 		<div class="panel-heading expandible-handle" data-expandible-handle="toggle">
 			<h3 class="panel-title">Features A-Z</h3>
@@ -119,6 +144,7 @@ For a clear separation of concerns De Voorhoede uses only data-attributes as JS 
 			<div class="panel-body"><!-- content --></div>
 		</div>
 	</div>
+```
 
 Note: As the attributes are defined in the module's HTML and not in the script, this best practice is not a coding convention which can be checked using JSHint or JSCS.
 
