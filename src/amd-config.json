@@ -5,5 +5,6 @@
         "components/search-menu": "components/search-menu/search-menu",
         "expandible": "vendor/expandible/expandible",
 	    "fastclick": "vendor/fastclick/lib/fastclick"
-    }
+    },
+	"shims": {}
 }
