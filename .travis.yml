@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+- '0.10'
+before_install:
+- npm install -g bower
+- bower install
+script: npm run travis
+env:
+  global:
+    secure: ZeWxAyxNXw6VODKEddnRKhYXS5dc563tmN9YHqQeSOyxvtcapKo2r4Ny+s8ilx/DAkr66ChQ+mzXjZrPY4kIZPaR+J2aaL6x3gOKRNyeMlEg45N1tlNLo7MmWTHzxFW/vfPl+oAsdlyJkrws9y8fufsROJS9CVt1I5YXaLFjC98=

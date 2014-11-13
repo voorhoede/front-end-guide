@@ -1,0 +1,25 @@
+/* fixed-ratio component */
+.fixed-ratio {
+	position: relative;
+	height: 0;
+	overflow: hidden;
+}
+.fixed-ratio-content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+// standard classes commonly used ratios
+.fixed-ratio(@ratio){
+	&:extend(.fixed-ratio);
+	@padding: 100/@ratio;
+	padding-bottom: ~"@{padding}%";
+}
+.fixed-ratio-2x1 	{ .fixed-ratio(2/1); }
+.fixed-ratio-4x3 	{ .fixed-ratio(4/3); }
+.fixed-ratio-16x9 	{ .fixed-ratio(16/9); }
+
+/* /fixed-ratio component */

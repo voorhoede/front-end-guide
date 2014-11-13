@@ -12,7 +12,7 @@ var paths = {
 	karmaConfig:'./test/karma.conf.js',
 	changelog:'CHANGELOG.md'
 };
-paths.assets = [
+paths.assetFiles = [
 		paths.src + 'assets/**/*.*',
 		paths.srcComponents + '*/assets/**/*.*',
 		paths.srcViews + '*/assets/**/*.*'

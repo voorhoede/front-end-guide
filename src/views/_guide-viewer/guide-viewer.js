@@ -5,24 +5,19 @@ angular.module('app', ['config', 'ngSanitize'])
  * different viewport (frame) sizes. Also adds shortcuts for predefined breakpoints (XS, S, M, L)
  * and enables user to toggle additional info of the active (selected) component.
  */
-	.controller('ViewerController', function($http, $scope, $timeout, $window, ROOT_PATH, MODULES){
+	.controller('ViewerController', function($http, $scope, $timeout, $window, BREAKPOINTS, ROOT_PATH, MODULES){
 		'use strict';
 		/* jshint validthis: true */
 		var viewer = this;
 		viewer.autoWidth = true;
-		viewer.breakpoints = [
-			{ name: 'XS', width: 320, icon: 'mobile' },
-			{ name: 'S', width: 520, icon: 'tablet' },
-			{ name: 'M', width: 620, icon: 'laptop' },
-			{ name: 'L', width: 960, icon: 'desktop' }
-		];
-		viewer.showAnnotations = false;
-		viewer.modules = {};
+		viewer.breakpoints = BREAKPOINTS;
 		viewer.frame = document.querySelector('[data-viewer-frame]');
 		viewer.getModulePath = getModulePath;
 		viewer.header = document.querySelector('[data-viewer-header]');
 		viewer.height = setAutoHeight();
+		viewer.info = { isCompact: true };
 		viewer.languages = ['template', 'html', 'less', 'css', 'js'];
+		viewer.modules = {};
 		viewer.setWidth = setWidth;
 		viewer.showInfo = false;
 		viewer.toggleAnnotations = toggleAnnotations;
@@ -30,6 +25,7 @@ angular.module('app', ['config', 'ngSanitize'])
 		viewer.width = setAutoWidth();
 		viewer.rootPath = ROOT_PATH;
 		viewer.setModuleLang = setModuleLang;
+		viewer.showAnnotations = false;
 
 		MODULES.forEach(function(module){
 			viewer.modules[module.id] = module;
@@ -50,7 +46,9 @@ angular.module('app', ['config', 'ngSanitize'])
 			var module = viewer.module;
 			if(!module.info){
 				module.info = {};
-				$http.get(getModulePath().replace('-preview.html', '-info.json'))
+				// @fix use a proper way to ge the info file url:
+				var infoFileUrl = getModulePath().replace('-preview', '').replace('.html', '-info.json');
+				$http.get(infoFileUrl)
 					.then(function(response){
 						module.info = response.data;
 					});
@@ -164,7 +162,7 @@ angular.module('app', ['config', 'ngSanitize'])
 			if(id) {
 				window.location.hash = id;
 				viewer.showAnnotations = false;
-				viewer.showInfo = false;
+				viewer.info.isOpen = false;
 				viewer.module.lang = viewer.languages[0];
 				getModuleInfo();
 			}

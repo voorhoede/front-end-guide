@@ -2,6 +2,7 @@
 var _ = require('lodash-node');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
+var cached = require('gulp-cached');
 var del = require('del');
 var gulpif = require('gulp-if');
 var filter = require('gulp-filter');
@@ -19,8 +20,9 @@ var newer = require('gulp-newer');
 var nunjucksMarkdown = require('nunjucks-markdown');
 var nunjucksRender = require('./lib/nunjucks-render');
 var path = require('path');
+var plumber = require('gulp-plumber');
 var prettify = require('gulp-prettify');
-var prism = require('prismjs');
+var prism = require('./lib/prism');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
 var stringify = require('json-stable-stringify');
@@ -33,11 +35,11 @@ var paths = require('./config.js').paths;
 var pkg = require('./package.json');
 
 /* Register default & custom tasks (A-Z) */
-gulp.task('default', ['build_clean']);
+gulp.task('default', ['build_guide']);
 gulp.task('build', ['build_html', 'build_js', 'build_less', 'build_assets']);
 gulp.task('build_assets', buildAssetsTask);
 gulp.task('build_clean', function(cb) { runSequence('clean_dist', 'build', cb); });
-gulp.task('build_guide', function(cb) { runSequence(['build', 'build_previews'], 'build_module_info', cb); });
+gulp.task('build_guide', function(cb) { runSequence('build_clean', 'build_previews', 'build_module_info', cb); });
 gulp.task('build_html', buildHtmlTask);
 gulp.task('build_js',['jshint_src'], buildJsTask);
 gulp.task('build_less', buildLessTask);
@@ -51,7 +53,7 @@ gulp.task('jshint_src', jshintSrcTask);
 gulp.task('serve', serveTask);
 gulp.task('test_run', testTask('run'));
 gulp.task('test_watch', testTask('watch'));
-gulp.task('watch', ['build', 'serve'], watchTask);
+gulp.task('watch', function(cb) { runSequence(['build_guide', 'serve'], watchTask); });
 
 /* Tasks and utils (A-Z) */
 
@@ -60,7 +62,7 @@ gulp.task('watch', ['build', 'serve'], watchTask);
  * The `assets/` string is removed from the original path as the destination is an `assets/` dir itself.
  */
 function buildAssetsTask() {
-	paths.assets.map(function(path){
+	paths.assetFiles.map(function(path){
 		return gulp.src(path, { base: paths.src })
 			.pipe(newer(paths.distAssets))
 			.pipe(rename(function(p){
@@ -77,12 +79,14 @@ function buildHtmlTask() {
 	configureNunjucks();
 	var moduleIndex = getModuleIndex();
 	return srcFiles('html')
+		.pipe(plumber()) // prevent pipe break on nunjucks render error
 		.pipe(nunjucksRender(function(file){
 			return _.extend(
 				htmlModuleData(file),
 				{ moduleIndex: moduleIndex }
 			);
 		}))
+		.pipe(plumber.stop())
 		//.pipe(formatHtml())
 		.pipe(gulp.dest(paths.dist))
 		.pipe(reloadBrowser({ stream:true }));
@@ -90,31 +94,34 @@ function buildHtmlTask() {
 
 function buildModuleInfoTask() {
 	var marked = require('marked');
-	// @todo: create info files for views as well
-	listDirectories(paths.srcComponents)
-		.filter(function(name){ return (name.substr(0,1) !== '_'); })
-		.map(function(name){
-			var srcBasename  = paths.srcComponents  + name + '/' + name;
-			var distBasename = paths.distComponents + name + '/' + name;
-			var moduleInfo = {
-				name: name,
-				readme  : marked(getFileContents(paths.srcComponents  + name + '/README.md')),
-				html    : highlightCode(getFileContents(distBasename + '.html'), 'markup'),
-				css     : highlightCode(getFileContents(distBasename + '.css'), 'css'),
-				template: highlightCode(getFileContents(srcBasename + '.html'), 'markup'),
-				less    : highlightCode(getFileContents(srcBasename + '.less'), 'css'),
-				js      : highlightCode(getFileContents(srcBasename + '.js'), 'javascript')
-			};
-			fs.writeFileSync(distBasename + '-info.json', JSON.stringify(moduleInfo, null, 4));
-		});
+	['Components', 'Views'].forEach(function(moduleType){
+		listDirectories(paths['src' + moduleType])
+			.filter(function(name){ return (name.substr(0,1) !== '_'); })
+			.map(function(name){
+				var srcBasename  = paths['src' + moduleType]  + name + '/' + name;
+				var distBasename = paths['dist' + moduleType] + name + '/' + name;
+				var moduleInfo = {
+					name: name,
+					readme  : marked(getFileContents(paths['src' + moduleType]  + name + '/README.md')),
+					html    : highlightCode(getFileContents(distBasename + '.html'), 'markup'),
+					css     : highlightCode(getFileContents(distBasename + '.css'), 'css'),
+					template: highlightCode(getFileContents(srcBasename + '.html'), 'twig'),
+					less    : highlightCode(getFileContents(srcBasename + '.less'), 'css'),
+					js      : highlightCode(getFileContents(srcBasename + '.js'), 'javascript')
+				};
+				fs.writeFileSync(distBasename + '-info.json', JSON.stringify(moduleInfo, null, 4));
+			});
+	});
 }
 
 function buildPreviewsTask() {
 	configureNunjucks();
 	var templateHtml = fs.readFileSync(paths.srcViews + '_component-preview/component-preview.html', 'utf8');
 	return gulp.src(paths.srcComponents + '*/*.html', { base: paths.src })
+		.pipe(plumber()) // prevent pipe break on nunjucks render error
 		.pipe(nunjucksRender(htmlModuleData))
 		.pipe(nunjucksRender(htmlModuleData, templateHtml))
+		.pipe(plumber.stop())
 		.pipe(rename(function(p){ p.basename += '-preview'; }))
 		.pipe(gulp.dest(paths.dist));
 }
@@ -138,16 +145,18 @@ function buildJsTask(cb) {
 }
 
 function buildLessTask() {
-	// @fix sourcemaps: copy less files to dist?
 	return srcFiles('less')
 		.pipe(sourcemaps.init())
+		.pipe(plumber()) // prevent pipe break on less parsing
 		.pipe(less())
 		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
-		.pipe(sourcemaps.write({includeContent: false, sourceRoot: '' }))
+		.pipe(sourcemaps.write('.', {includeContent: true, sourceRoot: '' }))
+		.pipe(plumber.stop())
 		.pipe(rename(function(p){
 			if(p.dirname === '.'){ p.dirname = 'assets'; } // output root src files to assets dir
 		}))
-		.pipe(gulp.dest(paths.dist))
+		.pipe(gulp.dest(paths.dist)) // write the css and source maps
+		.pipe(filter('**/*.css')) // filtering stream to only css files
 		.pipe(reloadBrowser({ stream:true }));
 }
 
@@ -289,10 +298,6 @@ function getModuleIndex() {
  */
 function highlightCode(code, lang){
 	if(!code.length){ return code; }
-	if(lang === 'markup'){
-		// escape markup
-		code = code.replace('<','&lt;');
-	}
 	code = prism.highlight(code, prism.languages[lang]);
 	code = '<pre class="language-' + lang + '"><code>' + code + '</code></pre>';
 	return code;
@@ -323,6 +328,7 @@ function jshintNodeTask() {
 
 function jshintSrcTask() {
 	return srcFiles('js')
+		.pipe(cached('hinting')) // filter down to changed files only
 		.pipe(jscs())
 		.pipe(jshint(paths.src + '.jshintrc'))
 		.pipe(jshint.reporter(require('jshint-stylish')));
@@ -388,7 +394,8 @@ function srcFiles(filetype) {
 }
 
 function watchTask () {
-	gulp.watch(paths.htmlFiles, ['build_html']);
+	gulp.watch(paths.assetFiles, ['build_assets']);
+	gulp.watch(paths.htmlFiles, ['build_html', 'build_previews']);
 	gulp.watch(paths.jsFiles,   ['build_js']);
 	gulp.watch(paths.lessFiles, ['build_less']);
 }
