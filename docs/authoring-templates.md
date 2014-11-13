@@ -1,6 +1,6 @@
 # Authoring templates
 
-The front-end guide uses Mozilla's [Nunjucks](http://mozilla.github.io/nunjucks/) templating engine for enhanced templating features, like variables, [if statements](http://mozilla.github.io/nunjucks/templating.html#if), [for loops](http://mozilla.github.io/nunjucks/templating.html#for), template inheritance, template partials and [more](http://mozilla.github.io/nunjucks/templating.html). 
+The front-end guide uses Mozilla's [Nunjucks](http://mozilla.github.io/nunjucks/) templating engine for module based development with enhanced templating features, like variables, [if statements](http://mozilla.github.io/nunjucks/templating.html#if), [for loops](http://mozilla.github.io/nunjucks/templating.html#for), template inheritance, template partials and [more](http://mozilla.github.io/nunjucks/templating.html). 
 
 
 ## Template variables

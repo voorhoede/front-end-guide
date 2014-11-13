@@ -24,12 +24,13 @@ var path = require('path');
 var plumber = require('gulp-plumber');
 var prettify = require('gulp-prettify');
 var prism = require('./lib/prism');
+var recess = require('gulp-recess');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
-var stringify = require('json-stable-stringify');
 var rjs = require('requirejs');
 var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
+var stringify = require('json-stable-stringify');
 
 /* Shared configuration (A-Z) */
 var paths = require('./config.js').paths;
@@ -152,6 +153,8 @@ function buildLessTask() {
 		.pipe(sourcemaps.init())
 		.pipe(plumber()) // prevent pipe break on less parsing
 		.pipe(less())
+		.pipe(recess())
+		.pipe(recess.reporter())
 		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
 		.pipe(sourcemaps.write('.', {includeContent: true, sourceRoot: '' }))
 		.pipe(plumber.stop())

@@ -14,7 +14,7 @@ Manage your front-end project in unique views and reusable components.
 **Get a copy**
 
 [Fork](https://github.com/voorhoede/front-end-guide/fork) or 
-[download](https://github.com/voorhoede/front-end-guide/archive/master.zip).
+[download](https://github.com/voorhoede/front-end-guide/archive/master.zip) the front-end guide.
 
 **Install all dependencies**
 
@@ -36,7 +36,11 @@ Want installation guide in more detail? Read [Getting started](docs/getting-star
 ## Documentation
 
 * [Getting started](docs/getting-started.md)
-* [Authoring HTML templates](docs/authoring-templates.md)
+
+* [Authoring templates (HTML)](docs/authoring-templates.md)
+* [Authoring styles (LESS/CSS)](docs/authoring-styles.md)
+* [Authoring scripts (JS)](docs/authoring-scripts.md)
+
 * [Build with Travis CI](docs/build-with-travis-ci.md)
 * [Changelog](docs/changelog.md)
 * [Versioning](docs/versioning.md)
