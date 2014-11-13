@@ -56,7 +56,7 @@ Modules are required in a module by using their filepath in a module's array of 
         "components/my-component": "components/my-component/my-component",
         "views/search-results": "views/search-results"
 	}
-``
+```
 	
 This allows us to simply use `components/my-component`. The `gulp create_module` task automatically registers a path for the new module in the config file.
 
@@ -67,7 +67,7 @@ In addition we can define aliases for vendor scripts here so they are easy to re
 	"paths": {
         "jquery": "vendor/jquery/dist/jquery"
 	}
-``
+```
 
 This allows us to include jQuery like `define(['jquery'], function($){ $('#foo').hide(); });`.
 
@@ -83,7 +83,7 @@ This allows us to include jQuery like `define(['jquery'], function($){ $('#foo')
         	"exports": "Foundation"
     	}
 	}
-``
+```
 	
 Note: A shim's dependencies `deps` must be written as an array as the front-end guide uses [AlmondJS](https://github.com/jrburke/almond) for an optimized build, wich does not accept a string value.
 
@@ -107,6 +107,7 @@ When a new module is generated using `gulp create_module` a test is automaticall
 			});
 		});
 	});
+	
 ```
 	
 All files ending with `*.test.js` are automatically included in the testing environment.
