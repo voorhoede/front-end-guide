@@ -27,6 +27,8 @@ angular.module('app', ['config', 'ngSanitize'])
 		viewer.setModuleLang = setModuleLang;
 		viewer.showAnnotations = false;
 
+		console.log('het2 ');
+
 		MODULES.forEach(function(module){
 			viewer.modules[module.id] = module;
 		});
