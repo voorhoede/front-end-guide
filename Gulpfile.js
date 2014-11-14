@@ -369,16 +369,16 @@ function reloadBrowser(options){
 
 function testTask(action) {
 	return function () {
-		return gulp.src(
+		return gulp.src([
 			// files you put in this array override the files array in karma.conf.js
-			[]
-		).pipe(karma({
-			configFile:paths.karmaConfig,
-			action:action
-		})).on('error', function (err) {
-				throw err;
-			}
-		);
+		])
+		.pipe(karma({
+			configFile: paths.karmaConfig,
+			action: action
+		}))
+		.on('error', function (err) {
+			throw err;
+		});
 	};
 }
 
