@@ -22,7 +22,7 @@ paths.assetFiles = [
 // excluding abstract files/dirs starting with '_'.
 paths.srcFiles = [
 		paths.src + '*',
-		paths.srcComponents + '*/*',
+		paths.srcComponents + '*/**/**/*',
 		paths.srcViews + '*/*' //,
 //		'!' + paths.src + '_*',
 //		'!' + paths.srcComponents + '_*/*',

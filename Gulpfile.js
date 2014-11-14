@@ -297,7 +297,7 @@ function serveTask() {
 
 function srcFiles(filetype) {
 	return gulp.src(paths.srcFiles, { base: paths.src })
-		.pipe(filter('**/*.' + filetype));
+		.pipe(filter('**/**/*.' + filetype));
 }
 
 function watchTask () {
