@@ -12,7 +12,7 @@
 @button-spacing: 5px;
 @viewer-height: 40px;
 @font-size-icons: 1.4em;
-@font-size-size-controls:0.8em;
+@font-size-size-controls:1em;
 @font-size-tabs-buttons: 0.2em;
 
 @font-face {
@@ -91,8 +91,8 @@ html,
 }
 
 .viewer-logo {
-	max-width: 50px;
-	max-height: 40px;
+	max-width: 30px;
+	max-height: 30px;
 	padding: 5px .3em 0 .3em;
 }
 
@@ -101,8 +101,6 @@ html,
 	li { display: inline-block; }
 	li + li { margin-left: @button-spacing; }
 }
-
-
 
 .viewer-button {
 	background-color: @light-grey;
@@ -170,13 +168,21 @@ html,
 	}
 }
 
-.viewer-size-controls .viewer-button {
-	float: left;
-	display: block;
-	font-size: @font-size-size-controls;
-	margin-left: @button-spacing;
-	font-weight: bold;
+.viewer-size-controls {
+	.viewer-button {
+		float: left;
+		display: block;
+		font-size: @font-size-size-controls;
+		margin-left: @button-spacing;
+		font-weight: bold;
+	}
+
+	.viewer-button-full {
+		font-size: 0.7em;
+	}
 }
+
+
 
 .viewer-size-input {
 	height: 100%;
@@ -213,7 +219,7 @@ html,
 	margin-left: @button-spacing;
 	&:before {
 		position: absolute;
-		right: 1.25em;
+		right: 1em;
 		content:'px';
 		height: @viewer-height;
 		font-size: 1em;
@@ -227,8 +233,8 @@ html,
 	background: @very-light-grey;
 	position: relative;
 	height: @viewer-height;
-	padding: 0 2.5em 0 1em;
-	width: 72px;
+	padding: 0 1.5em 0 1em;
+	width: 80px;
 	font-size: 1em;
 	font-weight: bold;
 	letter-spacing: 0.5em;
@@ -352,13 +358,8 @@ html,
 		top: 0;
 	}
 
-	.viewer-info-readme,
-	pre {
-		max-width: 50em;
-	}
-
 	.viewer-info-readme {
-
+		max-width: 50em;
 		background: #f5f2f0;
 		padding: 0 20px;
 	}
@@ -371,12 +372,6 @@ html,
 
 
 @media all and (max-width: 840px) {
-	.viewer-logo {
-		max-width: 25px;
-		max-height: 25px;
-		padding-top: 3px;
-	}
-
 	.viewer-size-controls .viewer-button {
 		display: none;
 	}
@@ -384,7 +379,6 @@ html,
 	.viewer-module-selector button:first-of-type {
 		margin-left: 0;
 	}
-
 }
 
 @media all and (max-width: 550px) {
