@@ -16,7 +16,7 @@ angular.module('app', ['config', 'ngSanitize'])
 		viewer.header = document.querySelector('[data-viewer-header]');
 		viewer.height = setAutoHeight();
 		viewer.info = { isCompact: true };
-		viewer.languages = ['template', 'html', 'less', 'css', 'js'];
+		viewer.languages = ['readme', 'template', 'html', 'less', 'css', 'js'];
 		viewer.modules = {};
 		viewer.setWidth = setWidth;
 		viewer.showInfo = false;
