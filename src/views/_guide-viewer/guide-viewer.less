@@ -292,3 +292,48 @@ html,
 	pointer-events: none; /* https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events  */
 	z-index: 1; /* this is necessary for overcome the pseudo element */
 }
+
+@media all and (max-width: 750px) {
+	.viewer-logo {
+		max-width: 25px;
+		max-height: 25px;
+		padding-top: 3px;
+	}
+
+	.viewer-size-controls .viewer-button {
+		display: none;
+	}
+
+	.viewer-module-selector button:first-of-type {
+		margin-left: 0;
+	}
+
+}
+
+@media all and (max-width: 520px) {
+	.viewer-button {
+		display: none;
+	}
+}
+
+@media all and (max-width: 455px) {
+	.viewer-link {
+		display: none;
+	}
+}
+
+
+@media all and (max-width: 420px) {
+	nav,
+	.viewer-header-select-wrapper {
+		width: 100%;
+	}
+
+	.viewer-logo {
+		display: none;
+	}
+
+	.viewer-width-input-wrapper {
+		display: none;
+	}
+}
