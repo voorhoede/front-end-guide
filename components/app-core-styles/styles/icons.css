@@ -1,0 +1,8 @@
+.icon-search:before {
+  content: "search";
+}
+.icon-close:before {
+  content: "x";
+}
+
+/*# sourceMappingURL=../../../components/app-core-styles/styles/icons.css.map */
