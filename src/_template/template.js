@@ -4,5 +4,5 @@ define([/* dependencies */],
  */
 function(/* dependencies */){
 	'use strict';
-	// write behavior for MODULE_NAME component
+	// write behavior for MODULE_NAME MODULE_TYPE
 });
