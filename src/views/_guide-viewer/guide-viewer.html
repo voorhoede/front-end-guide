@@ -59,7 +59,7 @@
              data-ng-show="viewer.viewer.info.isOpen"
              data-ng-style="{ 'height': (viewer.height/(viewer.info.isCompact+1) + 4) +'px' }">
         <header class="viewer-info-header">
-            <nav>
+            <nav class="viewer-info-nav">
                 <ul class="viewer-tabs">
                     <li data-ng-repeat="lang in viewer.languages"
                         data-ng-if="viewer.module.info[lang]">
@@ -85,7 +85,7 @@
 
         <section data-ng-repeat="lang in viewer.languages"
                  data-ng-if="viewer.module.lang == lang"
-                 class="viewer-content-section" >
+                 class="viewer-info-section" >
             <h2 class="a11y-sr-only">{{ lang }}</h2>
             <div data-ng-bind-html="viewer.module.info[lang]"
                  data-ng-class="{'viewer-info-readme': lang === 'readme'}"
@@ -116,6 +116,7 @@
                 { name: 'M', width: 620, icon: 'laptop' },
                 { name: 'L', width: 960, icon: 'desktop' }
             ])
+        .constant('DEFAULT_MODULE', 'app/style-guide')
         .constant('MODULES', [
             {# create list of modules based on module index #}
             {% for item in moduleIndex.components | match('^[a-z]', 'name') %}
