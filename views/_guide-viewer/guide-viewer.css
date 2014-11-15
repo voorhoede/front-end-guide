@@ -330,20 +330,20 @@ html,
   padding-left: 5px;
   padding-right: 5px;
 }
-.viewer-info header {
+.viewer-info-header {
   width: 100%;
   padding: 5px 0;
   *zoom: 1;
 }
-.viewer-info header:before,
-.viewer-info header:after {
+.viewer-info-header:before,
+.viewer-info-header:after {
   display: table;
   content: "";
 }
-.viewer-info header:after {
+.viewer-info-header:after {
   clear: both;
 }
-.viewer-info nav {
+.viewer-info-nav {
   display: inline-block;
   float: left;
   width: auto;
@@ -359,24 +359,24 @@ html,
   height: 30px;
   width: 30px;
 }
-.viewer-info section {
+.viewer-info-section {
   position: relative;
   height: 100%;
   overflow-y: scroll;
   padding: 0;
   background: #f5f2f0;
 }
-.viewer-info section .viewer-info-language-content {
+.viewer-info-section .viewer-info-language-content {
   position: absolute;
   width: 100%;
   top: 0;
 }
-.viewer-info section .viewer-info-readme {
+.viewer-info-section .viewer-info-readme {
   max-width: 50em;
   background: #f5f2f0;
   padding: 0 20px;
 }
-.viewer-info section pre {
+.viewer-info-section pre {
   margin-top: 0;
   padding-bottom: 2em;
 }

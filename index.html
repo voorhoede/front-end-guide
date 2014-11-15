@@ -59,7 +59,7 @@
              data-ng-show="viewer.viewer.info.isOpen"
              data-ng-style="{ 'height': (viewer.height/(viewer.info.isCompact+1) + 4) +'px' }">
         <header class="viewer-info-header">
-            <nav>
+            <nav class="viewer-info-nav">
                 <ul class="viewer-tabs">
                     <li data-ng-repeat="lang in viewer.languages"
                         data-ng-if="viewer.module.info[lang]">
@@ -85,7 +85,7 @@
 
         <section data-ng-repeat="lang in viewer.languages"
                  data-ng-if="viewer.module.lang == lang"
-                 class="viewer-content-section" >
+                 class="viewer-info-section" >
             <h2 class="a11y-sr-only">{{ lang }}</h2>
             <div data-ng-bind-html="viewer.module.info[lang]"
                  data-ng-class="{'viewer-info-readme': lang === 'readme'}"
@@ -116,6 +116,7 @@
                 { name: 'M', width: 620, icon: 'laptop' },
                 { name: 'L', width: 960, icon: 'desktop' }
             ])
+        .constant('DEFAULT_MODULE', 'app/style-guide')
         .constant('MODULES', [
             
             
@@ -211,7 +212,8 @@
  * different viewport (frame) sizes. Also adds shortcuts for predefined breakpoints (XS, S, M, L)
  * and enables user to toggle additional info of the active (selected) component.
  */
-	.controller('ViewerController', function($http, $scope, $timeout, $window, BREAKPOINTS, ROOT_PATH, MODULES){
+	.controller('ViewerController', function($http, $scope, $timeout, $window, BREAKPOINTS, DEFAULT_MODULE,
+                                             ROOT_PATH, MODULES){
 		'use strict';
 		/* jshint validthis: true */
 		var viewer = this;
@@ -287,7 +289,7 @@
 
 		/**
 		 * Sets viewer to component to the one named in the location hash
-		 * or otherwise defaults to first one in list of components.
+		 * or otherwise defaults to DEFAULT_MODULE or first one in list of components.
 		 * @returns {Object} component
 		 */
 		function setDefaultModule() {
@@ -295,6 +297,8 @@
 			var activeModule;
 			if(viewer.modules.hasOwnProperty(id)){
 				activeModule = viewer.modules[id];
+			} else if(viewer.modules.hasOwnProperty(DEFAULT_MODULE)){
+				activeModule = viewer.modules[DEFAULT_MODULE];
 			} else {
 				var firstKey = Object.keys(viewer.modules)[0];
 				activeModule = viewer.modules[firstKey];
