@@ -10,7 +10,6 @@ var paths = {
 	distViews: 'dist/views/',
 	amdConfig: './src/amd-config.json',
 	karmaConfig:'./test/karma.conf.js',
-	templateRoot:"./src/_template",
 	changelog:'CHANGELOG.md'
 };
 paths.assetFiles = [
