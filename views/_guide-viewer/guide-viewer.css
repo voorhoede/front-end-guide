@@ -313,7 +313,7 @@ html,
   outline: none;
 }
 .viewer-header-select::-ms-expand {
-  display: none;
+  display: none
   /* to ie 10 */
 }
 :-moz-any(.viewer-header-select-wrapper):before {
@@ -321,7 +321,7 @@ html,
   /* this is necessary for overcome the caret default browser */
   pointer-events: none;
   /* https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events  */
-  z-index: 1;
+  z-index: 1
   /* this is necessary for overcome the pseudo element */
 }
 .viewer-info {

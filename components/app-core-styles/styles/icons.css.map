@@ -1,1 +1,1 @@
-{"version":3,"sources":["icons.css"],"names":[],"mappings":"AAAA;EACE,mBAAkB;EACnB;AACD;EACE,cAAa;EACd","file":"components/app-core-styles/styles/icons.css","sourcesContent":[null],"sourceRoot":"/source/"}
+{"version":3,"sources":["icons.css"],"names":[],"mappings":"AAAA;EACE,mBAAkB;EACnB;AACD;EACE,cAAa;EACd","file":"components/app-core-styles/styles/icons.css","sourcesContent":[".icon-search:before {\n  content: \"search\";\n}\n.icon-close:before {\n  content: \"x\";\n}\n"],"sourceRoot":"/source/"}
