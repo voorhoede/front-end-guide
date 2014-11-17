@@ -10,7 +10,6 @@ var paths = {
 	distViews: 'dist/views/',
 	amdConfig: './src/amd-config.json',
 	karmaConfig:'./test/karma.conf.js',
-	templateRoot:"./src/_template",
 	changelog:'CHANGELOG.md'
 };
 paths.assetFiles = [
@@ -22,15 +21,16 @@ paths.assetFiles = [
 // excluding abstract files/dirs starting with '_'.
 paths.srcFiles = [
 		paths.src + '*',
-		paths.srcComponents + '*/**/**/*',
-		paths.srcViews + '*/*' //,
+		paths.srcComponents + '*/*',
+		paths.srcViews + '*/*',
+		'!' + paths.src + '*/_template/*'
 //		'!' + paths.src + '_*',
 //		'!' + paths.srcComponents + '_*/*',
 //		'!' + paths.srcViews + '_*/*'
 ];
 paths.htmlFiles = paths.srcFiles.map(function(path){ return path + '.html'; });
 paths.jsFiles   = paths.srcFiles.map(function(path){ return path + '.js'; });
-paths.lessFiles = paths.srcFiles.map(function(path){ return path + '.less'; });
+paths.lessFiles = paths.srcFiles.map(function(path){ return path + '*/*.less'; });
 
 module.exports = {
 	paths: paths

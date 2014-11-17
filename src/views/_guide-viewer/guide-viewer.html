@@ -16,8 +16,7 @@
 
 {% raw %}
 <header class="viewer-header" data-viewer-header data-ng-class="{ 'is-small': viewer.isCompact }">
-	<img alt="De Voorhoede" class="viewer-logo"
-         data-ng-src="{{ viewer.rootPath }}assets/views/_guide-viewer/voorhoede-logo.svg">
+	<img alt="De Voorhoede" class="viewer-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDE1NC42NyAxNTMuOTYiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDE1NC42NyAxNTMuOTYiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxnPjxwYXRoIGZpbGw9IiMxMjM1M0MiIGQ9Ik0wLjg5IDIxLjU0TDAuODkgMjEuNTRDLTIuNiA0MS44IDQuMyA3MC41IDIwLjQgOTguNTNjMTYuMTYgMjggMzcuNiA0OC4zIDU2LjkgNTUuNDRWMCBDNDUuMDEgMCAxNi43IDguNCAwLjkgMjEuNTR6Ii8+PC9nPjxwYXRoIGZpbGw9IiNFREREM0UiIGQ9Ik0xMzQuMjIgOTguNTNjMTYuMTYtMjcuOTkgMjMuMDUtNTYuNzIgMTkuNTYtNzYuOThsLTAuMDEgMC4wMWwwLjAxLTAuMDFoMGMwIDAgMCAwIDAgMCBDMTM3Ljk5IDguNCAxMDkuNyAwIDc3LjMgMGgwdjE1My45NmgwQzk2LjYyIDE0Ni44IDExOC4xIDEyNi41IDEzNC4yIDk4LjUzeiIvPjxnPjxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik0xMTUuNTcgMjUuMjRjLTQuNTItMS4yOS05LjMzLTIuMzMtMTQuMzMtMy4xM2MtMC4wNiAyLjEyLTAuMTcgNC4zNy0wLjMzIDYuNyBjLTAuMzQgNS4wMi0wLjkxIDEwLjMyLTEuNjUgMTUuNTJjMy4yOCAxIDYuMiAyLjMgOC41IDMuN2MwLjA0IDMuMTgtMC40NCA2Ljg0LTEuNDIgMTAuNzhjLTEuNTQgNi4xNS00LjI3IDEyLjcyLTcuOSAxOSBjLTMuNjMgNi4yOS03Ljk2IDExLjk0LTEyLjUxIDE2LjM1Yy0yLjkyIDIuODItNS44NSA1LjA3LTguNjIgNi42MmMtMi43OC0xLjU2LTUuNzEtMy44LTguNjItNi42MiBjLTQuNTUtNC40MS04Ljg4LTEwLjA2LTEyLjUxLTE2LjM1Yy0zLjYzLTYuMjktNi4zNi0xMi44Ni03LjktMTkuMDFjLTAuOTktMy45NC0xLjQ3LTcuNi0xLjQyLTEwLjc4YzIuMzgtMS40MSA1LjI2LTIuNjcgOC41NC0zLjcgYy0wLjczLTUuMi0xLjMxLTEwLjUtMS42NS0xNS41MmMtMC4xNi0yLjM3LTAuMjctNC42Mi0wLjMzLTYuNzRjLTUgMC44LTkuODEgMS44NC0xNC4zMyAzLjEzYy03LjMxIDIuMDktMTMuNjkgNC43NC0xOC44MiA3LjggYy0wLjA4IDYgMC44IDEyLjggMi43IDIwLjE5YzIuODggMTEuNSA4IDIzLjggMTQuOCAzNS42YzYuOCAxMS44IDE0LjkgMjIuNCAyMy40IDMwLjYgYzUuNDYgNS4zIDEwLjkgOS41IDE2LjEgMTIuNDFjNS4yLTIuOTIgMTAuNjgtNy4xMiAxNi4xNS0xMi40MWM4LjUzLTguMjUgMTYuNjMtMTguODQgMjMuNDMtMzAuNjIgYzYuOC0xMS43OCAxMS45Mi0yNC4wOSAxNC44LTM1LjZjMS44NS03LjM4IDIuNzQtMTQuMjMgMi42Ny0yMC4xOUMxMjkuMjYgMzAgMTIyLjkgMjcuMyAxMTUuNiAyNS4yNHoiLz48L2c+PGc+PHBhdGggZmlsbD0iI0VBRUFFQSIgZD0iTTc3LjMzIDEwMC44M2MtMi43OC0xLjU2LTUuNy0zLjgtOC42Mi02LjYyYy00LjU1LTQuNDEtOC44OC0xMC4wNi0xMi41MS0xNi4zNSBjLTMuNjMtNi4yOS02LjM2LTEyLjg2LTcuOS0xOS4wMWMtMC45OS0zLjk0LTEuNDctNy42LTEuNDItMTAuNzhjMi4zOC0xLjQxIDUuMjYtMi42NyA4LjU0LTMuN2MtMC43My01LjItMS4zMS0xMC41LTEuNjUtMTUuNTIgYy0wLjE2LTIuMzctMC4yNy00LjYyLTAuMzMtNi43NGMtNSAwLjgtOS44MSAxLjg0LTE0LjMzIDMuMTNjLTcuMzEgMi4wOS0xMy42OSA0Ljc0LTE4LjgyIDcuNzhjLTAuMDggNiAwLjggMTIuOCAyLjcgMjAuMiBjMi44OCAxMS41IDggMjMuOCAxNC44IDM1LjZjNi44IDExLjggMTQuOSAyMi40IDIzLjQgMzAuNjJjNS40NiA1LjMgMTAuOSA5LjUgMTYuMSAxMi40VjEwMC44M3oiLz48L2c+PC9zdmc+">
 	<nav class="viewer-module-selector">
 		<div class="viewer-header-select-wrapper">
 			  <span class="viewer-model-type-icon" data-ng-class="{
@@ -41,7 +40,7 @@
                 data-ng-class="{ 'is-active': (viewer.width == breakpoint.width) }"
                 data-ng-click="viewer.setWidth(breakpoint.width)"
                 >{{ ::breakpoint.name }}</button>
-        <button class="viewer-button"
+        <button class="viewer-button viewer-button-full"
                 data-ng-class="{ 'is-active': viewer.autoWidth }"
                 data-ng-click="viewer.toggleAutoWidth()">FULL</button>
 		<div class="viewer-width-input-wrapper">
@@ -58,33 +57,43 @@
 <main class="viewer-content">
     <article class="viewer-info"
              data-ng-show="viewer.viewer.info.isOpen"
-             data-ng-style="{ 'height': (viewer.height/(viewer.info.isCompact+1)) +'px' }">
-        <button class="viewer-button" data-ng-click="viewer.info.isCompact = !viewer.info.isCompact">
-            <span class="" data-ng-if="!viewer.info.isCompact">-</span>
-            <span class="" data-ng-if="viewer.info.isCompact">+</span>
-        </button>
-        <button class="viewer-button viewer-info-close" data-ng-click="viewer.viewer.info.isOpen = false">x</button>
-        <!--
-        <h1 data-ng-if="!viewer.module.info.readme">{{ viewer.module.name }} {{ viewer.module.type }}</h1>
-        <div data-ng-bind-html="viewer.module.info.readme"></div>
-        -->
-        <nav>
-            <ul class="viewer-tabs">
-                <li data-ng-repeat="lang in viewer.languages"
-                    data-ng-if="viewer.module.info[lang]">
-                    <button class="viewer-button"
-                            data-ng-class="{ 'is-active': viewer.module.lang == lang }"
-                            data-ng-click="viewer.setModuleLang(lang)">
-                        {{ lang }}
-                    </button>
-                </li>
-            </ul>
-        </nav>
+             data-ng-style="{ 'height': (viewer.height/(viewer.info.isCompact+1) + 4) +'px' }">
+        <header class="viewer-info-header">
+            <nav class="viewer-info-nav">
+                <ul class="viewer-tabs">
+                    <li data-ng-repeat="lang in viewer.languages"
+                        data-ng-if="viewer.module.info[lang]">
+                        <button class="viewer-button"
+                                data-ng-class="{ 'is-active': viewer.module.lang == lang }"
+                                data-ng-click="viewer.setModuleLang(lang)">
+                            {{ lang }}
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="viewer-info-control">
+                <button class="viewer-button" data-ng-click="viewer.info.isCompact = !viewer.info.isCompact"
+                        data-ng-class="{
+                'viewer-icon-align-top': viewer.info.isCompact,
+                'viewer-icon-align-bottom': !viewer.info.isCompact
+                }">
+                </button>
+                <button class="viewer-button viewer-icon-clear" data-ng-click="viewer.viewer.info.isOpen = false"></button>
+            </div>
+        </header>
+
         <section data-ng-repeat="lang in viewer.languages"
-                 data-ng-if="viewer.module.lang == lang">
+                 data-ng-if="viewer.module.lang == lang"
+                 class="viewer-info-section" >
             <h2 class="a11y-sr-only">{{ lang }}</h2>
-            <div data-ng-bind-html="viewer.module.info[lang]"></div>
+            <div data-ng-bind-html="viewer.module.info[lang]"
+                 data-ng-class="{'viewer-info-readme': lang === 'readme'}"
+                 class="viewer-info-language-content"
+                ></div>
         </section>
+
+
     </article>
     <iframe class="viewer-frame"
             sandbox="allow-same-origin allow-scripts"
@@ -107,6 +116,7 @@
                 { name: 'M', width: 620, icon: 'laptop' },
                 { name: 'L', width: 960, icon: 'desktop' }
             ])
+        .constant('DEFAULT_MODULE', 'app/style-guide')
         .constant('MODULES', [
             {# create list of modules based on module index #}
             {% for item in moduleIndex.components | match('^[a-z]', 'name') %}
