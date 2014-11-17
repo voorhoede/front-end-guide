@@ -150,8 +150,8 @@ function buildJsTask(cb) {
 
 function buildLessTask() {
 	return srcFiles('less')
-		.pipe(sourcemaps.init())
 		.pipe(plumber()) // prevent pipe break on less parsing
+		.pipe(sourcemaps.init())
 		.pipe(less())
 		.pipe(recess())
 		.pipe(recess.reporter())
