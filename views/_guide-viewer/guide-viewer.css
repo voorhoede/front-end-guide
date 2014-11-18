@@ -316,6 +316,15 @@ html,
   display: none
   /* to ie 10 */
 }
+.viewer-footer {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  z-index: 1;
+  max-width: 12em;
+  padding: 0 10px;
+  background-color: #d3d3d3;
+}
 :-moz-any(.viewer-header-select-wrapper):before {
   background-color: #e8ecec;
   /* this is necessary for overcome the caret default browser */
