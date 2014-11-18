@@ -182,8 +182,6 @@ html,
 	}
 }
 
-
-
 .viewer-size-input {
 	height: 100%;
 }
@@ -304,7 +302,16 @@ html,
 	&::-ms-expand {
 		display: none; /* to ie 10 */
 	}
+}
 
+.viewer-footer {
+	position: absolute;
+	top: @header-height;
+	left: 0;
+	z-index: 1;
+	max-width: 12em;
+	padding: 0 10px;
+	background-color: @medium-grey;
 }
 
 :-moz-any(.viewer-header-select-wrapper):before {

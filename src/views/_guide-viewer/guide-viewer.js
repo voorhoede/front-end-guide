@@ -45,13 +45,16 @@ angular.module('app', ['config', 'ngSanitize'])
 
 		function getModuleInfo() {
 			var module = viewer.module;
-			if(!module.info){
+			if(module.info) {
+				setDefaultLang();
+			} else {
 				module.info = {};
 				// @fix use a proper way to ge the info file url:
 				var infoFileUrl = getModulePath().replace('-preview', '').replace('.html', '-info.json');
 				$http.get(infoFileUrl)
 					.then(function(response){
 						module.info = response.data;
+						setDefaultLang();
 					});
 			}
 		}
@@ -78,6 +81,25 @@ angular.module('app', ['config', 'ngSanitize'])
 		function setAutoWidth() {
 			viewer.width = window.innerWidth;
 			return viewer.width;
+		}
+
+		/**
+		 * Set default language to first language found in module info.
+		 */
+		function setDefaultLang() {
+			var lang;
+			var index = 0;
+			var length = viewer.languages.length;
+			while(index < length){
+				lang = viewer.languages[index];
+				if(viewer.module.info.hasOwnProperty(lang) && viewer.module.info[lang].length){
+					viewer.module.lang = lang;
+					break;
+				}
+				index++;
+			}
+			console.info('lang',lang);
+			return lang;
 		}
 
 		/**
@@ -166,7 +188,6 @@ angular.module('app', ['config', 'ngSanitize'])
 				window.location.hash = id;
 				viewer.showAnnotations = false;
 				viewer.info.isOpen = false;
-				viewer.module.lang = viewer.languages[0];
 				getModuleInfo();
 			}
 		});
