@@ -6,7 +6,7 @@ In an enhanced version the link opens a search widget on the page, saving the us
 ## Requirements menu as link
 
  * Use `[rel="search"]` to indicate link to search page.
- * Use human friendly url (like https://demo-project.com/ **zoeken**) to hep user understand where they are (going to).
+ * Use human friendly url (like https://demo-project.com/**search**) to hep user understand where they are (going to).
  * Use assistive text for screen readers as they won't understand the icon.
 
 ## Requirements menu as widget
@@ -20,10 +20,11 @@ In an enhanced version the link opens a search widget on the page, saving the us
 
 Using the [Open Search Protocol](http://www.opensearch.org) a website can make its own search engine accessible by other search engines like Google Search and Bing Search. This is just a matter of adding a file and a reference:
 
-Add Open Search Description file (`https://demo-project.com/open-search-desc.xml`):
+Add Open Search Description file (eg. `https://demo-project.com/open-search-desc.xml`):
 
 	<?xml version="1.0" encoding="utf-8"?>
-	<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+	<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" 
+			xmlns:moz="http://www.mozilla.org/2006/browser/search/">
 		<ShortName>demo-project.com</ShortName>
 		<Description>Search on demo-project.com</Description>
 		<Language>en</Language>
@@ -31,13 +32,17 @@ Add Open Search Description file (`https://demo-project.com/open-search-desc.xml
 		<AdultContent>false</AdultContent>
 		<InputEncoding>UTF-8</InputEncoding>
 		<OutputEncoding>UTF-8</OutputEncoding>
-		<Image height="32" width="32" type="image/x-icon">https://www.demo-project.com/img/favicon.png</Image>
-		<Image height="57" width="57" type="image/png">https://www.demo-project.com/apple-touch-icon.png</Image>
-		<Url type="text/html" method="get" template="https://www.demo-project.com/zoeken?q={searchTerms}"/>
+		<Image height="32" width="32" type="image/x-icon">
+			https://www.demo-project.com/img/favicon.png</Image>
+		<Image height="57" width="57" type="image/png">
+			https://www.demo-project.com/apple-touch-icon.png</Image>
+		<Url type="text/html" method="get" 
+			template="https://www.demo-project.com/zoeken?q={searchTerms}"/>
 		<moz:SearchForm>https://www.demo-project.com/zoeken</moz:SearchForm>
 		<Developer></Developer>
 	</OpenSearchDescription>
 
 Setup [search auto discovery](http://www.opensearch.org/Specifications/OpenSearch/1.1#Autodiscovery_in_HTML.2FXHTML):
 
-    <link rel="search" type="application/opensearchdescription+xml" href="open-search-desc.xml" title="Search on demo-project.com">
+    <link rel="search" type="application/opensearchdescription+xml" 
+          href="open-search-desc.xml" title="Search on demo-project.com">

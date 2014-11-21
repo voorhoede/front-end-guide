@@ -5,7 +5,8 @@ angular.module('app', ['config', 'ngSanitize'])
  * different viewport (frame) sizes. Also adds shortcuts for predefined breakpoints (XS, S, M, L)
  * and enables user to toggle additional info of the active (selected) component.
  */
-	.controller('ViewerController', function($http, $scope, $timeout, $window, BREAKPOINTS, ROOT_PATH, MODULES){
+	.controller('ViewerController', function($http, $scope, $timeout, $window, BREAKPOINTS, DEFAULT_MODULE,
+                                             ROOT_PATH, MODULES){
 		'use strict';
 		/* jshint validthis: true */
 		var viewer = this;
@@ -44,13 +45,16 @@ angular.module('app', ['config', 'ngSanitize'])
 
 		function getModuleInfo() {
 			var module = viewer.module;
-			if(!module.info){
+			if(module.info) {
+				setDefaultLang();
+			} else {
 				module.info = {};
 				// @fix use a proper way to ge the info file url:
 				var infoFileUrl = getModulePath().replace('-preview', '').replace('.html', '-info.json');
 				$http.get(infoFileUrl)
 					.then(function(response){
 						module.info = response.data;
+						setDefaultLang();
 					});
 			}
 		}
@@ -80,8 +84,27 @@ angular.module('app', ['config', 'ngSanitize'])
 		}
 
 		/**
+		 * Set default language to first language found in module info.
+		 */
+		function setDefaultLang() {
+			var lang;
+			var index = 0;
+			var length = viewer.languages.length;
+			while(index < length){
+				lang = viewer.languages[index];
+				if(viewer.module.info.hasOwnProperty(lang) && viewer.module.info[lang].length){
+					viewer.module.lang = lang;
+					break;
+				}
+				index++;
+			}
+			console.info('lang',lang);
+			return lang;
+		}
+
+		/**
 		 * Sets viewer to component to the one named in the location hash
-		 * or otherwise defaults to first one in list of components.
+		 * or otherwise defaults to DEFAULT_MODULE or first one in list of components.
 		 * @returns {Object} component
 		 */
 		function setDefaultModule() {
@@ -89,6 +112,8 @@ angular.module('app', ['config', 'ngSanitize'])
 			var activeModule;
 			if(viewer.modules.hasOwnProperty(id)){
 				activeModule = viewer.modules[id];
+			} else if(viewer.modules.hasOwnProperty(DEFAULT_MODULE)){
+				activeModule = viewer.modules[DEFAULT_MODULE];
 			} else {
 				var firstKey = Object.keys(viewer.modules)[0];
 				activeModule = viewer.modules[firstKey];
@@ -163,7 +188,6 @@ angular.module('app', ['config', 'ngSanitize'])
 				window.location.hash = id;
 				viewer.showAnnotations = false;
 				viewer.info.isOpen = false;
-				viewer.module.lang = viewer.languages[0];
 				getModuleInfo();
 			}
 		});

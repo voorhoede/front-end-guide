@@ -23,13 +23,20 @@ The front-end guide comes packed with a set of [variables](http://mozilla.github
 
 * **`paths.root`** resolves to the relative web path to the `dist/` directory. Usage:
 
+	```html
+	
 		<a href="{{ paths.root }}" rel="home">...</a>
 		
 		<a href="{{ path.root }}views/_style-guide/style-guide.html">...</a>
+	```
 
 * **`paths.assets`** resolves to the relative web path to the `dist/assets/` directory. Usage:
 
-		<img src="{{ paths.assets }}components/app-logo/demo-logo.svg" alt="demo">		
+	```html
+	
+		<img src="{{ paths.assets }}components/app-logo/demo-logo.svg" alt="demo">
+	```
+			
 * **`pkg`** contains the JSON of [`package.json`](../package.json).
 
 
@@ -64,6 +71,12 @@ If you've created a custom home view and want to make this the main view simply 
 
 New modules can be generated using `gulp create_module`. Depending on the module type selected in this task, it creates a module based on the `src/components/_template/` or `src/views/_template/`. These directories contain the [component HTML template](../src/components/_template/template.html) and [view HTML template](../src/views/_template/template.html). You can modify these as you want. The `MODULE_NAME` constant is automatically substituted by the name of the new module.
 
+
 ## Render templates
 
 All templates are rendered by running `gulp build_html`. If you want to author templates and see the changes live in the browser use `gulp watch`.
+
+
+## IDE integration
+
+The Nunjucks templating syntax is (almost) identical to Jinja2 (Python), Twig (PHP) and similar to Liquid (Ruby). While Nunjucks has limited support in most IDEs, there's [Twig plugin for most IDEs](http://twig.sensiolabs.org/doc/templates.html#ides-integration), which work just as well for Nunjucks templates. If you are using a JetBrains product other than PHPStorm, so for instance WebStorm, use the [JetBrains Twig Plugin](https://plugins.jetbrains.com/plugin/7303?pr=). Download the plugin and install it (Settings > Plugins > install plugin from disk ...). Then register the *.html pattern with the Twig file type (Settings > File Types > Twig) giving you Nunjucks syntax support in all your templates.

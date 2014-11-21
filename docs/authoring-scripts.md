@@ -1,6 +1,6 @@
 # Authoring scripts (JS)
 
-The front-end guide uses the [AMD](https://github.com/amdjs/amdjs-api/blob/master/AMD.md) pattern for module based development.
+The front-end guide uses the [AMD](https://github.com/amdjs/amdjs-api/blob/master/AMD.md) pattern for module based JS development.
 
 
 ## Define module
