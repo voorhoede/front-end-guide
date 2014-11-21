@@ -1233,7 +1233,7 @@
 				},
 				{
 					"id": 153,
-					"order": 3,
+					"order": 16,
 					"prevSize": 24,
 					"code": 59033,
 					"name": "view-quilt",
@@ -3633,11 +3633,11 @@
 				},
 				{
 					"id": 453,
-					"order": 0,
+					"order": 15,
 					"prevSize": 24,
 					"code": 59333,
-					"name": "",
-					"tempChar": ""
+					"name": "keyboard-backspace",
+					"tempChar": ""
 				},
 				{
 					"id": 454,
@@ -3673,11 +3673,11 @@
 				},
 				{
 					"id": 458,
-					"order": 0,
+					"order": 11,
 					"prevSize": 24,
 					"code": 59338,
-					"name": "",
-					"tempChar": ""
+					"name": "keyboard-tab",
+					"tempChar": ""
 				},
 				{
 					"id": 459,
@@ -5189,7 +5189,7 @@
 					"prevSize": 24,
 					"code": 59527,
 					"name": "local-offer",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 648,
@@ -5445,7 +5445,7 @@
 					"prevSize": 24,
 					"code": 59559,
 					"name": "chevron-left",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 680,
@@ -5477,7 +5477,7 @@
 					"prevSize": 24,
 					"code": 59563,
 					"name": "expand-more",
-					"tempChar": ""
+					"tempChar": ""
 				},
 				{
 					"id": 684,
