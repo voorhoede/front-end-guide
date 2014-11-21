@@ -43,15 +43,35 @@ html,
 
 .viewer-header {
 	.clearfix();
+	position: relative;
 	padding: 0;
 	background-color: @medium-grey;
 	height: @header-height;
 	overflow: visible;
+	z-index: 1;
+	border-bottom: 1px solid #d0d0d0;
+	box-shadow: 0 0 5px rgba(0,0,0,0.2);
+
+	.viewer-header-select-wrapper,
+	button, a, input {
+		box-shadow: 0 0 3px rgba(0,0,0,0.2);
+	}
+
+	&.is-attached {
+		box-shadow: none;
+		border-bottom: none;
+	}
 }
 
 .viewer-module-selector,
 .viewer-logo {
 	float: left;
+}
+
+.viewer-logo {
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 .viewer-module-selector button:first-of-type {
@@ -63,7 +83,7 @@ html,
 }
 
 .viewer-frame {
-	background-color: white;
+	background-color: #fafafa;
 	border: none;
 	border-right: 1px solid #ccc;
 }
@@ -78,8 +98,9 @@ html,
 	bottom: 0;
 	background-color: @medium-grey;
 	width: 100%;
-	overflow-y: scroll;
+	overflow-y: hidden;
 	padding: 1em;
+	padding: 0 5px 1em 5px;
 	border-bottom: 1px solid #ccc;
 	transition: height .5s;
 }
@@ -309,9 +330,12 @@ html,
 	top: @header-height;
 	left: 0;
 	z-index: 1;
+	font-size: 0.75em;
 	max-width: 12em;
 	padding: 0 10px;
 	background-color: @medium-grey;
+	color: #1b363b;
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
 }
 
 :-moz-any(.viewer-header-select-wrapper):before {
@@ -320,17 +344,14 @@ html,
 	z-index: 1; /* this is necessary for overcome the pseudo element */
 }
 
-.viewer-info {
-	overflow-y: hidden;
-	padding-top: 0;
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
 .viewer-info-header {
 	width: 100%;
 	padding: 5px 0;
 	.clearfix;
+
+	button {
+		box-shadow: 0 0 3px rgba(0,0,0,0.2);
+	}
 }
 
 .viewer-info-nav {
@@ -352,12 +373,14 @@ html,
 	}
 }
 
+
 .viewer-info-section {
 	position: relative;
 	height: 100%;
 	overflow-y: scroll;
 	padding: 0;
 	background: #f5f2f0;
+	box-shadow: 0 0 5px rgba(0,0,0,0.2);
 
 	.viewer-info-language-content {
 		position: absolute;
