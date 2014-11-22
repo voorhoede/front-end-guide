@@ -83,6 +83,10 @@ For a clear separation of concerns De Voorhoede uses only tag names & class name
 
 LESS allows us to [nest rules](http://lesscss.org/features/#features-overview-feature-nested-rules). This is useful for namespacing, pseudo classes and module/selector specific media queries. However try to limit nesting to two levels deep as it makes rules over-specific which makes the project harder to maintain. Nesting many levels means style rules start to mimic the content structure which is clearly not a separation of concerns.
 
+### Vendor prefixing
+
+The front-end guide uses [Autoprefixer](https://github.com/postcss/autoprefixer-core) to add the correct vendor prefixes for the project's browser scope. So there is no need to use LESS mixins for vendor prefixes for cross browser compatible CSS rules. You can set the `autoprefixBrowsers` ([options](https://github.com/postcss/autoprefixer#browsers)) in [`config.js`](../config.js).
+
 
 ## Style processor
 

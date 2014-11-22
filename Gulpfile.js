@@ -33,7 +33,8 @@ var sourcemaps = require('gulp-sourcemaps');
 var stringify = require('json-stable-stringify');
 
 /* Shared configuration (A-Z) */
-var paths = require('./config.js').paths;
+var config = require('./config.js');
+var paths = config.paths;
 var pkg = require('./package.json');
 
 /* Register default & custom tasks (A-Z) */
@@ -155,7 +156,7 @@ function buildLessTask() {
 		.pipe(less())
 		.pipe(recess())
 		.pipe(recess.reporter())
-		.pipe(autoprefixer({ browsers: ['> 1%', 'last 2 versions'] })) // https://github.com/postcss/autoprefixer#browsers
+		.pipe(autoprefixer({ browsers: config.autoprefixBrowsers }))
 		.pipe(sourcemaps.write('.', {includeContent: true, sourceRoot: '' }))
 		.pipe(plumber.stop())
 		.pipe(rename(function(p){
