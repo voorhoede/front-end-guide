@@ -124,6 +124,9 @@ a:focus {
     width: 2.5em;
   }
 }
+a img {
+  border: none;
+}
 /* /app-logo component */
 .search-menu {
   position: relative;
