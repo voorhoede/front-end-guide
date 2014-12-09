@@ -28,6 +28,10 @@ angular.module('app', ['config', 'ngSanitize'])
 		viewer.setModuleLang = setModuleLang;
 		viewer.showAnnotations = false;
 
+		if(!document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")){
+			document.querySelector('[data-logo]').src = '{{ paths.assets }}logo.png';
+		}
+
 		for(var index = 0, length = MODULES.length; index < length; index++){
 			viewer.modules[MODULES[index].id] = MODULES[index];
 		}
