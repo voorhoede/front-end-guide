@@ -28,20 +28,33 @@ angular.module('app', ['config', 'ngSanitize'])
 		viewer.setModuleLang = setModuleLang;
 		viewer.showAnnotations = false;
 
-		MODULES.forEach(function(module){
-			viewer.modules[module.id] = module;
-		});
+		for(var index = 0, length = MODULES.length; index < length; index++){
+			viewer.modules[MODULES[index].id] = MODULES[index];
+		}
+
 		setDefaultModule();
 		$timeout(function(){ setAutoHeight(); }, 0);
 		angular.element($window).bind('resize', setDimensions);
 
-		window.addEventListener('message', function(event){
+
+		if (window.addEventListener) {
+			window.addEventListener('message', function(event){
 			var message = event.data;
 			if(viewer.modules.hasOwnProperty(message.moduleId)){
 				viewer.module = viewer.modules[message.moduleId];
 				$scope.$apply();
 			}
 		}, false);
+			} else if (window.attachEvent)  {
+				window.attachEvent('message', function(event){
+				var message = event.data;
+				if(viewer.modules.hasOwnProperty(message.moduleId)){
+					viewer.module = viewer.modules[message.moduleId];
+					$scope.$apply();
+				}
+			}
+		);
+		}
 
 		function getModuleInfo() {
 			var module = viewer.module;
@@ -70,7 +83,8 @@ angular.module('app', ['config', 'ngSanitize'])
 		 */
 		function setAutoHeight() {
 			var frameOffset = viewer.frame.getBoundingClientRect().top;
-			viewer.height = window.innerHeight - frameOffset;
+			var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+			viewer.height = height - frameOffset;
 			return viewer.height;
 		}
 
@@ -79,7 +93,7 @@ angular.module('app', ['config', 'ngSanitize'])
 		 * @returns {Number} width of the viewer frame in pixels (but excluding unit)
 		 */
 		function setAutoWidth() {
-			viewer.width = window.innerWidth;
+			viewer.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 			return viewer.width;
 		}
 

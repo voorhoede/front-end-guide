@@ -2,9 +2,6 @@
 <html data-ng-app="app">
 <head lang="en">
     <meta charset="UTF-8">
-    <!--[if lte IE 8]>
-        <script>window.location='views/_guide-index/guide-index.html'</script>
-    <![endif]-->
     <title>Front-end Guide {{ pkg.name }}</title>
     <!--[if lt IE 9]>
     <script>
@@ -40,10 +37,10 @@
     </nav>
     <div class="viewer-size-controls">
         <button class="viewer-button"
-                data-ng-repeat="breakpoint in ::viewer.breakpoints"
+                data-ng-repeat="breakpoint in viewer.breakpoints"
                 data-ng-class="{ 'is-active': (viewer.width == breakpoint.width) }"
                 data-ng-click="viewer.setWidth(breakpoint.width)"
-                >{{ ::breakpoint.name }}</button>
+                >{{ breakpoint.name }}</button>
         <button class="viewer-button viewer-button-full"
                 data-ng-class="{ 'is-active': viewer.autoWidth }"
                 data-ng-click="viewer.toggleAutoWidth()">FULL</button>
@@ -100,6 +97,7 @@
 
     </article>
     <iframe class="viewer-frame"
+            frameBorder="0"
             sandbox="allow-same-origin allow-scripts"
             data-viewer-frame
             data-ng-src="{{ viewer.getModulePath() }}"
@@ -115,9 +113,8 @@
     <p>Its code is licensed under <a href="https://github.com/voorhoede/front-end-guide/blob/master/LICENSE">MIT License</a>. So use it however you like.</p>
 </footer>
 {% endraw %}
-
-<script src="https://code.angularjs.org/1.3.2/angular.min.js"></script>
-<script src="https://code.angularjs.org/1.3.2/angular-sanitize.min.js"></script>
+<script src="https://code.angularjs.org/1.2.27/angular.min.js"></script>
+<script src="https://code.angularjs.org/1.2.27/angular-sanitize.min.js"></script>
 <script>
     angular.module('config',[])
         .constant('ROOT_PATH', '{{ paths.root }}')
