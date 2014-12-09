@@ -248,66 +248,82 @@ html,
 	border: none;
 }
 
-.viewer-header-select-wrapper {
-	position: relative;
-	display: inline-block;
-	width: 250px;
-	vertical-align: top;
-	color: @dark-green;
-	background: @light-grey;
-	padding: 0 0 0 50px;
-	font-size: 1em;
-	box-sizing: border-box;
-	z-index: 1;
-
-	&:before {
-		&:extend(.viewer-icon);
-		position: absolute;
-		right: 0;
-		width: @header-height;
-		height: @header-height;
-		text-align: center;
-		line-height: @header-height;
-		font-size: @font-size-icons;
-		background-color: @light-grey;
-		content: '\e8ab';
-		z-index: -1;
-		border-left: 3px solid @very-light-grey;
-		box-sizing: border-box;
-	}
+.viewer-header-select-wrapper  {
+	display: inline;
 
 	.viewer-model-type-icon {
-		position: absolute;
-		left: 5px;
-		width: @header-height;
-		height: @header-height;
-		text-align: center;
-		line-height: @header-height;
+		display: none;
+	}
+
+	:not(.ie8) & {
+		background: @light-grey;
+		box-sizing: border-box;
+		color: @dark-green;
+		display: inline-block;
+		font-size: 1em;
+		overflow: hidden;
+		padding: 0 0 0 50px;
+		position: relative;
+		width: 250px;
+		vertical-align: top;
+		z-index: 1;
+
+		&:before {
+			&:extend(.viewer-icon);
+			background-color: @light-grey;
+			border-left: 3px solid @very-light-grey;
+			box-sizing: border-box;
+			content: '\e8ab';
+			font-size: @font-size-icons;
+			height: @header-height;
+			line-height: @header-height;
+			position: absolute;
+			right: 0;
+			text-align: center;
+			width: @header-height;
+			z-index: -1;
+		}
+
+		.viewer-model-type-icon {
+			display: inline;
+			left: 5px;
+			height: @header-height;
+			line-height: @header-height;
+			position: absolute;
+			text-align: center;
+			width: @header-height;
+		}
 	}
 }
 
 .viewer-header-select {
-	height: @header-height;
-	width: 100%;
-	vertical-align: top;
-	border: none;
-	-webkit-appearance: none;
-	appearance: none;
-	background-color: transparent;
-	border-radius: 0;
-	font-size: 1em;
-	font-weight: bold;
+	margin-top: 10px;
+	width: 250px;
 
-	&:hover {
-		cursor: pointer;
-	}
+	:not(.ie8) & {
+		-webkit-appearance: none;
+		appearance: none;
+		background-color: transparent;
+		border: none;
+		border-radius: 0;
+		font-size: 1em;
+		font-weight: bold;
+		height: @header-height;
+		margin-top: 0;
+		vertical-align: top;
+		width: 110%;
 
-	&:focus {
-		outline: none;
-	}
+		&:hover {
+			cursor: pointer;
+		}
 
-	&::-ms-expand {
-		display: none; /* to ie 10 */
+		&:focus {
+			outline: none;
+		}
+
+		&::-ms-expand {
+			display: none; /* to ie 10 */
+		}
 	}
 }
 
@@ -336,6 +352,7 @@ html,
 
 .viewer-info-header {
 	width: 100%;
+	display: block;
 	padding: 5px 0;
 	.clearfix;
 }
@@ -360,6 +377,7 @@ html,
 }
 
 .viewer-info-section {
+	display: block;
 	position: relative;
 	height: 100%;
 	overflow-y: scroll;
