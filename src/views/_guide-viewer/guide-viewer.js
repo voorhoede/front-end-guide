@@ -112,7 +112,6 @@ angular.module('app', ['config', 'ngSanitize'])
 				}
 				index++;
 			}
-			console.info('lang',lang);
 			return lang;
 		}
 
