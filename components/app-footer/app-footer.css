@@ -68,7 +68,7 @@ body {
   font-family: Arial;
   font-size: 1.2em;
   line-height: 1.5em;
-  color: #000000;
+  color: black;
   width: 90%;
   margin: 0 auto;
   padding: 0;
@@ -87,6 +87,5 @@ a:focus {
 .app-footer {
   position: relative;
 }
-/* /app-footer component */
 
 /*# sourceMappingURL=../../components/app-footer/app-footer.css.map */

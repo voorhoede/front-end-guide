@@ -68,7 +68,7 @@ body {
   font-family: Arial;
   font-size: 1.2em;
   line-height: 1.5em;
-  color: #000000;
+  color: black;
   width: 90%;
   margin: 0 auto;
   padding: 0;
@@ -96,7 +96,6 @@ a:focus {
 a img {
   border: none;
 }
-/* /app-logo component */
 .search-menu {
   position: relative;
   display: inline-block;
