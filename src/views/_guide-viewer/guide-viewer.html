@@ -4,6 +4,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Front-end Guide {{ pkg.name }}</title>
+    
     <!--[if lt IE 9]>
     <script>
         (function (d, a) { var l = a.length; while(l--){ d.createElement(a[l]); } }(document,
@@ -31,9 +32,9 @@
 
     		</div>
             <button class="viewer-button viewer-icon-label" data-ng-class="{ 'is-active': viewer.showAnnotations }"
-                    data-ng-click="viewer.toggleAnnotations()"></button>
+                    data-ng-click="viewer.toggleAnnotations()" title="toggle annotations"></button>
             <button class="viewer-button viewer-icon-info-outline" data-ng-class="{ 'is-active': viewer.info.isOpen }"
-                    data-ng-click="viewer.info.isOpen = !viewer.info.isOpen "></button>
+                    data-ng-click="viewer.info.isOpen = !viewer.info.isOpen " title="toggle module info"></button>
             <a data-ng-href="{{ viewer.getModulePath() }}" target="_blank" title="open module in new window"
                class="viewer-link viewer-icon-launch"></a>
         </nav>
