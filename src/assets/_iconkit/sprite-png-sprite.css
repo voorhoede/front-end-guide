@@ -1,0 +1,276 @@
+.svg-arrow-down-blue { 
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-arrow-down-white { 
+	background-position: 0 -14px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-arrow-left-blue { 
+	background-position: 0 -28px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-arrow-left-white { 
+	background-position: 0 -42px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-arrow-right-blue { 
+	background-position: 0 -56px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-arrow-right-white { 
+	background-position: 0 -70px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-arrow-up-blue { 
+	background-position: 0 -84px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-arrow-up-white { 
+	background-position: 0 -98px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-button-sprite-blue { 
+	background-position: 0 -112px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-checkbox-check { 
+	background-position: 0 -126px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-checkbox-checked { 
+	background-position: 0 -140px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-checkbox-default { 
+	background-position: 0 -154px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-checkbox-disabled { 
+	background-position: 0 -168px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-checkbox-error { 
+	background-position: 0 -182px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-checkbox-hover { 
+	background-position: 0 -196px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-checkmark-blue { 
+	background-position: 0 -210px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-checkmark-white { 
+	background-position: 0 -224px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-circle-blue { 
+	background-position: 0 -238px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-circle-white { 
+	background-position: 0 -252px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-filter-blue { 
+	background-position: 0 -266px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-filter-white { 
+	background-position: 0 -280px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-ltsign-blue { 
+	background-position: 0 -294px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-ltsign-white { 
+	background-position: 0 -308px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-min-blue { 
+	background-position: 0 -322px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-min-white { 
+	background-position: 0 -336px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-pencil-blue { 
+	background-position: 0 -350px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-pencil-white { 
+	background-position: 0 -364px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-plus-blue { 
+	background-position: 0 -378px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-plus-white { 
+	background-position: 0 -392px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-radiobutton-check { 
+	background-position: 0 -406px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-radiobutton-checked { 
+	background-position: 0 -420px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-radiobutton-default { 
+	background-position: 0 -434px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-radiobutton-disabled { 
+	background-position: 0 -448px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-radiobutton-error { 
+	background-position: 0 -462px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-radiobutton-hover { 
+	background-position: 0 -476px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-small-check-white { 
+	background-position: 0 -490px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-small-min-white { 
+	background-position: 0 -505px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-small-pen-white { 
+	background-position: 0 -520px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-small-x-white { 
+	background-position: 0 -535px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-stop-blue { 
+	background-position: 0 -550px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-stop-white { 
+	background-position: 0 -564px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-tertiary-edit-blue { 
+	background-position: 0 -578px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-tertiary-remove-blue { 
+	background-position: 0 -589px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-test { 
+	background-position: 0 -600px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-x-blue { 
+	background-position: 0 -1442px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
+.svg-x-white { 
+	background-position: 0 -1456px;
+	background-repeat: no-repeat;
+	background-image: url(icons/icons.png);
+}
+
