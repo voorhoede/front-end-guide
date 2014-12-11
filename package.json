@@ -76,6 +76,7 @@
     "requirejs": "^2.1.15",
     "rimraf": "^2.2.8",
     "run-sequence": "^1.0.1",
-    "through2": "^1.1.1"
+    "through2": "^1.1.1",
+    "iconizr": "^0.2.2"
   }
 }

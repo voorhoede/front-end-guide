@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="12px" height="15px" viewBox="0 0 12 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.1.1 (8761) - http://www.bohemiancoding.com/sketch -->
+    <title>Small button pen - icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="STYLE-TILE" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Styleguide---typography,-buttons,-colors" sketch:type="MSArtboardGroup" transform="translate(-531.000000, -3821.000000)">
+            <g id="pen-small-button" sketch:type="MSLayerGroup" transform="translate(531.000000, 3821.000000)">
+                <g id="Small-button-pen---icon" sketch:type="MSShapeGroup">
+                    <path d="M8.98783499,5.17237926 L5.26962225,8.33646393" id="Line-6" stroke="#FFFFFF" stroke-width="2" stroke-linecap="square" transform="translate(7.128729, 6.754422) rotate(-13.000000) translate(-7.128729, -6.754422) "></path>
+                    <polygon id="Triangle-27" fill="#FFFFFF" transform="translate(3.714550, 11.281713) rotate(-143.000000) translate(-3.714550, -11.281713) " points="3.71454993 10.1333734 4.85152087 12.4300518 2.57757899 12.4300518 "></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
