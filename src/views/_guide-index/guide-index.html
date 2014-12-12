@@ -6,14 +6,17 @@
 {% endblock %}
 
 {% block content %}
-    <div class="guide-index">
-        <h1>
-            <span class="guide-index-icon icon-th-list"></span>
-            Module Index
-        </h1>
+    <article class="guide-index">
+        <h1>{{ pkg.name }}</h1>
+        <p>{{ pkg.description }}</p>
 
-        <p>Introduction.</p>
-        <a href="{{ path.root }}/views/_style-guide/style-guide.html">style guide</a>
+        <section>
+            <h2>App</h2>
+            <ul>
+                <li><a href="{{ paths.root }}{{ pkg.name }}.zip">Download as zip</a> - includes all views, components & assets.</li>
+                <li><a href="{{ paths.root }}views/_style-guide/style-guide.html">Style guide</a> - all primary style rules and elements.</li>
+            </ul>
+        </section>
 
         <section>
             <h2>Views</h2>
@@ -38,5 +41,5 @@
                 {% endfor %}
             </ul>
         </section>
-    </div>
+    </article>
 {% endblock %}
