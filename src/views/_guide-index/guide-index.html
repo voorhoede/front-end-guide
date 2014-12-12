@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="{{ paths.root }}views/_guide-index/guide-index.css">
 {% endblock %}
 
+{% block appHeader %}{% endblock %}
+
 {% block content %}
     <article class="guide-index">
         <h1>{{ pkg.name }}</h1>
@@ -19,7 +21,38 @@
         </section>
 
         <section>
+            <h2>Assets</h2>
+            <p>All static assets - styles, scripts, images and fonts are bundled in <code class="language-bash">assets/</code>.</p>
+            <h3>Styles</h3>
+            <p>
+                All stylesheets of all views, components and common styles are combined and minified into
+                <code class="language-bash">assets/index.css</code>. Extra (vendor) stylesheets may be included on a
+                per view basis, so please check the HTML of each view during implementation.
+                Please make sure to load the stylesheets in the <code class="language-markup">&lt;head&gt;</code>.
+            </p>
+            <p>
+                Note: for debugging it's useful to copy <code class="language-bash">assets/index.css.map</code>
+                to the same directory as <code class="language-bash">index.css</code>.
+                <br>Note: all fonts and images referenced in CSS expect these assets to be available on a file path
+                relative to the stylesheet. You may need to do a find &amp; replace to adjust these paths.
+            </p>
+            <h3>Scripts</h3>
+            <p>
+                All scripts of all views, components and common styles are combined and minified into
+                <code class="language-bash">assets/index.js</code>. Extra (vendor) scripts may be included on a
+                per view basis, so please check the HTML of each view during implementation.
+                Please make sure to load the scripts just before the closing
+                <code class="language-markup">&lt;/body&gt;</code> tag.
+            </p>
+            <p>
+                Note: for debugging it's useful to copy <code class="language-bash">assets/index.js.map</code>
+                to the same directory as <code class="language-bash">index.js</code>.
+            </p>
+        </section>
+
+        <section>
             <h2>Views</h2>
+            <p>Each view is unique and compiled out of one or more components.</p>
             <ul>
                 {# only list views starting with lowercase letter #}
                 {% for item in moduleIndex.views | match('^[a-z]', 'name') %}
@@ -30,16 +63,22 @@
                     </li>
                 {% endfor %}
             </ul>
+            <p>All views are available separately in <code class="language-bash">views/</code>.</p>
         </section>
 
         <section>
             <h2>Components</h2>
+            <p>
+                Components are your site's or app's building blocks. Each component has its own structure/markup (HTML),
+                presentation (CSS) and behavior (JS).
+            </p>
             <ul>
                 {# only list components starting with lowercase letter #}
                 {% for item in moduleIndex.components | match('^[a-z]', 'name') %}
                     <li><a href="{{ paths.root }}{{ item.path }}">{{ item.name }}</a></li>
                 {% endfor %}
             </ul>
+            <p>All components are available separately in <code class="language-bash">components/</code>.</p>
         </section>
     </article>
 {% endblock %}
