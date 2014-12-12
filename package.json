@@ -7,6 +7,7 @@
   "scripts": {
     "build": "gulp build_guide",
     "changelog": "node -e 'require(\"./lib/changelog\")()'",
+    "iconkit_example": "node ./lib/iconkit/index.js",
     "release": "node ./lib/release.js",
     "release:patch": "node ./lib/release.js patch",
     "release:minor": "node ./lib/release.js minor",
