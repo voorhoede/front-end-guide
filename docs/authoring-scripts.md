@@ -125,6 +125,41 @@ New modules can be generated using `gulp create_module`. Depending on the module
 You can modify these as you want. The `MODULE_NAME` constant is automatically substituted by the name of the new module.
 
 
+## Include scripts in HTML template
+
+By default the main script is referenced in [`base-view.html`](../src/views/_base-view/base-view.html) just before the closing `</body>`:
+
+	{# in `src/views/_base-view/base-view.html`: #}
+    {% block scripts %}
+        <script src="{{ paths.assets }}index.js"></script>
+    {% endblock %}
+    
+You can [overwrite or extend](authoring-templates.md#template-slots) this script slot like any other block:
+
+	{# in `src/views/custom-view/custom-view.html`: #}
+	{% extends "views/_base-view/base-view.html" %}
+	{% block scripts %}
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		{{ super() }}
+	{% endblock %}	
+
+You can also inline script directly or from a JavaScript file elsewhere in the front-end guide. This is especially useful for view specific rules and exceptions:
+
+	{% block scripts %}
+		<script>
+			/* example of inline script added to sripts block: */
+			var viewConfig = { debug: true };
+		</script>
+		{{ super() }}
+		<script>			
+			/* example of including external JavaScript into scripts block: */
+			{% include "views/custom-view/special-rules.js" %}
+		</script>
+	{% endblock %}	
+
+A good example of these options is the scripts block in [`guide-viewer.html`](src/views/_guide-viewer/guide-viewer.html).
+
+
 ## Coding conventions
 
 The build process automatically validates the JS against coding conventions, using [JSHint](http://www.jshint.com/) as a linter (checks for syntax errors) and [JSCS](https://github.com/jscs-dev/node-jscs) as a code style checker. The JSHint rules are defined in [`src/.jshintrc`](../src/.jshintrc) ([available JSHint rules](http://www.jshint.com/docs/options/)) and the JSCS rules are defined in [`.jscsrc`](../.jscsrc) ([available JSCS rules](https://github.com/jscs-dev/node-jscs#rules)).

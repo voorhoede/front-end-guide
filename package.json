@@ -5,7 +5,7 @@
   "main": "source/index.js",
   "private": "yes",
   "scripts": {
-    "build": "gulp build_guide",
+    "build": "gulp build_guide && gulp zip_dist",
     "changelog": "node -e 'require(\"./lib/changelog\")()'",
     "release": "node ./lib/release.js",
     "release:patch": "node ./lib/release.js patch",
@@ -76,6 +76,7 @@
     "requirejs": "^2.1.15",
     "rimraf": "^2.2.8",
     "run-sequence": "^1.0.1",
-    "through2": "^1.1.1"
+    "through2": "^1.1.1",
+    "gulp-zip": "^2.0.2"
   }
 }

@@ -10,8 +10,6 @@ var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
 var fs = require('fs');
 var gulp = require('gulp');
-var gutil = require('gulp-util');
-var inquirer = require('inquirer');
 var karma = require('gulp-karma');
 var lazypipe = require('lazypipe');
 var less = require('gulp-less');
@@ -30,7 +28,7 @@ var replace = require('gulp-replace');
 var rjs = require('requirejs');
 var runSequence = require('run-sequence');
 var sourcemaps = require('gulp-sourcemaps');
-var stringify = require('json-stable-stringify');
+var zip = require('gulp-zip');
 
 /* Shared configuration (A-Z) */
 var config = require('./config.js');
@@ -58,7 +56,8 @@ gulp.task('remove_module', removeModule);
 gulp.task('serve', serveTask);
 gulp.task('test_run', testTask('run'));
 gulp.task('test_watch', testTask('watch'));
-gulp.task('watch', function(cb) { runSequence(['build_guide', 'serve'], watchTask); });
+gulp.task('watch', function(/*cb*/) { runSequence(['build_guide', 'serve'], watchTask); });
+gulp.task('zip_dist', zipDistTask);
 
 /* Tasks and utils (A-Z) */
 
@@ -179,6 +178,7 @@ function createModule() {
 function editModule() {
 	return moduleUtility.edit();
 }
+
 var formatHtml = lazypipe()
 	.pipe(function() {
 		// strip CDATA, comments & whitespace
@@ -306,4 +306,10 @@ function watchTask () {
 	gulp.watch(paths.htmlFiles, ['build_html', 'build_previews']);
 	gulp.watch(paths.jsFiles,   ['build_js']);
 	gulp.watch(paths.lessFiles, ['build_less']);
+}
+
+function zipDistTask () {
+	return gulp.src(paths.dist + '**/*')
+		.pipe(zip(pkg.name + '.zip'))
+		.pipe(gulp.dest(paths.dist));
 }

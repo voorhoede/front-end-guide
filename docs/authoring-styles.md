@@ -63,6 +63,37 @@ The front-end guide assumes [`src/index.less`](../src/index.less) to be the main
 New modules can be generated using `gulp create_module`. Depending on the module type selected in this task, it creates a module based on the `src/components/_template/` or `src/views/_template/`. These directories contain the [component LESS template](../src/components/_template/template.less) and [view LESS template](../src/views/_template/template.less). You can modify these as you want. The `MODULE_NAME` constant is automatically substituted by the name of the new module.
 
 
+## Include styles in HTML template
+
+By default the main stylesheet is referenced in the [`base-view.html`](../src/views/_base-view/base-view.html) `<head>`:
+
+	{# in `src/views/_base-view/base-view.html`: #}
+    {% block styles %}
+        <link rel="stylesheet" href="{{ paths.assets }}index.css">
+    {% endblock %}
+    
+You can [overwrite or extend](authoring-templates.md#template-slots) this style slot like any other block:
+
+	{# in `src/views/custom-view/custom-view.html`: #}
+	{% extends "views/_base-view/base-view.html" %}
+	{% block styles %}
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+		{{ super() }}
+	{% endblock %}	
+
+You can also inline style rules directly or from a CSS file elsewhere in the front-end guide. This is especially useful for view specific rules and exceptions:
+
+	{% block styles %}
+		{{ super() }}
+		<style type="text/css">
+			/* example of inline styles added to styles block: */
+			html { background-color: hotpink; }
+			/* example of including external CSS rules into styles block: */
+			{% include "views/custom-view/special-rules.css" %}
+		</style>
+	{% endblock %}	
+	
+
 ## Coding conventions
 
 The build process automatically validates the generated CSS against coding conventions, using Twitter's [RECESS](http://twitter.github.io/recess/) as a linter. Conventions, like whether or not IDs are allowed as CSS hooks, can be toggled on/off in [`.recessrc`](../.recessrc). The [available rules](http://twitter.github.io/recess/#what-it-does) are:

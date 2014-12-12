@@ -53,6 +53,59 @@ In the front-end guide component HTML is treated as template partials. These par
 
 	{# in `src/views/_base-view/base-view.html`: #}
 	{% include "components/app-header/app-header.html" %}
+	
+### Template partial variations
+
+To reuse a template partial in different variations you can use [`macro`](http://mozilla.github.io/nunjucks/templating.html#macro)s. A macro is a function block which accepts variables:
+
+	{# in `src/components/custom-input/custom-input.html`: #}
+	{% macro customInput(label, name, isRequired=false) %}
+		<label for="input-{{ name }}">{{ label }}</label>
+		<input  id="input-{{ name }}" name="{{ name }}" {% if isRequired %}required{% endif %}>
+	{% endmacro %}
+	
+You can use the macro by [`import`](http://mozilla.github.io/nunjucks/templating.html#import)ing it in a template and calling it within an expression: 
+
+	{# in `src/views/custom-view/custom-view.html`: #}
+	{% from "components/custom-input/custom-input.html" import customInput %}
+	<form method="post" action="/login">
+		{{ customInput('Username', 'user', isRequired=true) }}
+		{{ customInput('Password', 'pass', isRequired=true) }}
+		{{ customInput('Domain', 'domain') }}
+		<button>Login</button>
+	</form>
+
+	
+## Template slots
+
+Within a template you can define slots using [`block`](http://mozilla.github.io/nunjucks/templating.html#block)s. You can overwrite or extend the content of these blocks in templates using inheritance.
+
+### Define slot using block
+
+	{# in `src/views/_base-view/base-view.html`: #}
+	{% block appHeader %}
+		{% include "components/app-header/app-header.html" %}
+	{% endblock %}
+	
+### Overwrite content in block
+	
+	{# in `src/views/custom-view/custom-view.html`: #}
+	{% extends "views/_base-view/base-view.html" %}
+	{% block appHeader %}
+		Content overwriting the original content of appHeader in base-view.
+	{% endblock %}
+	
+### Extend content in block
+
+Extend content in block using the `{{ super() }}` expression:
+	
+	{# in `src/views/custom-view/custom-view.html`: #}
+	{% extends "views/_base-view/base-view.html" %}
+	{% block appHeader %}
+		Extra content before original content of appHeader in base-view.
+		{{ super() }}
+		Extra content after original content of appHeader in base-view.
+	{% endblock %}	
 
 	
 ## Main view
