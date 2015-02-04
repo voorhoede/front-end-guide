@@ -11,16 +11,12 @@ var jshint = require('gulp-jshint');
 var fs = require('fs');
 var gulp = require('gulp');
 var karma = require('gulp-karma');
-var lazypipe = require('lazypipe');
 var less = require('gulp-less');
-var minifyHtml = require('gulp-minify-html');
 var moduleUtility = require('./lib/module-utility');
 var newer = require('gulp-newer');
-var nunjucksMarkdown = require('nunjucks-markdown');
 var nunjucksRender = require('./lib/nunjucks-render');
 var path = require('path');
 var plumber = require('gulp-plumber');
-var prettify = require('gulp-prettify');
 var prism = require('./lib/prism');
 var recess = require('gulp-recess');
 var rename = require('gulp-rename');
@@ -97,7 +93,8 @@ function buildHtmlTask() {
 }
 
 function buildModuleInfoTask() {
-	var marked = require('marked');
+	var MarkdownIt = require('markdown-it');
+	var md = new MarkdownIt();
 	['Components', 'Views'].forEach(function(moduleType){
 		listDirectories(paths['src' + moduleType])
 			.filter(function(name){ return (name.substr(0,1) !== '_'); })
@@ -106,7 +103,7 @@ function buildModuleInfoTask() {
 				var distBasename = paths['dist' + moduleType] + name + '/' + name;
 				var moduleInfo = {
 					name: name,
-					readme  : marked(getFileContents(paths['src' + moduleType]  + name + '/README.md')),
+					readme  : md.render(getFileContents(paths['src' + moduleType]  + name + '/README.md')),
 					html    : highlightCode(getFileContents(distBasename + '.html'), 'markup'),
 					css     : highlightCode(getFileContents(distBasename + '.css'), 'css'),
 					template: highlightCode(getFileContents(srcBasename + '.html'), 'twig'),
@@ -168,7 +165,6 @@ function buildLessTask() {
 
 function configureNunjucks() {
 	var env = nunjucksRender.nunjucks.configure(paths.src);
-	nunjucksMarkdown.register(env);
 	env.addFilter('match', require('./lib/nunjucks-filter-match'));
 	env.addFilter('prettyJson', require('./lib/nunjucks-filter-pretty-json'));
 }
@@ -178,22 +174,6 @@ function createModule() {
 function editModule() {
 	return moduleUtility.edit();
 }
-
-var formatHtml = lazypipe()
-	.pipe(function() {
-		// strip CDATA, comments & whitespace
-		return minifyHtml({
-			empty: true,
-			conditionals: true,
-			spare: true,
-			quotes: true
-		});
-	})
-	.pipe(function() {
-		return prettify({
-			indent_size: 2
-		});
-	});
 
 function getFileContents(path){
 	if(fs.existsSync(path)){
