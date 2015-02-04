@@ -96,6 +96,7 @@ a:focus {
 a img {
   border: none;
 }
+/* /app-logo component */
 .search-menu {
   position: relative;
   display: inline-block;

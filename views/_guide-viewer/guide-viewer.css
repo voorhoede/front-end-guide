@@ -99,7 +99,8 @@ html,
   padding: 1em;
   padding: 0 5px 1em 5px;
   border-bottom: 1px solid #ccc;
-  transition: height .5s;
+  -webkit-transition: height .5s;
+          transition: height .5s;
 }
 .viewer-info-close {
   position: absolute;
@@ -135,7 +136,8 @@ html,
   font-size: 1.4em;
 }
 .viewer-button:hover {
-  transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in;
+          transition: all 0.2s ease-in;
   background-color: #ccd5d7;
   cursor: pointer;
 }
@@ -154,7 +156,8 @@ html,
   color: #eddb60;
 }
 .viewer-button.is-active:hover {
-  transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in;
+          transition: all 0.2s ease-in;
   color: #ccd5d7;
 }
 .viewer-link {
@@ -172,7 +175,8 @@ html,
   color: #1b363b;
 }
 .viewer-link:hover {
-  transition: all 0.2s ease-in;
+  -webkit-transition: all 0.2s ease-in;
+          transition: all 0.2s ease-in;
   background-color: #ccd5d7;
   cursor: pointer;
 }
