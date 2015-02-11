@@ -6,6 +6,7 @@
   "private": "yes",
   "scripts": {
     "build": "./node_modules/.bin/gulp build_guide && ./node_modules/.bin/gulp zip_dist",
+    "build-assets": "./node_modules/.bin/gulp build_assets",
     "changelog": "node -e 'require(\"./lib/changelog\")()'",
     "release": "node ./lib/release.js",
     "release:patch": "node ./lib/release.js patch",

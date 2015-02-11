@@ -39,6 +39,7 @@ Want installation guide in more detail? Read [Getting started](docs/getting-star
 * [Authoring templates (HTML)](docs/authoring-templates.md)
 * [Authoring styles (LESS/CSS)](docs/authoring-styles.md)
 * [Authoring scripts (JS)](docs/authoring-scripts.md)
+* [Authoring assets](docs/authoring-assets.md)
 * [Creating modules](docs/module-crud.md)
 * [Build with Travis CI](docs/build-with-travis-ci.md)
 * [Changelog](docs/changelog.md)
