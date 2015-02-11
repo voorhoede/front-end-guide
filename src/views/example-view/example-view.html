@@ -1,0 +1,11 @@
+{% extends "views/_base-view/base-view.html" %}
+
+{% block title %}example-view | {{ super() }}{% endblock %}
+
+{% block content %}
+    <!-- example-view view -->
+    write content for example-view component here.
+
+    <img src="{{ paths.assets }}views/example-view/images/beach.jpg"/>
+    <!-- /example-view view -->
+{% endblock %}

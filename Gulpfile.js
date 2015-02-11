@@ -6,6 +6,7 @@ var cached = require('gulp-cached');
 var del = require('del');
 var gulpif = require('gulp-if');
 var filter = require('gulp-filter');
+var imagemin = require('gulp-imagemin');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
 var fs = require('fs');
@@ -17,6 +18,7 @@ var newer = require('gulp-newer');
 var nunjucksRender = require('./lib/nunjucks-render');
 var path = require('path');
 var plumber = require('gulp-plumber');
+var pngquant = require('imagemin-pngquant');
 var prism = require('./lib/prism');
 var recess = require('gulp-recess');
 var rename = require('gulp-rename');
@@ -33,21 +35,24 @@ var pkg = require('./package.json');
 
 /* Register default & custom tasks (A-Z) */
 gulp.task('default', ['build_guide']);
-gulp.task('build', ['build_html', 'build_js', 'build_less', 'build_assets']);
-gulp.task('build_assets', buildAssetsTask);
-gulp.task('build_clean', function(cb) { runSequence('clean_dist', 'build', cb); });
-gulp.task('build_guide', function(cb) { runSequence('build_clean', 'build_previews', 'build_module_info', cb); });
+gulp.task('build', ['build_html', 'build_js', 'build_less', 'copy_assets']);
+gulp.task('build_assets', function(cb) { runSequence('imagemin', 'copy_assets', cb);});
+gulp.task('build_clean',  function(cb) { runSequence('clean_dist', 'build', cb); });
+gulp.task('build_guide',  function(cb) { runSequence('build_clean', 'build_previews', 'build_module_info', cb); });
 gulp.task('build_html', buildHtmlTask);
 gulp.task('build_js',['jshint_src'], buildJsTask);
 gulp.task('build_less', buildLessTask);
 gulp.task('build_module_info', buildModuleInfoTask);
 gulp.task('build_previews', buildPreviewsTask);
 gulp.task('clean_dist', function (cb) { del([paths.dist], cb); });
+gulp.task('copy_assets', copyAssetsTask);
 gulp.task('create_module', createModule);
 gulp.task('edit_module', editModule);
 gulp.task('jshint', ['jshint_src', 'jshint_node']);
 gulp.task('jshint_node', jshintNodeTask);
 gulp.task('jshint_src', jshintSrcTask);
+gulp.task('imagemin', imageminTask);
+gulp.task('process_images', imageminTask);
 gulp.task('remove_module', removeModule);
 gulp.task('serve', serveTask);
 gulp.task('test_run', testTask('run'));
@@ -56,24 +61,6 @@ gulp.task('watch', function(/*cb*/) { runSequence(['build_guide', 'serve'], watc
 gulp.task('zip_dist', zipDistTask);
 
 /* Tasks and utils (A-Z) */
-
-/**
- * Copy all files from `assets/` directories in source root & modules. Only copies file when newer.
- * The `assets/` string is removed from the original path as the destination is an `assets/` dir itself.
- */
-function buildAssetsTask() {
-	paths.assetFiles.map(function(path){
-		return gulp.src(path, { base: paths.src })
-			.pipe(newer(paths.distAssets))
-			.pipe(rename(function(p){
-				p.dirname = p.dirname
-					.split('/')
-					.filter(function(dir){ return (dir !== 'assets'); })
-					.join('/');
-			}))
-			.pipe(gulp.dest(paths.distAssets));
-	});
-}
 
 function buildHtmlTask() {
 	configureNunjucks();
@@ -87,7 +74,6 @@ function buildHtmlTask() {
 			);
 		}))
 		.pipe(plumber.stop())
-		//.pipe(formatHtml())
 		.pipe(gulp.dest(paths.dist))
 		.pipe(reloadBrowser({ stream:true }));
 }
@@ -168,9 +154,29 @@ function configureNunjucks() {
 	env.addFilter('match', require('./lib/nunjucks-filter-match'));
 	env.addFilter('prettyJson', require('./lib/nunjucks-filter-pretty-json'));
 }
+
+/**
+ * Copy all files from `assets/` directories in source root & modules. Only copies file when newer.
+ * The `assets/` string is removed from the original path as the destination is an `assets/` dir itself.
+ */
+function copyAssetsTask() {
+	paths.assetFiles.map(function(path){
+		return gulp.src(path, { base: paths.src })
+			.pipe(newer(paths.distAssets))
+			.pipe(rename(function(p){
+				p.dirname = p.dirname
+					.split('/')
+					.filter(function(dir){ return (dir !== 'assets'); })
+					.join('/');
+			}))
+			.pipe(gulp.dest(paths.distAssets));
+	});
+}
+
 function createModule() {
 	return moduleUtility.create();
 }
+
 function editModule() {
 	return moduleUtility.edit();
 }
@@ -211,6 +217,32 @@ function htmlModuleData(file) {
 		},
 		pkg: pkg
 	};
+}
+
+function imageminTask () {
+	var relRawImageDirPath = 'assets-raw/images';
+	var relRawImageFilePath = relRawImageDirPath + '/**/*.{gif,jpg,jpeg,png,svg}';
+	function renameImageDir(path){ return path.replace(relRawImageDirPath,'assets/images'); }
+	return gulp.src([
+		paths.src + relRawImageFilePath,
+		paths.srcComponents + '*/' + relRawImageFilePath,
+		paths.srcViews + '*/' + relRawImageFilePath
+	], { base: paths.src })
+		.pipe(newer({
+			dest: paths.src,
+			map: function(relativePath){
+				return renameImageDir(relativePath);
+			}
+		}))
+		.pipe(imagemin({
+			progressive: true,
+			svgoPlugins: [],
+			use: [pngquant()]
+		}))
+		.pipe(rename(function(path){
+			path.dirname = renameImageDir(path.dirname);
+		}))
+		.pipe(gulp.dest(paths.src));
 }
 
 function jshintNodeTask() {
@@ -282,7 +314,7 @@ function srcFiles(filetype) {
 }
 
 function watchTask () {
-	gulp.watch(paths.assetFiles, ['build_assets']);
+	gulp.watch(paths.assetFiles, ['copy_assets']);
 	gulp.watch(paths.htmlFiles, ['build_html', 'build_previews']);
 	gulp.watch(paths.jsFiles,   ['build_js']);
 	gulp.watch(paths.lessFiles, ['build_less']);
