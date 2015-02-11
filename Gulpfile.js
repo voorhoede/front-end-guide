@@ -219,15 +219,24 @@ function htmlModuleData(file) {
 	};
 }
 
+/**
+ * All images placed in a `assets-raw/images/` folder will be optimised (if newer) and placed in `assets/images/`.
+ * Examples:
+ *  src/assets-raw/images/img.png                           >> src/assets/images/img.png
+ *  src/components/my-component/assets-raw/images/img.png   >> src/components/my-component/assets/images/img.png
+ *  src/views/my-view/assets-raw/images/img.png             >> src/views/my-view/assets/images/img.png
+ * If you don't want an image to be processed place it directly into `assets` instead of `assets-raw`.
+ */
 function imageminTask () {
 	var relRawImageDirPath = 'assets-raw/images';
 	var relRawImageFilePath = relRawImageDirPath + '/**/*.{gif,jpg,jpeg,png,svg}';
 	function renameImageDir(path){ return path.replace(relRawImageDirPath,'assets/images'); }
 	return gulp.src([
-		paths.src + relRawImageFilePath,
-		paths.srcComponents + '*/' + relRawImageFilePath,
-		paths.srcViews + '*/' + relRawImageFilePath
-	], { base: paths.src })
+			paths.src + relRawImageFilePath,
+			paths.srcComponents + '*/' + relRawImageFilePath,
+			paths.srcViews + '*/' + relRawImageFilePath
+		], { base: paths.src })
+		// only process image if the raw image is newer (need to check against renamed output file)
 		.pipe(newer({
 			dest: paths.src,
 			map: function(relativePath){
@@ -239,6 +248,7 @@ function imageminTask () {
 			svgoPlugins: [],
 			use: [pngquant()]
 		}))
+		// output the processed image in the assets output dir
 		.pipe(rename(function(path){
 			path.dirname = renameImageDir(path.dirname);
 		}))
