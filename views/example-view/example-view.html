@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title> Demo Project</title>
+    <title>example-view |  Demo Project</title>
     <meta name="description" content="Manage your front-end project in unique views and reusable components.">
     <meta name="keywords" content="front-end, guide, patternlab, reusable, components, modules">
     <meta property="og:image" content="http://voorhoede.github.io/front-end-guide/assets/components/app-logo/demo-logo.png">
@@ -26,14 +26,71 @@
     <![endif]-->
 
     
-    
         <!-- Include stylesheets here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
         <link rel="stylesheet" href="../../assets/index.css">
     
-    <link rel="stylesheet" href="../../views/_guide-index/guide-index.css">
-
 </head>
-<body data-module="views/_guide-index">
+<body data-module="views/example-view">
+
+<!-- app-header component -->
+<header role="banner" class="app-header" data-component="app-header">
+    <a class="app-logo" href="../..//views/_guide-index/_guide-index.html" rel="home" title="to homepage" data-component="app-logo">
+    <!-- link to home: http://microformats.org/wiki/rel-home -->
+    <h1>
+        <!-- vector image with bitmap fallback: https://twitter.com/scottjehl/status/369190249437483008 -->
+        <!-- specify image dimensions for performance: http://www.feedthebot.com/pagespeed/image-dimensions.html -->
+        <img alt="[Logo]"
+             src="../../assets/components/app-logo/demo-logo.svg"
+             onerror="this.onerror=null; this.src='../../assets/components/app-logo/demo-logo.png';"
+             width="75" height="75"
+             >
+        
+        Demo Project
+    </h1>
+</a>
+
+    <!-- Quick menu (skipnav) to directly jump to specific sections: http://www.jimthatcher.com/skipnav.htm -->
+    <nav class="app-header-quick-menu">
+        <h2 class="a11y-sr-only">Quick menu</h2>
+        <ul class="flat-list">
+            <li><a class="menu-link a11y-kb-only" href="#content">Jump to content</a></li>
+            <li><a class="menu-link a11y-kb-only" href="#main-menu">Jump to main menu</a></li>
+            <li><a class="menu-link a11y-kb-only" href="#search">Jump to search</a></li>
+            <li><a class="menu-link a11y-kb-only" href="#meta-menu">Jump to meta menu</a></li>
+            <li><a class="menu-link a11y-kb-only" href="#user">Jump to user menu</a></li>
+        </ul>
+    </nav>
+    <!-- search-menu component -->
+<!-- Mark search controls for enhanced a11y: http://www.w3.org/TR/wai-aria/roles#search -->
+<div role="search" class="search-menu"
+     data-search-menu
+     data-expandible-open-on-focus="true"
+     data-expandible-close-on-blur="true"
+     data-component="search-menu">
+    <a id="search" rel="search" href="/views/search/search.html"
+       class="menu-link"
+       data-expandible-handle="toggle">
+        <span class="search-menu-open  app-icon-search"></span>
+        <span class="search-menu-close app-icon-cross"></span>
+        <span class="a11y-sr-only">Search</span>
+    </a>
+    <form method="GET" action="/views/search/search.html"
+          class="search-menu-form"
+          data-expandible-content>
+        <label>
+            <span class="a11y-sr-only">Keywords</span>
+            <input type="search" name="q" placeholder="keyword(s)" />
+        </label>
+        <button>
+            <span class="app-icon-search"></span>
+            <span class="a11y-sr-only">Search front-end-guide</span>
+        </button>
+    </form>
+</div>
+<!-- /search-menu -->
+
+</header>
+<!-- /app-header -->
 
 
 
@@ -41,109 +98,11 @@
     <!-- tabindex fixes focus issue, alternatively use generic script: http://www.nczonline.net/blog/2013/01/15/fixing-skip-to-content-links/ -->
     <!-- @todo: add nav[role="navigation"] as TOC -->
     
-    <article class="guide-index">
-        <h1>front-end-guide</h1>
-        <p>Manage your front-end project in unique views and reusable components.</p>
+    <!-- example-view view -->
+    write content for example-view component here.
 
-        <section>
-            <h2>App</h2>
-            <ul>
-                <li><a href="../../front-end-guide.zip">Download as zip</a> - includes all views, components & assets.</li>
-                <li><a href="../../views/_style-guide/style-guide.html">Style guide</a> - all primary style rules and elements.</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2>Assets</h2>
-            <p>All static assets - styles, scripts, images and fonts are bundled in <code class="language-bash">assets/</code>.</p>
-            <h3>Styles</h3>
-            <p>
-                All stylesheets of all views, components and common styles are combined and minified into
-                <code class="language-bash">assets/index.css</code>. Extra (vendor) stylesheets may be included on a
-                per view basis, so please check the HTML of each view during implementation.
-                Please make sure to load the stylesheets in the <code class="language-markup">&lt;head&gt;</code>.
-            </p>
-            <p>
-                Note: for debugging it's useful to copy <code class="language-bash">assets/index.css.map</code>
-                to the same directory as <code class="language-bash">index.css</code>.
-                <br>Note: all fonts and images referenced in CSS expect these assets to be available on a file path
-                relative to the stylesheet. You may need to do a find &amp; replace to adjust these paths.
-            </p>
-            <h3>Scripts</h3>
-            <p>
-                All scripts of all views, components and common styles are combined and minified into
-                <code class="language-bash">assets/index.js</code>. Extra (vendor) scripts may be included on a
-                per view basis, so please check the HTML of each view during implementation.
-                Please make sure to load the scripts just before the closing
-                <code class="language-markup">&lt;/body&gt;</code> tag.
-            </p>
-            <p>
-                Note: for debugging it's useful to copy <code class="language-bash">assets/index.js.map</code>
-                to the same directory as <code class="language-bash">index.js</code>.
-            </p>
-        </section>
-
-        <section>
-            <h2>Views</h2>
-            <p>Each view is unique and compiled out of one or more components.</p>
-            <ul>
-                
-                
-                    <li>
-                        <a href="../../views/example-view/example-view.html">example-view</a>
-                        <a href="../../views/example-view/example-view.html?annotate"
-                           title="annotated view" class="guide-index-icon-tag"></a>
-                    </li>
-                
-                    <li>
-                        <a href="../../views/home/home.html">home</a>
-                        <a href="../../views/home/home.html?annotate"
-                           title="annotated view" class="guide-index-icon-tag"></a>
-                    </li>
-                
-                    <li>
-                        <a href="../../views/login/login.html">login</a>
-                        <a href="../../views/login/login.html?annotate"
-                           title="annotated view" class="guide-index-icon-tag"></a>
-                    </li>
-                
-                    <li>
-                        <a href="../../views/search/search.html">search</a>
-                        <a href="../../views/search/search.html?annotate"
-                           title="annotated view" class="guide-index-icon-tag"></a>
-                    </li>
-                
-            </ul>
-            <p>All views are available separately in <code class="language-bash">views/</code>.</p>
-        </section>
-
-        <section>
-            <h2>Components</h2>
-            <p>
-                Components are your site's or app's building blocks. Each component has its own structure/markup (HTML),
-                presentation (CSS) and behavior (JS).
-            </p>
-            <ul>
-                
-                
-                    <li><a href="../../components/app-core-styles/app-core-styles-preview.html">app-core-styles</a></li>
-                
-                    <li><a href="../../components/app-footer/app-footer-preview.html">app-footer</a></li>
-                
-                    <li><a href="../../components/app-header/app-header-preview.html">app-header</a></li>
-                
-                    <li><a href="../../components/app-logo/app-logo-preview.html">app-logo</a></li>
-                
-                    <li><a href="../../components/fixed-ratio/fixed-ratio-preview.html">fixed-ratio</a></li>
-                
-                    <li><a href="../../components/search-menu/search-menu-preview.html">search-menu</a></li>
-                
-                    <li><a href="../../components/social-share/social-share-preview.html">social-share</a></li>
-                
-            </ul>
-            <p>All components are available separately in <code class="language-bash">components/</code>.</p>
-        </section>
-    </article>
+    <img src="../../assets/views/example-view/images/beach.jpg"/>
+    <!-- /example-view view -->
 
 </main>
 
