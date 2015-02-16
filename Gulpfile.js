@@ -154,7 +154,7 @@ function buildLessTask() {
 }
 
 function configureNunjucks() {
-	var env = nunjucksRender.nunjucks.configure(paths.src);
+	var env = nunjucksRender.nunjucks.configure(paths.src, {watch: false });
 	env.addFilter('match', require('./lib/nunjucks-filter-match'));
 	env.addFilter('prettyJson', require('./lib/nunjucks-filter-pretty-json'));
 }
