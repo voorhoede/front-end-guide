@@ -8,7 +8,6 @@
     "build": "./node_modules/.bin/gulp build_guide && ./node_modules/.bin/gulp zip_dist",
     "build-assets": "./node_modules/.bin/gulp build_assets",
     "changelog": "node -e 'require(\"./lib/changelog\")()'",
-    "iconkit_example": "node ./lib/iconkit/index.js",
     "release": "node ./lib/release.js",
     "release:patch": "node ./lib/release.js patch",
     "release:minor": "node ./lib/release.js minor",
