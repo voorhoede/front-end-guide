@@ -40,6 +40,7 @@ gulp.task('build_assets', function(cb) { runSequence('imagemin', 'copy_assets', 
 gulp.task('build_clean',  function(cb) { runSequence('clean_dist', 'build', cb); });
 gulp.task('build_guide',  function(cb) { runSequence('build_clean', 'build_previews', 'build_module_info', cb); });
 gulp.task('build_html', buildHtmlTask);
+gulp.task('build_icons', buildIcons);
 gulp.task('build_js',['jshint_src'], buildJsTask);
 gulp.task('build_less', buildLessTask);
 gulp.task('build_module_info', buildModuleInfoTask);
@@ -221,6 +222,17 @@ function htmlModuleData(file) {
 		},
 		pkg: pkg
 	};
+}
+
+function buildIcons() {
+	var iconkit = require('./lib/iconkit');
+	var relIconDirPath = 'assets-raw/icons';
+	return gulp.src([
+			paths.src + relIconDirPath,
+			paths.srcComponents + '*/' + relIconDirPath,
+			paths.srcViews + '*/' + relIconDirPath
+		], { base: paths.src })
+		.pipe(iconkit.processStream());
 }
 
 /**
