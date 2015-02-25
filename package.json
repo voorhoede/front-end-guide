@@ -60,6 +60,7 @@
     "gulp-sourcemaps": "^1.2.4",
     "gulp-util": "^3.0.1",
     "gulp-zip": "^2.0.2",
+    "iconizr": "^0.2.2",
     "imagemin-pngquant": "^4.0.0",
     "inquirer": "^0.8.0",
     "jshint-stylish": "^1.0.0",
@@ -70,6 +71,7 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-requirejs": "^0.2.2",
     "lodash-node": "^3.1.0",
+    "markdown-it": "^3.0.4",
     "minimist": "^1.1.0",
     "mkdirp": "^0.5.0",
     "nunjucks": "^1.1.0",
@@ -77,8 +79,6 @@
     "requirejs": "^2.1.15",
     "rimraf": "^2.2.8",
     "run-sequence": "^1.0.1",
-    "through2": "^1.1.1",
-    "markdown-it": "^3.0.4",
-    "iconizr": "^0.2.2"
+    "through2": "^1.1.1"
   }
 }
