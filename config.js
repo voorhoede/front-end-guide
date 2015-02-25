@@ -34,7 +34,16 @@ paths.htmlFiles = paths.srcFiles.map(function(path){ return path + '.html'; });
 paths.jsFiles   = paths.srcFiles.map(function(path){ return path + '.js'; });
 paths.lessFiles = paths.srcFiles.map(function(path){ return path + '*/*.less'; });
 
+// files that need to be copied individually
+var filesToCopy = [
+	{
+		filepath : 'src/.htaccess',
+		toDir : paths.dist
+	}
+];
+
 module.exports = {
 	autoprefixBrowsers: autoprefixBrowsers,
+	filesToCopy: filesToCopy,
 	paths: paths
 };

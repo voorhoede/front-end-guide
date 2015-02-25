@@ -1,0 +1,34 @@
+<!-- asset-loader component -->
+
+<!-- During integration check serverside if cookie `full css` is not present. If it is not present render the noscript tag. In development we do this with apache conditionals -->
+<!--#if expr="$HTTP_COOKIE != /.*full-css=([^;]+);?.*/" -->
+<!-- in non js browser, just load the css in a blocking manner -->
+<noscript><link rel="stylesheet" href="{{ paths.assets }}index.css"></noscript>
+<!-- During integration check serverside if cookie `full css` is present. If it is present render the link tag, leveraging from browser caching. In development we do this with apache conditionals -->
+<!--#elif expr="$HTTP_COOKIE = /.*full-css=([^;]+);?.*/"-->
+<link rel="stylesheet" href="{{ paths.assets }}index.css" />
+<!--#endif-->
+
+<script>
+    var filePaths = {
+        rootpath : {
+            name : "rootpath",
+            path : "{{ paths.root }}"
+        },
+        js : {
+            name : "full-js",
+            path : "{{ paths.assets }}index.js"
+        },
+        css : {
+            name : "full-css",
+            path : "{{ paths.assets }}index.css"
+        }
+    }
+</script>
+<!-- On a node server this script tag is rendered to never set cookies. On an Apache web server this will never get rendered. During integration leave this out. -->
+<!--#if expr="$nonExistingVar"-->
+<script>var useCookie = false;</script>
+<!--#endif-->
+
+<script>{% include "components/initial/initial.js" %}</script>
+<!-- /asset-loader component -->
