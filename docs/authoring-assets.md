@@ -24,7 +24,7 @@ Images which should be optimised should be placed in a `raw-assets/images/` dire
 	
 ### Icons
 
-Original icons in SVG format should be placed in a `raw-assets/icons/` directory, either on an app, view or component level. Icons in these directories will be processed into sprites and data-uri's using [iconizr](https://github.com/jkphl/iconizr). An SVG and PNG sprite will be placed into a relative `assets/icons/` directory. The data-uri's for both SVG and PNG will be wrapped in LESS variables and placed into a relative `assets/styles/` directory. These can be used as follows:
+Original icons in SVG format should be placed in a `assets-raw/icons/` directory, either on an app, view or component level. Icons in these directories will be processed into sprites and data-uri's using [iconizr](https://github.com/jkphl/iconizr). An SVG and PNG sprite will be placed into a relative `assets/icons/` directory. The data-uri's for both SVG and PNG will be wrapped in LESS variables and placed into a relative `assets/styles/` directory. These can be used as follows:
 
 	```css
 	// src/components/app-icons/app-icons/less""
