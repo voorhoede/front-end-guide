@@ -89,13 +89,6 @@
 		}
 	}
 
-
-	if (filePaths.css && !getCookie(filePaths.css.name)) {
-		loadCSS(filePaths.css.path);
-		// set cookie to mark this file fetched
-		setCookie(filePaths.css.name, filePaths.css.path, fiveYears);
-	}
-
 	// load js async and toggle no-js class
 	if (isCapableBrowser) {
 		loadJS(filePaths.js.path, function () {

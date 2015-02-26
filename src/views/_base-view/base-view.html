@@ -27,7 +27,7 @@
 
     {% block styles %}
         <!-- Include stylesheets here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
-        <!-- Note that we load in the index.css through `components/initial/initial.js` -->
+        <link rel="stylesheet" href="{{ paths.assets }}index.css">
     {% endblock %}
 </head>
 <body data-module="{{ module.id }}">
