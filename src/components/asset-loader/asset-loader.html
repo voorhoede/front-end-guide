@@ -1,14 +1,5 @@
 <!-- asset-loader component -->
 
-<!-- During integration check serverside if cookie `full css` is not present. If it is not present render the noscript tag. In development we do this with apache conditionals -->
-<!--#if expr="$HTTP_COOKIE != /.*full-css=([^;]+);?.*/" -->
-<!-- in non js browser, just load the css in a blocking manner -->
-<noscript><link rel="stylesheet" href="{{ paths.assets }}index.css"></noscript>
-<!-- During integration check serverside if cookie `full css` is present. If it is present render the link tag, leveraging from browser caching. In development we do this with apache conditionals -->
-<!--#elif expr="$HTTP_COOKIE = /.*full-css=([^;]+);?.*/"-->
-<link rel="stylesheet" href="{{ paths.assets }}index.css" />
-<!--#endif-->
-
 <!-- Check serverside for cookie 'icons'. If it is present render the link tag and put the value from the cookie in the href attribute. In development we do this with apache conditionals.
 Also to not let it break when running on a node server we render it as a meta tag. On an Apache web server the meta starting and closing tag will never be rendered -->
 <!--#if expr="$HTTP_COOKIE = /.*icons=([^;]+);?.*/" -->
@@ -29,10 +20,6 @@ Also to not let it break when running on a node server we render it as a meta ta
         js : {
             name : "full-js",
             path : "{{ paths.assets }}index.js"
-        },
-        css : {
-            name : "full-css",
-            path : "{{ paths.assets }}index.css"
         },
         icons : {
             name : "icons",

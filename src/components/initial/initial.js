@@ -89,13 +89,6 @@
 		}
 	}
 
-
-	if (filePaths.css && !getCookie(filePaths.css.name)) {
-		loadCSS(filePaths.css.path);
-		// set cookie to mark this file fetched
-		setCookie(filePaths.css.name, filePaths.css.path, fiveYears);
-	}
-
 	// modified grunticon loader used for loading the correct icon file
 	function grunticon( svgData, pngData ){
 		var svgSupported = !!window.document.createElementNS && !!window.document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect && !!window.document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1") && !(window.opera && navigator.userAgent.indexOf('Chrome') === -1),
