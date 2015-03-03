@@ -1,5 +1,13 @@
 <!-- asset-loader component -->
 
+<!-- Check serverside for cookie 'fonts'. If it is present render the link tag and put the value from the cookie in the href attribute. In development we do this with apache conditionals.
+Also to not let it break when running on a node server we render it as a meta tag. On an Apache web server the meta starting and closing tag will never be rendered -->
+<!--#if expr="$HTTP_COOKIE = /.*fonts=([^;]+);?.*/" -->
+<!--#if expr="$nonExistingVar"--><meta name="ssi-only:fonts" content='<!--#endif-->
+<link rel="stylesheet" href="<!--#echo var="1"-->" />
+<!--#if expr="$nonExistingVar"-->'><!--#endif-->
+<!--#endif-->
+
 <script>
     var filePaths = {
         rootpath : {
@@ -9,9 +17,15 @@
         js : {
             name : "full-js",
             path : "{{ paths.assets }}index.js"
+        },
+        fonts : {
+            name : "fonts",
+            woff : "{{ paths.assets }}components/app-core-styles/fonts/fonts-woff.css",
+            ttf : "{{ paths.assets }}components/app-core-styles/fonts/fonts-ttf.css"
         }
     }
 </script>
+
 <!-- On a node server this script tag is rendered to never set cookies. On an Apache web server this will never get rendered. During integration leave this out. -->
 <!--#if expr="$nonExistingVar"-->
 <script>var useCookie = false;</script>

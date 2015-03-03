@@ -5,6 +5,7 @@
 	'use strict';
 
 	var isCapableBrowser = 'querySelector' in document,
+		ua = window.navigator.userAgent,
 		fiveYears = 5 * 365;
 
 	/*! loadCSS: load a CSS file asynchronously. [c]2014 @scottjehl, Filament Group, Inc. Licensed MIT */
@@ -87,6 +88,18 @@
 			}
 			window.document.cookie = name + "=" + value + expires + "; path=/";
 		}
+	}
+
+	// load font (woff)
+	var fontFile = filePaths.fonts.woff;
+	if (ua.indexOf("Android") > -1 && ua.indexOf("like Gecko") > -1 && ua.indexOf("Chrome") == -1) {
+		fontFile = filePaths.fonts.ttf;
+	}
+
+	if (fontFile && !getCookie(filePaths.fonts.name)) {
+		loadCSS(fontFile);
+		// set cookie to mark this file fetched
+		setCookie(filePaths.fonts.name, fontFile, fiveYears);
 	}
 
 	// load js async and toggle no-js class
