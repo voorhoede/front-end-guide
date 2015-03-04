@@ -318,7 +318,10 @@ function serveTask() {
 	browserSync({
 		server: {
 			baseDir: paths.dist
-		}
+		},
+		ui: false,
+		online: false,
+		open: false
 	});
 }
 
