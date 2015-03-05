@@ -1,0 +1,36 @@
+{
+  "name": "expandible",
+  "version": "0.0.1",
+  "description": "Turn plain markup into an interactive expandible component using just data-attributes or a JS API.",
+  "main": "expandible.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/voorhoede/expandible.git"
+  },
+  "keywords": [
+    "expandible",
+    "collapsible",
+    "accessible",
+    "aria"
+  ],
+  "author": "De Voorhoede",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/voorhoede/expandible/LICENSE"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/voorhoede/expandible/issues"
+  },
+  "homepage": "https://github.com/voorhoede/expandible",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-bump": "0.0.14",
+    "grunt-contrib-requirejs": "^0.4.4",
+	"matchdep": "^0.3.0"
+  }
+}

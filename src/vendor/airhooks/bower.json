@@ -1,0 +1,31 @@
+{
+	"name": "airhooks",
+	"version": "0.0.1",
+	"license": "MIT",
+	"main": [
+		"airhooks/addClass.js",
+		"airhooks/addEventListener.js",
+		"airhooks/containsClass.js",
+		"airhooks/forEach.js",
+		"airhooks/map.js",
+		"airhooks/removeClass.js",
+		"airhooks/removeEventListener.js",
+		"airhooks/togleClass.js"
+	],
+	"ignore": [
+		"**/.*",
+		"!.jshintrc",
+		"examples/*",
+		"vendor/*",
+		"index.html"
+	],
+	"dependencies": {},
+	"devDependencies": {},
+	"keywords": [
+		"javascript",
+		"helpers",
+		"polyfills",
+		"classList",
+		"eventListeners"
+	]
+}

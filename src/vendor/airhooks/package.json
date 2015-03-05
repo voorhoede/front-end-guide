@@ -1,0 +1,42 @@
+{
+  "name": "airhooks",
+  "version": "0.0.1",
+  "description": "Collection of JavaScript helpers using a wrapper around native and fallback methods rather than using polyfills.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/voorhoede/airhooks.git"
+  },
+  "author": {
+    "name": "De Voorhoede",
+    "url": "http://voorhoede.nl"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/voorhoede/airhooks/LICENSE"
+    }
+  ],
+  "keywords": [
+    "javascript",
+    "helpers",
+    "polyfills",
+    "classList",
+    "eventListeners"
+  ],
+  "bugs": {
+    "url": "https://github.com/voorhoede/airhooks/issues"
+  },
+  "homepage": "https://github.com/voorhoede/airhooks",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "matchdep": "^0.3.0",
+    "grunt-bump": "0.0.14"
+  }
+}

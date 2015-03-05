@@ -1,0 +1,32 @@
+{
+  "name": "expandible",
+	"version": "0.0.1",
+  "description": "Turn plain markup into an interactive expandible component using just data-attributes or a JS API.",
+  "main": "expandible.js",
+  "homepage": "https://github.com/voorhoede/expandible",
+  "authors": ["De Voorhoede"],
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "expandible",
+    "collapsible",
+    "accessible",
+    "aria"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+	"airhooks": "~0.0.1"
+  },
+  "devDependencies": {
+    "bootstrap": "~3.1.1",
+    "requirejs": "~2.1.13",
+	"almond": "~0.2.9"
+  }
+}
