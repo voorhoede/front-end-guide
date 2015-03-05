@@ -315,11 +315,7 @@ function testTask(action) {
 
 function serveTask() {
 	// http://www.browsersync.io/docs/gulp/
-	browserSync({
-		server: {
-			baseDir: paths.dist
-		}
-	});
+	browserSync(config.browserSync);
 }
 
 function srcFiles(filetype) {
