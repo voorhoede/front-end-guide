@@ -26,15 +26,22 @@ paths.srcFiles = [
 		paths.srcComponents + '*/*',
 		paths.srcViews + '*/*',
 		'!' + paths.src + '*/_template/*'
-//		'!' + paths.src + '_*',
-//		'!' + paths.srcComponents + '_*/*',
-//		'!' + paths.srcViews + '_*/*'
 ];
 paths.htmlFiles = paths.srcFiles.map(function(path){ return path + '.html'; });
 paths.jsFiles   = paths.srcFiles.map(function(path){ return path + '.js'; });
 paths.lessFiles = paths.srcFiles.map(function(path){ return path + '*/*.less'; });
 
+var browserDefaultConfig = {
+	server: {
+			baseDir: paths.dist
+		},
+	ui: false,
+	online: false,
+	open: false
+}
+
 module.exports = {
+	browserSync: browserDefaultConfig,
 	autoprefixBrowsers: autoprefixBrowsers,
 	paths: paths
 };
