@@ -45,4 +45,3 @@ function configureRequireJs(response) {
 		callback: window.__karma__.start
 	});
 }
-

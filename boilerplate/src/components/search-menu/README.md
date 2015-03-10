@@ -23,7 +23,7 @@ Using the [Open Search Protocol](http://www.opensearch.org) a website can make i
 Add Open Search Description file (eg. `https://demo-project.com/open-search-desc.xml`):
 
 	<?xml version="1.0" encoding="utf-8"?>
-	<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" 
+	<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
 			xmlns:moz="http://www.mozilla.org/2006/browser/search/">
 		<ShortName>demo-project.com</ShortName>
 		<Description>Search on demo-project.com</Description>
@@ -36,7 +36,7 @@ Add Open Search Description file (eg. `https://demo-project.com/open-search-desc
 			https://www.demo-project.com/img/favicon.png</Image>
 		<Image height="57" width="57" type="image/png">
 			https://www.demo-project.com/apple-touch-icon.png</Image>
-		<Url type="text/html" method="get" 
+		<Url type="text/html" method="get"
 			template="https://www.demo-project.com/zoeken?q={searchTerms}"/>
 		<moz:SearchForm>https://www.demo-project.com/zoeken</moz:SearchForm>
 		<Developer></Developer>
@@ -44,5 +44,5 @@ Add Open Search Description file (eg. `https://demo-project.com/open-search-desc
 
 Setup [search auto discovery](http://www.opensearch.org/Specifications/OpenSearch/1.1#Autodiscovery_in_HTML.2FXHTML):
 
-    <link rel="search" type="application/opensearchdescription+xml" 
+    <link rel="search" type="application/opensearchdescription+xml"
           href="open-search-desc.xml" title="Search on demo-project.com">

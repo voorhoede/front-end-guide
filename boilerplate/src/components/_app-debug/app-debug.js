@@ -12,7 +12,7 @@
 
 	// setup two-way communication with parent frame
 	if(window.top) {
-		
+
 		if (window.addEventListener) {
 
 			window.addEventListener('load', function (event) {

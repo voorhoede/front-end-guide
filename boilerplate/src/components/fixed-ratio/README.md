@@ -1,6 +1,6 @@
 # fixed-ratio component
 
-The fixed-ratio component prevents unneeded page reflows on responsive images (and other media) by applying fixed ratio styles. 
+The fixed-ratio component prevents unneeded page reflows on responsive images (and other media) by applying fixed ratio styles.
 
 Responsive images typically cause page reflows when the images are loaded. These page reflows are both [disorienting for the user](http://vimeo.com/68968681) and negatively impact page performance.
 
