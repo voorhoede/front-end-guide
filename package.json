@@ -4,7 +4,9 @@
   "description": "Manage your front-end project in unique views and reusable components.",
   "main": "index.js",
   "private": "yes",
-  "scripts": {},
+  "scripts": {
+    "postinstall": "node ./lib/postinstall.js"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/voorhoede/front-end-guide.git"
@@ -66,6 +68,7 @@
     "requirejs": "^2.1.15",
     "rimraf": "^2.2.8",
     "run-sequence": "^1.0.1",
-    "through2": "^1.1.1"
+    "through2": "^1.1.1",
+    "wrench": "^1.5.0"
   }
 }
