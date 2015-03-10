@@ -202,6 +202,10 @@ function buildJsTask(options) {
     };
 }
 
+/**
+ * TODO: document that is possible to pass settings to change autoprefixed browsers
+ **/
+
 function buildLessTask(options) {
     return function () {
         var settings = taskSettings(options);
