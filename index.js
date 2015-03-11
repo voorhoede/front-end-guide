@@ -103,6 +103,11 @@ function srcFiles(filetype) {
         .pipe(filter('**/*.' + filetype));
 }
 
+function reloadBrowser(options){
+    // only reload browserSync if active, otherwise causes an error.
+    return gulpif(browserSync.active, browserSync.reload(options));
+}
+
 //Exposed functions
 function createModule() {
     return function () {
@@ -138,7 +143,6 @@ function buildHtmlTask(){
 
 function buildModuleInfoTask(){
     return function() {
-
         var markdown = new markdownIt();
         ['Components', 'Views'].forEach(function(moduleType){
             listDirectories(paths['src' + moduleType])
@@ -183,7 +187,7 @@ function buildJsTask(options) {
     return function (cb) {
         var settings = taskSettings(options);
         var amdConfig = _.extend(
-            require('./src/amd-config.json'),
+            require('../../src/amd-config.json'),
             {
                 baseUrl: paths.src,
                 generateSourceMaps: settings.sourceMaps || true, // http://requirejs.org/docs/optimization.html#sourcemaps
@@ -253,6 +257,10 @@ function copyAssetsTask() {
                 .pipe(gulp.dest(paths.distAssets));
         });
     };
+}
+
+function cleanDist(){
+    return function (cb) { del([paths.dist], cb)};
 }
 
 /**
@@ -364,6 +372,7 @@ module.exports = {
     buildLessTask: buildLessTask,
     copyAssetsTask: copyAssetsTask,
     createModule: createModule,
+    cleanDist: cleanDist,
     editModule: editModule,
     imageminTask: imageminTask,
     jshintNodeTask: jshintNodeTask,
