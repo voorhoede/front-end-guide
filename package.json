@@ -4,7 +4,7 @@
   "description": "Manage your front-end project in unique views and reusable components.",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node ./lib/postinstall.js"
+    "postinstall": "node ./lib/postinstall.js && npm install gulp"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
     "url": "https://github.com/voorhoede/front-end-guide/issues"
   },
   "homepage": "https://github.com/voorhoede/front-end-guide",
-  "devDependencies": {
+  "dependencies": {
     "bower": "^1.3.12",
     "browser-sync": "^2.0.1",
     "chalk": "^1.0.0",

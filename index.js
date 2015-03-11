@@ -1,3 +1,5 @@
+module.exports = function(gulp){
+
 /* Dependencies (A-Z) */
 var _ = require('lodash-node');
 var autoprefixer = require('gulp-autoprefixer');
@@ -10,7 +12,6 @@ var imagemin = require('gulp-imagemin');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
 var fs = require('fs');
-var gulp = require('gulp');
 var karma = require('gulp-karma');
 var less = require('gulp-less');
 var markdownIt = require('markdown-it');
@@ -25,7 +26,7 @@ var recess = require('gulp-recess');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
 var rjs = require('requirejs');
-var runSequence = require('run-sequence');
+var runGulpSequence = require('run-sequence').use(gulp);
 var sourcemaps = require('gulp-sourcemaps');
 var zip = require('gulp-zip');
 
@@ -121,6 +122,19 @@ function editModule() {
     };
 }
 
+
+function cleanDistTask() {
+    return function (cb) {
+        del([paths.dist], cb);
+    };
+}
+
+function runSequence() {
+    var taskArguments = arguments;
+    return function(cb) {
+        runGulpSequence.apply(this, taskArguments, cb);
+    }
+}
 
 function buildHtmlTask(){
     return function () {
@@ -364,22 +378,24 @@ function zipDistTask() {
     };
 }
 
-module.exports = {
-    buildHtmlTask: buildHtmlTask,
-    buildModuleInfoTask: buildModuleInfoTask,
-    buildPreviewsTask: buildPreviewsTask,
-    buildJsTask: buildJsTask,
-    buildLessTask: buildLessTask,
-    copyAssetsTask: copyAssetsTask,
-    createModule: createModule,
-    cleanDist: cleanDist,
-    editModule: editModule,
-    imageminTask: imageminTask,
-    jshintNodeTask: jshintNodeTask,
-    jshintSrcTask: jshintSrcTask,
-    testTask: testTask,
-    serveTask: serveTask,
-    watchTask: watchTask,
-    zipDistTask: zipDistTask,
-    configure: configure
-};
+    return {
+        buildHtmlTask: buildHtmlTask,
+        buildModuleInfoTask: buildModuleInfoTask,
+        buildPreviewsTask: buildPreviewsTask,
+        buildJsTask: buildJsTask,
+        buildLessTask: buildLessTask,
+        copyAssetsTask: copyAssetsTask,
+        createModule: createModule,
+        cleanDistTask: cleanDistTask,
+        editModule: editModule,
+        imageminTask: imageminTask,
+        jshintNodeTask: jshintNodeTask,
+        jshintSrcTask: jshintSrcTask,
+        testTask: testTask,
+        serveTask: serveTask,
+        runSequence : runSequence,
+        watchTask: watchTask,
+        zipDistTask: zipDistTask,
+        configure: configure
+    };
+}
