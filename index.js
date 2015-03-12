@@ -130,13 +130,16 @@ function cleanDistTask() {
 }
 
 function runSequence() {
-    var taskArguments = arguments;
+    var args = Array.prototype.slice.call(arguments);
     return function(cb) {
-        runGulpSequence.apply(this, taskArguments, cb);
+        if('function' !== typeof args[args.length-1]){
+            args[args.length] = cb;
+        }
+        runGulpSequence.apply(this, args);
     }
 }
 
-function buildHtmlTask(){
+function buildHtml(){
     return function () {
         configureNunjucks();
         var moduleIndex = moduleUtility.getModuleIndex();
@@ -155,7 +158,7 @@ function buildHtmlTask(){
 }
 
 
-function buildModuleInfoTask(){
+function buildModuleInfo(){
     return function() {
         var markdown = new markdownIt();
         ['Components', 'Views'].forEach(function(moduleType){
@@ -179,7 +182,7 @@ function buildModuleInfoTask(){
     };
 }
 
-function buildPreviewsTask(){
+function buildPreviews(){
     return function () {
         configureNunjucks();
         var templateHtml = fs.readFileSync(paths.srcViews + '_component-preview/component-preview.html', 'utf8');
@@ -197,7 +200,7 @@ function buildPreviewsTask(){
  * TODO: document that is possible to pass settings to not minify source or generate source maps
  **/
 
-function buildJsTask(options) {
+function buildJs(options) {
     return function (cb) {
         var settings = taskSettings(options);
         var amdConfig = _.extend(
@@ -224,7 +227,7 @@ function buildJsTask(options) {
  * TODO: document that is possible to pass settings to change autoprefixed browsers
  **/
 
-function buildLessTask(options) {
+function buildLess(options) {
     return function () {
         var settings = taskSettings(options);
         return srcFiles('less')
@@ -255,7 +258,7 @@ function buildLessTask(options) {
  * Copy all files from `assets/` directories in source root & modules. Only copies file when newer.
  * The `assets/` string is removed from the original path as the destination is an `assets/` dir itself.
  */
-function copyAssetsTask() {
+function copyAssets() {
     return function () {
         paths.assetFiles.map(function (path) {
             return gulp.src(path, {base: paths.src})
@@ -289,7 +292,7 @@ function cleanDist(){
 /**
  *  TODO: change image path with options
  **/
-function imageminTask (options){
+function runImagemin(options){
     return function() {
         var settings = taskSettings(options);
         var relRawImageDirPath = 'assets-raw/images';
@@ -320,7 +323,7 @@ function imageminTask (options){
     };
 }
 
-function jshintNodeTask(){
+function jshintNode(){
     return function() {
         return gulp.src(['*.js'])
             .pipe(jshint('.jshintrc'))
@@ -328,7 +331,7 @@ function jshintNodeTask(){
     };
 }
 
-function jshintSrcTask(){
+function jshintSrc(){
     return function() {
         return srcFiles('js')
             .pipe(cached('hinting')) // filter down to changed files only
@@ -338,7 +341,7 @@ function jshintSrcTask(){
     };
 }
 
-function testTask(action){
+function test(){
     return function (action) {
         return function () {
             return gulp.src([
@@ -355,13 +358,13 @@ function testTask(action){
     };
 }
 
-function serveTask(){
+function serve(){
     return function() {
         browserSync(config.browserSync);
     };
 }
 
-function watchTask () {
+function watch() {
     return function(){
         gulp.watch(paths.assetFiles, ['copy_assets']);
         gulp.watch(paths.htmlFiles, ['build_html', 'build_previews']);
@@ -370,7 +373,7 @@ function watchTask () {
     };
 }
 
-function zipDistTask() {
+function zipDist() {
     return function () {
         return gulp.src(paths.dist + '**/*')
             .pipe(zip(pkg.name + '.zip'))
@@ -379,23 +382,25 @@ function zipDistTask() {
 }
 
     return {
-        buildHtmlTask: buildHtmlTask,
-        buildModuleInfoTask: buildModuleInfoTask,
-        buildPreviewsTask: buildPreviewsTask,
-        buildJsTask: buildJsTask,
-        buildLessTask: buildLessTask,
-        copyAssetsTask: copyAssetsTask,
-        createModule: createModule,
-        cleanDistTask: cleanDistTask,
-        editModule: editModule,
-        imageminTask: imageminTask,
-        jshintNodeTask: jshintNodeTask,
-        jshintSrcTask: jshintSrcTask,
-        testTask: testTask,
-        serveTask: serveTask,
-        runSequence : runSequence,
-        watchTask: watchTask,
-        zipDistTask: zipDistTask,
+        tasks : {
+            buildHtml: buildHtml,
+            buildModuleInfo: buildModuleInfo,
+            buildPreviews: buildPreviews,
+            buildJs: buildJs,
+            buildLess: buildLess,
+            copyAssets: copyAssets,
+            createModule: createModule,
+            cleanDist: cleanDist,
+            editModule: editModule,
+            runImagemin: runImagemin,
+            jshintNode: jshintNode,
+            jshintSrc: jshintSrc,
+            test: test,
+            serve: serve,
+            runSequence : runSequence,
+            watch: watch,
+            zipDist: zipDist
+        },
         configure: configure
     };
 }
