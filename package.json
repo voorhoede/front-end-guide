@@ -1,10 +1,10 @@
 {
   "name": "front-end-guide",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Manage your front-end project in unique views and reusable components.",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node ./lib/postinstall.js && npm install gulp"
+    "postinstall": "node ./lib/postinstall.js"
   },
   "repository": {
     "type": "git",
