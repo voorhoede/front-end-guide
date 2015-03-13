@@ -30,6 +30,11 @@ body {
   margin: 0;
   padding: 0;
 }
+code {
+  font-family: "Menlo", "Lucida Console", monospace;
+  font-size: 0.8375em;
+  line-height: 1.35;
+}
 /**
  * App Viewer
  *	* namespace: `viewer-` is used as prefix for all style rules affecting this component and it's descendant.
@@ -476,9 +481,9 @@ html,
   position: relative;
   height: 100%;
   overflow-y: scroll;
-  padding: 0;
   background: #f5f2f0;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  line-height: 1.35;
 }
 .viewer-info-section .viewer-info-language-content {
   position: absolute;
@@ -486,13 +491,54 @@ html,
   top: 0;
 }
 .viewer-info-section .viewer-info-readme {
-  max-width: 50em;
-  background: #f5f2f0;
-  padding: 0 20px;
+  max-width: 40em;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
 }
-.viewer-info-section pre {
-  margin-top: 0;
-  padding-bottom: 2em;
+.viewer-info-section .viewer-info-readme p {
+  margin: 0 0 0.75em;
+}
+.viewer-info-section .viewer-info-readme li {
+  margin-bottom: 0.5em;
+}
+.viewer-info-section .viewer-info-readme h1 {
+  text-transform: uppercase;
+  font-size: 1.125em;
+  margin: 2em 0 2em;
+}
+.viewer-info-section .viewer-info-readme h2 {
+  font-size: 1.125em;
+  margin: 1.5em 0 0.75em;
+}
+.viewer-info-section .viewer-info-readme h3 {
+  font-size: 1em;
+  margin: 0.75em 0 0;
+}
+.viewer-info-section .viewer-info-readme code {
+  background-color: #ddddda;
+  padding: 0.125em 0.25em;
+  font-size: 0.875em;
+  border-radius: 0.25em;
+}
+.viewer-info-section .viewer-info-readme pre {
+  background: #333;
+  color: white;
+  border-radius: 0.25em;
+  padding: 0.5em 0.75em;
+  margin: 1em 0 1.5em;
+  overflow-x: auto;
+}
+.viewer-info-section .viewer-info-readme pre code {
+  padding: 0;
+  background-color: transparent;
+  line-height: 1.5;
+}
+.viewer-info-section .viewer-info-readme strong,
+.viewer-info-section .viewer-info-readme bold {
+  font-size: 0.9375em;
+}
+.viewer-info-section > div {
+  padding: 0 0 2.5em;
 }
 a img {
   border: none;
