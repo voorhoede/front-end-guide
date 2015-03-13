@@ -24,11 +24,3 @@ Executing this command will
 
 > Entering the name of a module that already exists, will add files you choose to the
 > files that are already in the module. No files will be overridden.
-
-## Edit a module
-
-todo: write documentation
-
-## Delete a module
-
-todo: write documentation

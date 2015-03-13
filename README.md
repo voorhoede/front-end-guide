@@ -6,20 +6,28 @@
 
 Manage your front-end project in unique views and reusable components.
 
-[View demo](http://voorhoede.github.io/front-end-guide/)
-
-
 ## Kick start
 
-**Get a copy**
+Create your project folder and add a `package.json`. This can be done with:
 
-[Fork](https://github.com/voorhoede/front-end-guide/fork) or
-[download](https://github.com/voorhoede/front-end-guide/archive/master.zip) the front-end guide.
+	$ npm init
 
 **Install all dependencies**
 
-	$ npm install
+	$ npm install front-end-guide --save-dev
+	$ npm install gulp --save-dev
+
+**Install bower dependecies**
+
+For now its necessary to install bower dependencies (planned to be optional):
+
 	$ bower install
+
+If are running this on an empty folder its recomended that to get the scafolding files. You can do this by running:
+
+	$ node ./node_modules/front-end-guide/lib/scafolding.js
+
+## Available Tasks
 
 **Build and watch**
 
@@ -30,17 +38,18 @@ Manage your front-end project in unique views and reusable components.
 	$ gulp build_guide
 	$ gulp serve
 
-Want installation guide in more detail? Read [Getting started](docs/getting-started.md).
+## API
+
+There are a few options that can be set passed to the front-end-guide:
+
+to be defined
+
 
 
 ## Documentation
 
-* [Getting started](docs/getting-started.md)
 * [Authoring templates (HTML)](docs/authoring-templates.md)
 * [Authoring styles (LESS/CSS)](docs/authoring-styles.md)
 * [Authoring scripts (JS)](docs/authoring-scripts.md)
 * [Authoring assets](docs/authoring-assets.md)
 * [Creating modules](docs/module-crud.md)
-* [Build with Travis CI](docs/build-with-travis-ci.md)
-* [Changelog](docs/changelog.md)
-* [Versioning](docs/versioning.md)
