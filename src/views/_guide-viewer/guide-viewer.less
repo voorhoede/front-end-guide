@@ -31,6 +31,12 @@ body {
 	padding: 0;
 }
 
+code {
+	font-family: "Menlo", "Lucida Console", monospace;
+	font-size: 0.8375em;
+	line-height: 1.35;
+}
+
 /**
  * App Viewer
  *	* namespace: `viewer-` is used as prefix for all style rules affecting this component and it's descendant.
@@ -240,9 +246,9 @@ html,
 	.ie8 &{
 		width: 100px;
 		.viewer-ie-icon-fallback('New window');
-	} 	
+	}
  }
-.viewer-icon-label			{ 
+.viewer-icon-label			{
 	.viewer-icon('\e887');
 	.ie8 &{
 		width: 95px;
@@ -253,21 +259,21 @@ html,
 .viewer-icon-expand-more 	{ .viewer-icon('\e8ab'); }
 .viewer-icon-view 			{ .viewer-icon('\e699'); }
 .viewer-icon-component 		{ .viewer-icon('\e628'); }
-.viewer-icon-align-top 		{ 
+.viewer-icon-align-top 		{
 	.viewer-icon('\e7a7');
 	.ie8 &{
 		width: 70px !important;
 		.viewer-ie-icon-fallback('Expand');
 	}
 }
-.viewer-icon-align-bottom 	{ 
+.viewer-icon-align-bottom 	{
 	.viewer-icon('\e7a5');
 	.ie8 &{
 		width: 69px !important;
 		.viewer-ie-icon-fallback('Collapse');
 	}
 }
-.viewer-icon-clear			{ 
+.viewer-icon-clear			{
 	.viewer-icon('\e704');
 	.ie8 &{
 		width: 50px !important;
@@ -443,15 +449,14 @@ html,
 	}
 }
 
-
 .viewer-info-section {
 	display: block;
 	position: relative;
 	height: 100%;
 	overflow-y: scroll;
-	padding: 0;
 	background: #f5f2f0;
 	box-shadow: 0 0 5px rgba(0,0,0,0.2);
+	line-height: 1.35;
 
 	.viewer-info-language-content {
 		position: absolute;
@@ -460,15 +465,66 @@ html,
 	}
 
 	.viewer-info-readme {
-		max-width: 50em;
-		background: #f5f2f0;
-		padding: 0 20px;
+		max-width: 40em;
+		padding-left: 1.5em;
+		padding-right: 1.5em;
+
+		p {
+			margin: 0 0 0.75em;
+		}
+
+		li {
+			margin-bottom: 0.5em;
+		}
+
+		h1 {
+			text-transform: uppercase;
+			font-size: 1.125em;
+			margin: 2em 0 2em;
+		}
+
+		h2 {
+			font-size: 1.125em;
+			margin: 1.5em 0 0.75em;
+		}
+
+		h3 {
+			font-size: 1em;
+			margin: 0.75em 0 0;
+		}
+
+		code {
+			background-color: #ddddda;
+			padding: 0.125em 0.25em;
+			font-size: 0.875em;
+			border-radius: 0.25em;
+		}
+
+		pre {
+			background: #333;
+			color: white;
+			border-radius: 0.25em;
+			padding: 0.5em 0.75em;
+			margin: 1em 0 1.5em;
+			overflow-x: auto;
+
+			code {
+				padding: 0;
+				background-color: transparent;
+				line-height: 1.5;
+			}
+		}
+
+		strong, bold {
+			font-size: 0.9375em;
+		}
+
 	}
 
-	pre {
-		margin-top: 0;
-		padding-bottom: 2em;
+	& > div {
+		padding: 0 0 2.5em; // the viewer actually drops off the page at the bottom, so give it some extra space
 	}
+
 }
 
 a img{
