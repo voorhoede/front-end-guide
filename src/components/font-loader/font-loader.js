@@ -26,30 +26,10 @@
 		.then(
 			function(){
 				w.document.documentElement.className += " fonts-loaded";
-				setCookie('fonts-loaded', true, 4);
+				w.setCookie('fonts-loaded', true, 5 * 365);
 			},
 			function () {
 				console.log('err while observing font');
 			}
 		);
-
-	function setCookie(name, value, days) {
-		if (typeof useCookie === 'undefined') {
-			// if value is a false boolean, we'll treat that as a delete
-			if (value === false) {
-				days = -1;
-			}
-			var expires;
-			if (days) {
-				var date = new Date();
-				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-				expires = "; expires=" + date.toGMTString();
-			}
-			else {
-				expires = "";
-			}
-			window.document.cookie = name + "=" + value + expires + "; path=/";
-		}
-	}
-
 }( window ));

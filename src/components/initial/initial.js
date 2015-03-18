@@ -70,7 +70,7 @@
 		return null;
 	}
 
-	function setCookie(name, value, days) {
+	window.setCookie = function(name, value, days) {
 		if (typeof useCookie === 'undefined') {
 			// if value is a false boolean, we'll treat that as a delete
 			if (value === false) {
@@ -87,7 +87,7 @@
 			}
 			window.document.cookie = name + "=" + value + expires + "; path=/";
 		}
-	}
+	};
 
 	// modified grunticon loader used for loading the correct icon file
 	function grunticon( svgData, pngData ){
