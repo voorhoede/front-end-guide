@@ -1,0 +1,41 @@
+{
+  "name": "airhooks",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": [
+    "airhooks/addClass.js",
+    "airhooks/addEventListener.js",
+    "airhooks/containsClass.js",
+    "airhooks/forEach.js",
+    "airhooks/map.js",
+    "airhooks/removeClass.js",
+    "airhooks/removeEventListener.js",
+    "airhooks/togleClass.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "!.jshintrc",
+    "examples/*",
+    "vendor/*",
+    "index.html"
+  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "javascript",
+    "helpers",
+    "polyfills",
+    "classList",
+    "eventListeners"
+  ],
+  "homepage": "https://github.com/voorhoede/airhooks",
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.1",
+    "commit": "3bc71f3e0fc2624a0def138c6639add0abc2ada3"
+  },
+  "_source": "git://github.com/voorhoede/airhooks.git",
+  "_target": "~0.0.1",
+  "_originalSource": "airhooks"
+}
