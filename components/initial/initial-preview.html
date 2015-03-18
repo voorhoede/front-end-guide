@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>component-preview preview</title>
+    <title>initial preview</title>
     <meta name="description" content="Manage your front-end project in unique views and reusable components.">
     <meta name="keywords" content="front-end, guide, patternlab, reusable, components, modules">
     <meta property="og:image" content="http://voorhoede.github.io/front-end-guide/assets/components/app-logo/demo-logo.png">
@@ -193,21 +193,15 @@ Also to not let it break when running on a node server we render it as a meta ta
         <link rel="stylesheet" href="../../assets/index.css">
     
 </head>
-<body data-module="views/_component-preview">
+<body data-module="components/initial">
 
 
 
-    {% extends "views/_base-view/base-view.html" %}
-
-{% block title %}{{ module.name }} preview{% endblock %}
-
-{% block appHeader %}{% endblock %}
-
-{% block main %}
-    {{ module.html }}
-{% endblock %}
-
-{% block appFooter %}{% endblock %}
+    <!-- initial component -->
+<div class="initial" data-component="initial">
+    write content for initial component here.
+</div>
+<!-- /initial component -->
 
 
 
