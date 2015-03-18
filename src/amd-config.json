@@ -2,6 +2,7 @@
     "paths": {
         "airhooks": "vendor/airhooks/airhooks",
         "components/app-header": "components/app-header/app-header",
+        "components/font-loader": "components/font-loader/font-loader",
         "components/search-menu": "components/search-menu/search-menu",
         "expandible": "vendor/expandible/expandible",
 	    "fastclick": "vendor/fastclick/lib/fastclick"

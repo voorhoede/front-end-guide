@@ -1,5 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en"><!-- specify language: http://www.w3.org/TR/html401/struct/dirlang.html#h-8.1 -->
+
+<!--#if expr="$HTTP_COOKIE=/fonts\-loaded\=true/" -->
+<html lang="en" class="<!--#if expr='$HTTP_COOKIE=/fonts\-loaded\=true/' -->fonts-loaded<!--#endif --> no-js">
+<!--#else -->
+<html lang="en" class="no-js">
+<!--#endif -->
+
 <head prefix="og: http://ogp.me/ns#"><!-- enable Open Graph: http://ogp.me/ -->
 
     <!-- charset & http-equiv may be set via response header: https://github.com/h5bp/html5-boilerplate/blob/master/doc/html.md#x-ua-compatible -->
@@ -49,6 +55,8 @@
 {% endblock %}
 
 {% block scripts %}
+    {% include "components/font-loader/font-loader.html" %}
+
     <!-- Include scripts here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
     <!-- Note that the index.js is loaded in through "components/asset-loader/asset-loader.html"-->
     <script>{% include "components/_app-debug/app-debug.js" %}</script>
