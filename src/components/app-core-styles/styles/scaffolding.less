@@ -24,13 +24,39 @@ html {
 }
 
 body {
-	font-family: alex_brushregular, sans-serif;
+	font-family: sans-serif;
 	font-size: 1.2em;
 	line-height: 1.5em;
 	color: @brand-default;
 	width: 90%;
 	margin: 0 auto;
 	padding: 0;
+}
+
+.fonts-loaded body{
+  font-family: source_sans_pro, sans-serif;
+}
+
+@font-face {
+  font-family: 'source_sans_pro';
+  src:  url('components/app-core-styles/fonts/SourceSansPro-Regular-webfont.eot');
+  src:  url('components/app-core-styles/fonts/SourceSansPro-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('components/app-core-styles/fonts/SourceSansPro-Regular-webfont.woff2') format('woff2'),
+        url('components/app-core-styles/fonts/SourceSansPro-Regular-webfont.woff') format('woff'),
+        url('components/app-core-styles/fonts/SourceSansPro-Regular-webfont.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'source_sans_pro';
+  src:  url('components/app-core-styles/fonts/SourceSansPro-Semibold-webfont.eot');
+  src:  url('components/app-core-styles/fonts/SourceSansPro-Semibold-webfont.eot?#iefix') format('embedded-opentype'),
+        url('components/app-core-styles/fonts/SourceSansPro-Semibold-webfont.woff2') format('woff2'),
+        url('components/app-core-styles/fonts/SourceSansPro-Semibold-webfont.woff') format('woff'),
+        url('components/app-core-styles/fonts/SourceSansPro-Semibold-webfont.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
 }
 
 a:link {

@@ -3,7 +3,6 @@ var _ = require('lodash-node');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var cached = require('gulp-cached');
-var cssBase64 = require('gulp-css-base64');
 var del = require('del');
 var gulpif = require('gulp-if');
 var filter = require('gulp-filter');
@@ -38,9 +37,8 @@ var pkg = require('./package.json');
 /* Register default & custom tasks (A-Z) */
 gulp.task('default', ['build_guide']);
 gulp.task('build', ['build_html', 'build_js', 'build_less', 'copy_assets', 'copy_files']);
-gulp.task('build_assets', function(cb) { runSequence('imagemin', 'build_fonts', 'copy_assets', cb);});
+gulp.task('build_assets', function(cb) { runSequence('imagemin', 'build_ss', 'copy_assets', cb);});
 gulp.task('build_clean',  function(cb) { runSequence('clean_dist', 'build', cb); });
-gulp.task('build_fonts', buildFontsTask);
 gulp.task('build_guide',  function(cb) { runSequence('build_clean', 'build_previews', 'build_module_info', cb); });
 gulp.task('build_html', buildHtmlTask);
 gulp.task('build_js',['jshint_src'], buildJsTask);
@@ -66,18 +64,6 @@ gulp.task('zip_dist', zipDistTask);
 
 /* Tasks and utils (A-Z) */
 
-function buildFontsTask () {
-	var fontsPath = 'src/components/app-core-styles/assets/fonts/';
-	return gulp.src(fontsPath + '*.less')
-		.pipe(less())
-		.pipe(cssBase64({
-			// Note that data uris in ie8 can only have a maximum size of 32kb, thus 32768b. `maxWeightResource` is in bytes.
-			// Don't forget to subset your fonts.
-			maxWeightResource: 75000,
-			extensionsAllowed: ['.ttf', '.woff']
-		}))
-		.pipe(gulp.dest(fontsPath));
-}
 function buildHtmlTask() {
 	configureNunjucks();
 	var moduleIndex = moduleUtility.getModuleIndex();
