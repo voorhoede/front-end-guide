@@ -1,5 +1,11 @@
 <!doctype html>
-<html class="no-js" lang="en"><!-- specify language: http://www.w3.org/TR/html401/struct/dirlang.html#h-8.1 -->
+
+<!--#if expr="$HTTP_COOKIE=/fonts\-loaded\=true/" -->
+<html lang="en" class="<!--#if expr='$HTTP_COOKIE=/fonts\-loaded\=true/' -->fonts-loaded<!--#endif --> no-js">
+<!--#else -->
+<html lang="en" class="no-js">
+<!--#endif -->
+
 <head prefix="og: http://ogp.me/ns#"><!-- enable Open Graph: http://ogp.me/ -->
 
     <!-- charset & http-equiv may be set via response header: https://github.com/h5bp/html5-boilerplate/blob/master/doc/html.md#x-ua-compatible -->
@@ -130,7 +136,7 @@ Also to not let it break when running on a node server we render it as a meta ta
 		return null;
 	}
 
-	function setCookie(name, value, days) {
+	window.setCookie = function(name, value, days) {
 		if (typeof useCookie === 'undefined') {
 			// if value is a false boolean, we'll treat that as a delete
 			if (value === false) {
@@ -147,7 +153,7 @@ Also to not let it break when running on a node server we render it as a meta ta
 			}
 			window.document.cookie = name + "=" + value + expires + "; path=/";
 		}
-	}
+	};
 
 	// modified grunticon loader used for loading the correct icon file
 	function grunticon( svgData, pngData ){
@@ -206,6 +212,61 @@ Also to not let it break when running on a node server we render it as a meta ta
 
 
 
+
+    <!--#if expr="$HTTP_COOKIE != /.*fonts\-loaded=([^;]+);?.*/" -->
+<!-- font-loader component -->
+<script>
+    window.Promise || document.write('<script src="../../assets/components/font-loader/promise.js"><\/script>');
+</script>
+
+<script>
+    /* jshint ignore:start */
+/* fontfaceobserver Copyright (c) 2015 - Bram Stein https://github.com/bramstein/fontfaceobserver/*/
+(function(){'use strict';function e(a){this.a=document.createElement("div");this.a.setAttribute("aria-hidden","true");this.a.appendChild(document.createTextNode(a));this.b=document.createElement("span");this.c=document.createElement("span");this.f=document.createElement("span");this.e=document.createElement("span");this.d=-1;this.b.style.cssText="display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;";this.c.style.cssText="display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;";
+this.e.style.cssText="display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;";this.f.style.cssText="display:inline-block;width:200%;height:200%;";this.b.appendChild(this.f);this.c.appendChild(this.e);this.a.appendChild(this.b);this.a.appendChild(this.c)}function t(a,b,c){a.a.style.cssText="min-width:20px;min-height:20px;display:inline-block;position:absolute;width:auto;margin:0;padding:0;top:-999px;left:-999px;white-space:nowrap;font-size:100px;font-family:"+b+";"+c}
+function u(a){var b=a.a.offsetWidth,c=b+100;a.e.style.width=c+"px";a.c.scrollLeft=c;a.b.scrollLeft=a.b.scrollWidth+100;return a.d!==b?(a.d=b,!0):!1}function v(a,b){a.b.addEventListener("scroll",function(){u(a)&&null!==a.a.parentNode&&b(a.d)},!1);a.c.addEventListener("scroll",function(){u(a)&&null!==a.a.parentNode&&b(a.d)},!1);u(a)};function w(a,b){this.family=a;this.style=b.style||"normal";this.variant=b.variant||"normal";this.weight=b.weight||"normal";this.stretch=b.stretch||"stretch";this.featureSettings=b.featureSettings||"normal"}var x=null;
+w.prototype.a=function(a,b){var c=a||"BESbswy",z=b||3E3,f="font-style:"+this.style+";font-variant:"+this.variant+";font-weight:"+this.weight+";font-stretch:"+this.stretch+";font-feature-settings:"+this.featureSettings+";-moz-font-feature-settings:"+this.featureSettings+";-webkit-font-feature-settings:"+this.featureSettings+";",g=document.createElement("div"),m=new e(c),n=new e(c),p=new e(c),h=-1,d=-1,k=-1,q=-1,r=-1,s=-1,l=this;t(m,"sans-serif",f);t(n,"serif",f);t(p,"monospace",f);g.appendChild(m.a);
+g.appendChild(n.a);g.appendChild(p.a);document.body.appendChild(g);q=m.a.offsetWidth;r=n.a.offsetWidth;s=p.a.offsetWidth;return new Promise(function(a,b){function c(){null!==g.parentNode&&document.body.removeChild(g)}function y(){if(-1!==h&&-1!==d&&-1!==k&&h===d&&d===k){if(null===x){var b=/AppleWeb[kK]it\/([0-9]+)(?:\.([0-9]+))/.exec(window.navigator.userAgent);x=!!b&&(536>parseInt(b[1],10)||536===parseInt(b[1],10)&&11>=parseInt(b[2],10))}x?h===q&&d===q&&k===q||h===r&&d===r&&k===r||h===s&&d===s&&
+k===s||(c(),a(l)):(c(),a(l))}}setTimeout(function(){c();b(l)},z);v(m,function(a){h=a;y()});t(m,l.family+",sans-serif",f);v(n,function(a){d=a;y()});t(n,l.family+",serif",f);v(p,function(a){k=a;y()});t(p,l.family+",monospace",f)})};window.FontFaceObserver=w;window.FontFaceObserver.prototype.check=w.prototype.a;}());
+/* jshint ignore:end */
+    /*
+ Fonts are loaded through @font-face rules in the CSS whenever an element references them.
+ FontFaceObserver creates a referencing element to trigger the font request, and listen for font load events.
+ When all fonts are loaded, we enable them by adding a class to the html element
+ */
+(function( w ){
+	'use strict';
+
+	// if the class is already set, we're good.
+	if( w.document.documentElement.className.indexOf( "fonts-loaded " ) > -1 ){
+		return;
+	}
+
+	var sourceSansProRegularFont = new w.FontFaceObserver( "source_sans_pro", {
+			weight: 400
+		}),
+		sourceSansProSemiBoldFont = new w.FontFaceObserver( "source_sans_pro", {
+			weight: 700
+		});
+
+	w.Promise
+		.all([
+			sourceSansProRegularFont.check(),
+			sourceSansProSemiBoldFont.check()
+		])
+		.then(
+			function(){
+				w.document.documentElement.className += " fonts-loaded";
+				w.setCookie('fonts-loaded', true, 5 * 365);
+			},
+			function () {
+				console.log('err while observing font');
+			}
+		);
+}( window ));
+</script>
+<!-- /font-loader component -->
+<!--#endif -->
 
     <!-- Include scripts here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
     <!-- Note that the index.js is loaded in through "components/asset-loader/asset-loader.html"-->
