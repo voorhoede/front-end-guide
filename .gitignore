@@ -5,3 +5,7 @@ src/vendor
 
 # project meta
 .idea
+
+# OS
+.DS_Store
+thumbs.db
