@@ -40,8 +40,17 @@ var browserDefaultConfig = {
 	open: false
 }
 
+// files that need to be copied individually
+var filesToCopy = [
+	{
+		filepath : 'src/.htaccess',
+		toDir : paths.dist
+	}
+];
+
 module.exports = {
 	browserSync: browserDefaultConfig,
 	autoprefixBrowsers: autoprefixBrowsers,
+	filesToCopy: filesToCopy,
 	paths: paths
 };

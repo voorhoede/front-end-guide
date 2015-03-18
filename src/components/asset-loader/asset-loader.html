@@ -1,0 +1,37 @@
+<!-- asset-loader component -->
+
+<!-- Check serverside for cookie 'icons'. If it is present render the link tag and put the value from the cookie in the href attribute. In development we do this with apache conditionals.
+Also to not let it break when running on a node server we render it as a meta tag. On an Apache web server the meta starting and closing tag will never be rendered -->
+<!--#if expr="$HTTP_COOKIE = /.*icons=([^;]+);?.*/" -->
+<!--#if expr="$nonExistingVar"--><meta name="ssi-only:icons" content='<!--#endif-->
+<link rel="stylesheet" href="<!--#echo var="1"-->" />
+<!--#if expr="$nonExistingVar"-->'><!--#endif-->
+<!--#endif-->
+
+<!-- In no js browsers load the fallback icons -->
+<noscript><link rel="stylesheet" href="{{ paths.assets }}icons-png-data.css"></noscript>
+
+<script>
+    var filePaths = {
+        rootpath : {
+            name : "rootpath",
+            path : "{{ paths.root }}"
+        },
+        js : {
+            name : "full-js",
+            path : "{{ paths.assets }}index.js"
+        },
+        icons : {
+            name : "icons",
+            svgData : "{{ paths.assets }}icons-svg-data.css",
+            pngData : "{{ paths.assets }}icons-png-data.css"
+        }
+    }
+</script>
+<!-- On a node server this script tag is rendered to never set cookies. On an Apache web server this will never get rendered. During integration leave this out. -->
+<!--#if expr="$nonExistingVar"-->
+<script>var useCookie = false;</script>
+<!--#endif-->
+
+<script>{% include "components/initial/initial.js" %}</script>
+<!-- /asset-loader component -->
