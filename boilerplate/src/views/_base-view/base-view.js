@@ -1,5 +1,3 @@
-define([
-	'components/app-header'
-], function(appHeader){
+define([], function(){
 
 });

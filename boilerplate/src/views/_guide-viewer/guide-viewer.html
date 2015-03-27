@@ -11,7 +11,7 @@
         ['HEADER', 'NAV', 'SECTION', 'FOOTER', 'ARTICLE', 'MAIN', 'FIGCAPTION', 'FIGURE', 'ASIDE']));
     </script>
     <![endif]-->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css">
+    <link rel="stylesheet" href="{{ paths.assets }}views/_guide-viewer/styles/prism-0.0.1.min.css">
     <link rel="stylesheet" href="{{ paths.root }}views/_guide-viewer/guide-viewer.css">
 </head>
 <body class="viewer" data-ng-controller="ViewerController as viewer">
@@ -117,8 +117,8 @@
     <p>Its code is licensed under <a href="https://github.com/voorhoede/front-end-guide/blob/master/LICENSE">MIT License</a>. So use it however you like.</p>
 </footer>
 {% endraw %}
-<script src="https://code.angularjs.org/1.2.27/angular.min.js"></script>
-<script src="https://code.angularjs.org/1.2.27/angular-sanitize.min.js"></script>
+<script src="{{ paths.assets }}views/_guide-viewer/scripts/angular.min.js"></script>
+<script src="{{ paths.assets }}views/_guide-viewer/scripts/angular-sanitize.min.js"></script>
 <script>
     angular.module('config',[])
         .constant('ROOT_PATH', '{{ paths.root }}')

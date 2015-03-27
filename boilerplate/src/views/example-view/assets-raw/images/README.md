@@ -1,1 +1,0 @@
-Images that need to be optimised should be placed in this folder.
