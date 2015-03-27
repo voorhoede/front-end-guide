@@ -1,0 +1,7 @@
+# enabled SSI for .html files
+AddType text/html .html
+AddHandler server-parsed .html
+Options Indexes +Includes +FollowSymlinks
+
+# set charset early for parsing
+AddCharset UTF-8 .html

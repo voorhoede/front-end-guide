@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var guide = require('front-end-guide')(gulp);
 
-gulp.task('build', ['build_html', 'build_js', 'build_less', 'copy_assets']);
+gulp.task('build', ['build_html', 'build_js', 'build_less', 'copy_assets', 'copy_files']);
 gulp.task('build_assets', guide.tasks.runSequence('imagemin', 'copy_assets'));
 gulp.task('build_clean', guide.tasks.runSequence('clean_dist', 'build'));
 gulp.task('build_icons', guide.tasks.buildIcons());
@@ -15,6 +15,7 @@ gulp.task('build_previews', guide.tasks.buildPreviews());
 gulp.task('clean_dist', guide.tasks.cleanDist());
 gulp.task('default', ['build_guide']);
 gulp.task('copy_assets', guide.tasks.copyAssets());
+gulp.task('copy_files', guide.tasks.copyFiles());
 gulp.task('create_module', guide.tasks.createModule());
 gulp.task('jshint', ['jshint_src', 'jshint_node']);
 gulp.task('jshint_node', guide.tasks.jshintNode());

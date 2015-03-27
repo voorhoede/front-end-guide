@@ -33,6 +33,7 @@ var zip = require('gulp-zip');
 
 /* Shared configuration (A-Z) */
 var config = require('./lib/config.js');
+var filesToCopy = config.filesToCopy;
 var paths = config.paths;
 var pkg = require('./package.json');
 
@@ -268,6 +269,15 @@ function buildIcons(options) {
     };
 }
 
+function copyFiles(){
+    return function () {
+       filesToCopy.map(function(file){
+           return gulp.src(file.filepath)
+           .pipe(gulp.dest(file.toDir));
+       });
+    };
+}
+
 /**
  * Copy all files from `assets/` directories in source root & modules. Only copies file when newer.
  * The `assets/` string is removed from the original path as the destination is an `assets/` dir itself.
@@ -405,6 +415,7 @@ function zipDist() {
             buildJs: buildJs,
             buildLess: buildLess,
             copyAssets: copyAssets,
+            copyFiles: copyFiles,
             createModule: createModule,
             cleanDist: cleanDist,
             editModule: editModule,
