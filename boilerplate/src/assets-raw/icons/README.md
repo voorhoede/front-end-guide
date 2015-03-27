@@ -1,0 +1,1 @@
+Example icons borrowed from [Google Material Design Icons](https://github.com/google/material-design-icons)

@@ -9,6 +9,7 @@ var del = require('del');
 var gulpif = require('gulp-if');
 var filter = require('gulp-filter');
 var imagemin = require('gulp-imagemin');
+var iconkit = require('./lib/iconkit');
 var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
 var fs = require('fs');
@@ -254,6 +255,19 @@ function buildLess(options) {
     };
 }
 
+function buildIcons(options) {
+    return function () {
+        var settings = taskSettings(options);
+        var relIconDirPath = 'assets-raw/icons';
+        return gulp.src([
+                paths.src + relIconDirPath,
+                paths.srcComponents + '*/' + relIconDirPath,
+                paths.srcViews + '*/' + relIconDirPath
+            ], { base: paths.src })
+            .pipe(iconkit.processStream());
+    };
+}
+
 /**
  * Copy all files from `assets/` directories in source root & modules. Only copies file when newer.
  * The `assets/` string is removed from the original path as the destination is an `assets/` dir itself.
@@ -262,6 +276,7 @@ function copyAssets() {
     return function () {
         paths.assetFiles.map(function (path) {
             return gulp.src(path, {base: paths.src})
+                .pipe(filter(['**/*', '!**/*.less']))
                 .pipe(newer(paths.distAssets))
                 .pipe(rename(function (p) {
                     p.dirname = p.dirname
@@ -384,6 +399,7 @@ function zipDist() {
     return {
         tasks : {
             buildHtml: buildHtml,
+            buildIcons: buildIcons,
             buildModuleInfo: buildModuleInfo,
             buildPreviews: buildPreviews,
             buildJs: buildJs,
