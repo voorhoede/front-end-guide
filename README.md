@@ -14,14 +14,7 @@ Create your project folder and add a `package.json`. This can be done with:
 
 **Install all dependencies**
 
-	$ npm install front-end-guide --save-dev
-	$ npm install gulp --save-dev
-
-**Install bower dependecies**
-
-For now its necessary to install bower dependencies (planned to be optional):
-
-	$ bower install
+	$ npm install front-end-guide gulp --save-dev
 
 If are running this on an empty folder its recomended that to get the scafolding files. You can do this by running:
 
@@ -29,14 +22,22 @@ If are running this on an empty folder its recomended that to get the scafolding
 
 ## Available Tasks
 
-**Build and watch**
-
-	$ gulp watch
-
 **Deploy locally**
 
 	$ gulp build_guide
 	$ gulp serve
+
+**Develop**
+
+This will do the same as above and also watch files for changes and livereload
+
+	$ gulp watch
+
+**Optimize images**
+
+This will optimize **new** images on the assets-raw folder and copy them to assets/images
+
+	$ gulp imagemin
 
 ## API
 
