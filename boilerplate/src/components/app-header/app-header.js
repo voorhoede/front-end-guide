@@ -1,5 +1,3 @@
-define([
-	'components/search-menu'
-], function(searchMenu){
+define([], function(){
 
 });
