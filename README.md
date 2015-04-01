@@ -18,7 +18,7 @@ Create your project folder and add a `package.json`. This can be done with:
 
 If are running this on an empty folder its recomended that to get the scafolding files. You can do this by running:
 
-	$ node ./node_modules/front-end-guide/lib/scafolding.js
+	$ node ./node_modules/front-end-guide/lib/scaffolding.js
 
 ## Available Tasks
 
