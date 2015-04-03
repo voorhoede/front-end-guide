@@ -113,7 +113,6 @@ module.exports = function (gulp) {
         return gulpif(browserSync.active, browserSync.reload(options));
     }
 
-//Exposed functions
     function createModule() {
         return function () {
             return moduleUtility.create();
@@ -127,12 +126,6 @@ module.exports = function (gulp) {
     }
 
 
-    function cleanDistTask() {
-        return function (cb) {
-            del([paths.dist], cb);
-        };
-    }
-
     function runSequence() {
         var args = Array.prototype.slice.call(arguments);
         return function (cb) {
@@ -140,7 +133,7 @@ module.exports = function (gulp) {
                 args[args.length] = cb;
             }
             runGulpSequence.apply(this, args);
-        }
+        };
     }
 
     function buildHtml() {
@@ -204,10 +197,6 @@ module.exports = function (gulp) {
         };
     }
 
-    /**
-     * TODO: document that is possible to pass settings to not minify source or generate source maps
-     **/
-
     function buildJs(options) {
         return function (cb) {
             var settings = taskSettings(options);
@@ -230,10 +219,6 @@ module.exports = function (gulp) {
             cb();
         };
     }
-
-    /**
-     * TODO: document that is possible to pass settings to change autoprefixed browsers
-     **/
 
     function buildLess(options) {
         return function () {
@@ -265,7 +250,7 @@ module.exports = function (gulp) {
     function buildIcons(options) {
         return function () {
             var settings = taskSettings(options);
-            var relIconDirPath = settings.path || 'assets-raw/icons';
+            var relIconDirPath = settings.rawIconsPath || 'assets-raw/icons';
             return gulp.src([
                 paths.src + relIconDirPath,
                 paths.srcComponents + '*/' + relIconDirPath,
@@ -322,13 +307,10 @@ module.exports = function (gulp) {
      * If you don't want an image to be processed place it directly into `assets` instead of `assets-raw`.
      */
 
-    /**
-     *  TODO: change image path with options
-     **/
     function runImagemin(options) {
         return function () {
             var settings = taskSettings(options);
-            var relRawImageDirPath = 'assets-raw/images';
+            var relRawImageDirPath = settings.rawImagesPath || 'assets-raw/images';
             var relRawImageFilePath = relRawImageDirPath + '/**/*.{gif,jpg,jpeg,png,svg}';
 
             function renameImageDir(path) {
