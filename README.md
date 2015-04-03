@@ -16,7 +16,7 @@ Create your project folder and add a `package.json`. This can be done with:
 
 	$ npm install front-end-guide gulp --save-dev
 
-If are running this on an empty folder its recomended that to get the scafolding files. You can do this by running:
+If you are running this on an empty folder it’s recommended to get the scaffolding files. You can do this by running:
 
 	$ node ./node_modules/front-end-guide/lib/scaffolding.js
 
@@ -58,7 +58,7 @@ This will optimize **new** images on the assets-raw folder and copy them to asse
     );
 
 
-**If don't want o minify your output:**
+**If you don't want to minify your output:**
 
     guide.tasks.buildJs(
         {
@@ -67,7 +67,7 @@ This will optimize **new** images on the assets-raw folder and copy them to asse
         }
     );
 
-**If you want o change your raw icons directory**
+**If you want to change your raw icons directory**
 
     guide.tasks.buildIcons(
         {
