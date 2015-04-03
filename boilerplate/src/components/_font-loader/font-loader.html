@@ -1,0 +1,12 @@
+<!--#if expr="$HTTP_COOKIE != /.*fonts\-loaded=([^;]+);?.*/" -->
+<!-- font-loader component -->
+<script>
+    window.Promise || document.write('<script src="{{ paths.assets }}components/_font-loader/promise.js"><\/script>');
+</script>
+
+<script>
+    {% include "components/_font-loader/fontfaceobserver.js" %}
+    {% include "components/_font-loader/font-loader.js" %}
+</script>
+<!-- /font-loader component -->
+<!--#endif -->

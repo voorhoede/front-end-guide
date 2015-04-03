@@ -29,7 +29,7 @@
     </script>
     <![endif]-->
 
-    {% include "components/asset-loader/asset-loader.html" %}
+    {% include "components/_asset-loader/asset-loader.html" %}
 
     {% block styles %}
         <!-- Include stylesheets here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
@@ -55,7 +55,7 @@
 {% endblock %}
 
 {% block scripts %}
-    {% include "components/font-loader/font-loader.html" %}
+    {% include "components/_font-loader/font-loader.html" %}
 
     <!-- Include scripts here. Concatenate & minify for performance: https://developers.google.com/speed/docs/insights/MinifyResources -->
     <!-- Note that the index.js is loaded in through "components/asset-loader/asset-loader.html"-->
