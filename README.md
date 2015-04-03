@@ -39,14 +39,6 @@ This will optimize **new** images on the assets-raw folder and copy them to asse
 
 	$ gulp imagemin
 
-## API
-
-There are a few options that can be set passed to the front-end-guide:
-
-to be defined
-
-
-
 ## Documentation
 
 * [Authoring templates (HTML)](docs/authoring-templates.md)
@@ -54,3 +46,39 @@ to be defined
 * [Authoring scripts (JS)](docs/authoring-scripts.md)
 * [Authoring assets](docs/authoring-assets.md)
 * [Creating modules](docs/module-crud.md)
+
+## Configurable options
+
+**You can pass your [autoprefix options](https://github.com/postcss/autoprefixer#browsers):**
+
+    guide.tasks.buildLess(
+        {
+            autoPrefixBrowsers : ['> 1%', 'last 2 versions']
+        }
+    );
+
+
+**If don't want o minify your output:**
+
+    guide.tasks.buildJs(
+        {
+            sourceMaps: false,
+            uglify: 'uglify2'
+        }
+    );
+
+**If you want o change your raw icons directory**
+
+    guide.tasks.buildIcons(
+        {
+            rawIconsPath: 'assets-raw/icons'
+        }
+    );
+
+**If you want to change your raw images directory**
+
+    guide.tasks.runImagemin(
+        {
+            rawImagePath : 'assets-raw/images'
+        }
+    ;)
