@@ -1,0 +1,10 @@
+# vendor packages
+node_modules
+
+# project meta
+.idea
+*.sublime-project
+
+# OS
+.DS_Store
+thumbs.db
