@@ -1,6 +1,6 @@
 {
   "name": "front-end-guide",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Manage your front-end project in unique views and reusable components.",
   "main": "index.js",
   "repository": {
