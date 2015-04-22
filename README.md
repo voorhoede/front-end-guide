@@ -14,8 +14,8 @@ Create your project folder and add a `package.json`. This can be done with:
 
 **Install all dependencies**
 
-    $ npm install front-end-guide --save-dev
-    $ npm install gulp -g --save-dev
+    $ npm install front-end-guide gulp --save-dev
+    $ npm install gulp -g
 
 If you are running this on an empty folder it’s recommended to get the scaffolding files. You can do this by running:
 
