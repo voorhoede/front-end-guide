@@ -10,28 +10,29 @@ Manage your front-end project in unique views and reusable components.
 
 Create your project folder and add a `package.json`. This can be done with:
 
-	$ npm init
+    $ npm init
 
 **Install all dependencies**
 
-	$ npm install front-end-guide gulp --save-dev
+    $ npm install front-end-guide --save-dev
+    $ npm install gulp -g --save-dev
 
 If you are running this on an empty folder it’s recommended to get the scaffolding files. You can do this by running:
 
-	$ node ./node_modules/front-end-guide/lib/scaffolding.js
+    $ node ./node_modules/front-end-guide/lib/scaffolding.js
 
 ## Available Tasks
 
 **Deploy locally**
 
-	$ gulp build_guide
-	$ gulp serve
+    $ gulp build_guide
+    $ gulp serve
 
 **Develop**
 
 This will do the same as above and also watch files for changes and livereload
 
-	$ gulp watch
+    $ gulp watch
 
 **Optimize images**
 
@@ -64,14 +65,6 @@ This will optimize **new** images on the assets-raw folder and copy them to asse
         {
             sourceMaps: false,
             uglify: 'uglify2'
-        }
-    );
-
-**If you want to change your raw icons directory**
-
-    guide.tasks.buildIcons(
-        {
-            rawIconsPath: 'assets-raw/icons'
         }
     );
 

@@ -9,7 +9,6 @@ module.exports = function (gulp) {
     var gulpif = require('gulp-if');
     var filter = require('gulp-filter');
     var imagemin = require('gulp-imagemin');
-    var iconkit = require('./lib/iconkit');
     var jscs = require('gulp-jscs');
     var jshint = require('gulp-jshint');
     var fs = require('fs');
@@ -247,19 +246,6 @@ module.exports = function (gulp) {
         };
     }
 
-    function buildIcons(options) {
-        return function () {
-            var settings = taskSettings(options);
-            var relIconDirPath = settings.rawIconsPath || 'assets-raw/icons';
-            return gulp.src([
-                paths.src + relIconDirPath,
-                paths.srcComponents + '*/' + relIconDirPath,
-                paths.srcViews + '*/' + relIconDirPath
-            ], {base: paths.src})
-                .pipe(iconkit.processStream());
-        };
-    }
-
     function copyFiles() {
         return function () {
             filesToCopy.map(function (file) {
@@ -403,7 +389,6 @@ module.exports = function (gulp) {
     return {
         tasks: {
             buildHtml: buildHtml,
-            buildIcons: buildIcons,
             buildModuleInfo: buildModuleInfo,
             buildPreviews: buildPreviews,
             buildJs: buildJs,

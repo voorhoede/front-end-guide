@@ -4,7 +4,6 @@ var guide = require('front-end-guide')(gulp);
 gulp.task('build', ['build_html', 'build_js', 'build_less', 'copy_assets', 'copy_files']);
 gulp.task('build_assets', guide.tasks.runSequence('imagemin', 'copy_assets'));
 gulp.task('build_clean', guide.tasks.runSequence('clean_dist', 'build'));
-gulp.task('build_icons', guide.tasks.buildIcons());
 gulp.task('build_guide', guide.tasks.runSequence('build_clean', 'build_previews', 'build_module_info'));
 gulp.task('build_less', guide.tasks.buildLess());
 gulp.task('build_html', guide.tasks.buildHtml());
