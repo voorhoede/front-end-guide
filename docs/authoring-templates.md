@@ -124,6 +124,14 @@ If you've created a custom home view and want to make this the main view simply 
 
 New modules can be generated using `gulp create_module`. Depending on the module type selected in this task, it creates a module based on the `src/components/_template/` or `src/views/_template/`. These directories contain the [component HTML template](../src/components/_template/template.html) and [view HTML template](../src/views/_template/template.html). You can modify these as you want. The `MODULE_NAME` constant is automatically substituted by the name of the new module.
 
+## Component demo template
+
+To demo the use of your component in a 'real life' page, you can create a `<component>-demo.html` file in your component folder:
+
+    my-component.html
+    my-component-demo.html
+
+From this point on, the demo HTML file will be used as the default view in the front-end guide viewer. Both this file and the component template + rendered HTML will be available for inspection in the front-end guide viewer.
 
 ## Render templates
 
