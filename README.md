@@ -64,7 +64,7 @@ This will optimize **new** images on the assets-raw folder and copy them to asse
     guide.tasks.buildJs(
         {
             sourceMaps: false,
-            uglify: 'uglify2'
+            uglify: 'none'
         }
     );
 
