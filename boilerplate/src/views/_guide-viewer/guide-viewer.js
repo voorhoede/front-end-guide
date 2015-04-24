@@ -14,10 +14,11 @@ angular.module('app', ['config', 'ngSanitize'])
         viewer.breakpoints = BREAKPOINTS;
         viewer.frame = document.querySelector('[data-viewer-frame]');
         viewer.getModulePath = getModulePath;
+        viewer.getModuleDemoPath = getModuleDemoPath;
         viewer.header = document.querySelector('[data-viewer-header]');
         viewer.height = setAutoHeight();
         viewer.info = {isCompact: true};
-        viewer.languages = ['readme', 'template', 'html', 'less', 'css', 'js'];
+        viewer.languages = ['readme', 'template', 'html', 'demo html', 'less', 'css', 'js'];
         viewer.modules = {};
         viewer.setWidth = setWidth;
         viewer.showInfo = false;
@@ -78,11 +79,23 @@ angular.module('app', ['config', 'ngSanitize'])
             }
         }
 
+        /**
+         * Gets module path
+         * @return {String}
+         */
         function getModulePath() {
-            if (!viewer.module || !viewer.module.path) {
-                return '';
-            }
+            if(!viewer.module || !viewer.module.path){ return ''; }
             return ROOT_PATH + viewer.module.path;
+        }
+
+        /**
+         * Gets module path for demo HTML
+         * Ex: /components/lightbox-preview.html => /components/lightbox-demo-preview.html
+         * @return {String}
+         */
+        function getModuleDemoPath() {
+            var path = getModulePath();
+            return viewer.module && viewer.module.hasDemo ? path.replace('-preview', '-demo-preview') : path;
         }
 
         /**

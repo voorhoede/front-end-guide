@@ -35,7 +35,7 @@
                     data-ng-click="viewer.toggleAnnotations()" title="toggle annotations"></button>
             <button class="viewer-button viewer-icon-info-outline" data-ng-class="{ 'is-active': viewer.info.isOpen }"
                     data-ng-click="viewer.info.isOpen = !viewer.info.isOpen " title="toggle module info"></button>
-            <a data-ng-href="{{ viewer.getModulePath() }}" target="_blank" title="open module in new window"
+            <a data-ng-href="{{ viewer.getModuleDemoPath() }}" target="_blank" title="open module in new window"
                class="viewer-link viewer-icon-launch"></a>
         </nav>
         <div class="viewer-size-controls">
@@ -104,7 +104,7 @@
             frameBorder="0"
             sandbox="allow-same-origin allow-scripts allow-forms"
             data-viewer-frame
-            data-ng-src="{{ viewer.getModulePath() }}"
+            data-ng-src="{{ viewer.getModuleDemoPath() }}"
             data-ng-attr-width="{{ viewer.width }}"
             data-ng-attr-height="{{ viewer.height }}"
             ></iframe>

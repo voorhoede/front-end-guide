@@ -169,6 +169,7 @@ module.exports = function (gulp) {
                             name: name,
                             readme: markdown.render(getFileContents(paths['src' + moduleType] + name + '/README.md')),
                             html: highlightCode(getFileContents(distBasename + '.html'), 'markup'),
+                            'demo html': highlightCode(getFileContents(distBasename + '-demo.html'), 'markup'),
                             css: highlightCode(getFileContents(distBasename + '.css'), 'css'),
                             template: highlightCode(getFileContents(srcBasename + '.html'), 'twig'),
                             less: highlightCode(getFileContents(srcBasename + '.less'), 'css'),
