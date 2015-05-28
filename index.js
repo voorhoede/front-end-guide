@@ -156,7 +156,11 @@ module.exports = function (gulp) {
 
     function buildModuleInfo() {
         return function () {
-            var markdown = new markdownIt();
+            var markdown = new markdownIt({
+                highlight: function(str, lang) {
+                    return prism.highlight(str, prism.languages[lang || 'markup']);
+                }
+            });
             ['Components', 'Views'].forEach(function (moduleType) {
                 listDirectories(paths['src' + moduleType])
                     .filter(function (name) {
