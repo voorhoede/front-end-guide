@@ -76,6 +76,6 @@ This will optimize **new** images on the assets-raw folder and copy them to asse
         }
     ;)
 
-**Writing README files**
+## Writing README files
 
 README files are written with Markdown. Code blocks are syntax-highlighted with Prism. Currently we support four basic languages (C-like, CSS, "Markup", JavaScript). 
