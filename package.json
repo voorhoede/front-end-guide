@@ -3,6 +3,7 @@
   "version": "0.5.4",
   "description": "Manage your front-end project in unique views and reusable components.",
   "main": "index.js",
+  "bin": "./bin/scaffolding",
   "repository": {
     "type": "git",
     "url": "git://github.com/voorhoede/front-end-guide.git"

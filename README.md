@@ -19,7 +19,11 @@ Create your project folder and add a `package.json`. This can be done with:
 
 If you are running this on an empty folder it’s recommended to get the scaffolding files. You can do this by running:
 
-    $ node ./node_modules/front-end-guide/lib/scaffolding.js
+    $ ./node_modules/.bin/front-end-guide
+
+If you installed it globally then you can run
+
+    $ front-end-guide
 
 ## Available Tasks
 
@@ -78,4 +82,4 @@ This will optimize **new** images on the assets-raw folder and copy them to asse
 
 ## Writing README files
 
-README files are written with Markdown. Code blocks are syntax-highlighted with Prism. Currently we support four basic languages (C-like, CSS, "Markup", JavaScript). 
+README files are written with Markdown. Code blocks are syntax-highlighted with Prism. Currently we support four basic languages (C-like, CSS, "Markup", JavaScript).
