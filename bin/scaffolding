@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var wrench = require('wrench');
 var chalk = require('chalk');
 var fs = require('fs');
