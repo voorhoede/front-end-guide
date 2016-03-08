@@ -20,5 +20,5 @@ gulp.task('imagemin', guide.tasks.runImagemin());
 gulp.task('serve', guide.tasks.serve());
 gulp.task('test_run', guide.tasks.test()('run'));
 gulp.task('test_watch', guide.tasks.test()('watch'));
-gulp.task('watch', guide.tasks.runSequence('build_guide', 'serve', guide.tasks.watch()));
+gulp.task('watch', guide.tasks.runSequence('serve', guide.tasks.watch()));
 gulp.task('zip_dist', guide.tasks.zipDist());
