@@ -11,7 +11,7 @@ module.exports = function (gulp) {
     var fs = require('fs');
     var gulpif = require('gulp-if');
     var imagemin = require('gulp-imagemin');
-    var karma = require('gulp-karma');
+    var server = require('karma').Server;
     var less = require('gulp-less');
     var markdownIt = require('markdown-it');
     var moduleUtility = require('./lib/module-utility');
@@ -308,20 +308,12 @@ module.exports = function (gulp) {
     }
 
     function test() {
-        return function (action) {
-            return function () {
-                return gulp.src([
-                    // files you put in this array override the files array in karma.conf.js
-                ])
-                    .pipe(karma({
-                        configFile: paths.karmaConfig,
-                        action: action
-                    }))
-                    .on('error', function (err) {
-                        throw err;
-                    });
-            };
-        };
+        return function (){
+            return new server({
+                configFile: process.cwd() + '/test/karma.conf.js',
+                singleRun: true
+            }).start();
+        }
     }
 
     function serve() {

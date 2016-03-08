@@ -18,7 +18,6 @@ gulp.task('copy_files', guide.tasks.copyFiles());
 gulp.task('create_module', guide.tasks.createModule());
 gulp.task('imagemin', guide.tasks.runImagemin());
 gulp.task('serve', guide.tasks.serve());
-gulp.task('test_run', guide.tasks.test()('run'));
-gulp.task('test_watch', guide.tasks.test()('watch'));
+gulp.task('test_run', guide.tasks.test());
 gulp.task('watch', guide.tasks.runSequence('serve', guide.tasks.watch()));
 gulp.task('zip_dist', guide.tasks.zipDist());
