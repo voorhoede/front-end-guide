@@ -97,7 +97,6 @@ module.exports = function (gulp) {
         };
     }
 
-
     function srcFiles(filetype) {
         return gulp.src(paths.srcFiles, {base: paths.src})
             .pipe(filter('**/*.' + filetype));

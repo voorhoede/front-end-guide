@@ -10,51 +10,46 @@ Manage your front-end project in unique views and reusable components.
 
 Create your project folder and add a `package.json`. This can be done with:
 
-    $ npm init
+    npm init
 
 **Install all dependencies**
 
-    $ npm install front-end-guide gulp --save-dev
-    $ npm install gulp -g
+    npm install front-end-guide gulp --save-dev
+    npm install gulp -g
 
 If you are running this on an empty folder it’s recommended to get the scaffolding files. You can do this by running:
 
-    $ ./node_modules/.bin/front-end-guide
-
-If you installed it globally then you can run
-
-    $ front-end-guide
+    ./node_modules/.bin/front-end-guide
 
 ## Available Tasks
 
-**Deploy locally**
+### Build
 
-    $ gulp build_guide
-    $ gulp serve
+    gulp build_guide
+    gulp serve
 
-**Develop**
+### Develop
 
 This will do the same as above and also watch files for changes and livereload
 
-    $ gulp watch
+    gulp watch
 
-**Optimize images**
+### Optimize images
 
 This will optimize **new** images on the assets-raw folder and copy them to assets/images
 
-	$ gulp imagemin
+    gulp imagemin
 
 ## Documentation
 
 * [Authoring templates (HTML)](docs/authoring-templates.md)
 * [Authoring styles (LESS/CSS)](docs/authoring-styles.md)
-* [Authoring scripts (JS)](docs/authoring-scripts.md)
 * [Authoring assets](docs/authoring-assets.md)
 * [Creating modules](docs/module-crud.md)
 
 ## Configurable options
 
-**You can pass your [autoprefix options](https://github.com/postcss/autoprefixer#browsers):**
+You can pass your [autoprefix options](https://github.com/postcss/autoprefixer#browsers):
 
     guide.tasks.buildLess(
         {
@@ -62,23 +57,13 @@ This will optimize **new** images on the assets-raw folder and copy them to asse
         }
     );
 
-
-**If you don't want to minify your output:**
-
-    guide.tasks.buildJs(
-        {
-            sourceMaps: false,
-            uglify: 'none'
-        }
-    );
-
-**If you want to change your raw images directory**
+If you want to change your raw images directory:
 
     guide.tasks.runImagemin(
         {
             rawImagePath : 'assets-raw/images'
         }
-    ;)
+    );
 
 ## Writing README files
 
