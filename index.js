@@ -156,11 +156,11 @@ module.exports = function (gulp) {
                         return (name.substr(0, 1) !== '_');
                     })
                     .map(function (name) {
-                        var srcBasename = paths['src' + moduleType] + name + '/' + name;
-                        var distBasename = paths['dist' + moduleType] + name + '/' + name;
+                        var srcBasename = paths['src' + moduleType] + name + path.sep + name;
+                        var distBasename = paths['dist' + moduleType] + name + path.sep + name;
                         var moduleInfo = {
                             name: name,
-                            readme: markdown.render(getFileContents(paths['src' + moduleType] + name + '/README.md')),
+                            readme: markdown.render(getFileContents(paths['src' + moduleType] + name + path.sep +'README.md')),
                             html: highlightCode(getFileContents(distBasename + '.html'), 'markup'),
                             'demo html': highlightCode(getFileContents(distBasename + '-demo.html'), 'markup'),
                             css: highlightCode(getFileContents(distBasename + '.css'), 'css'),
@@ -236,17 +236,17 @@ module.exports = function (gulp) {
      */
     function copyAssets() {
         return function () {
-            paths.assetFiles.map(function (path) {
-                return gulp.src(path, {base: paths.src})
+            paths.assetFiles.map(function (item) {
+                return gulp.src(item, {base: paths.src})
                     .pipe(filter(['**/*', '!**/*.less']))
                     .pipe(newer(paths.distAssets))
                     .pipe(rename(function (p) {
                         p.dirname = p.dirname
-                            .split('/')
+                            .split(path.sep)
                             .filter(function (dir) {
                                 return (dir !== 'assets');
                             })
-                            .join('/');
+                            .join(path.sep);
                     }))
                     .pipe(gulp.dest(paths.distAssets));
             });
