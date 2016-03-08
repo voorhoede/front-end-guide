@@ -5,7 +5,7 @@ module.exports = function (gulp) {
     var autoprefixer = require('gulp-autoprefixer');
     var browserSync = require('browser-sync');
     var cached = require('gulp-cached');
-    var clean = require('gulp-clean');
+    var del = require('del');
     var gulpif = require('gulp-if');
     var filter = require('gulp-filter');
     var imagemin = require('gulp-imagemin');
@@ -254,10 +254,11 @@ module.exports = function (gulp) {
     }
 
     function cleanDist() {
-        return function () {
-            gulp.src(paths.dist, {read: false})
-                .pipe(clean());
-        };
+        return function (cb) {
+            del(['tmp/*.js']).then(paths => {
+                cb();
+            });
+         };
     }
 
     /**
