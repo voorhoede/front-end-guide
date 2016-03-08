@@ -25,7 +25,6 @@
   "dependencies": {
     "browser-sync": "2.11.1",
     "chalk": "1.1.1",
-    "del": "1.1.1",
     "gulp": "3.9.1",
     "gulp-autoprefixer": "2.1.0",
     "gulp-cached": "1.1.0",
@@ -43,7 +42,6 @@
     "gulp-zip": "3.2.0",
     "imagemin-pngquant": "4.2.2",
     "inquirer": "0.12.0",
-    "jshint-stylish": "1.0.1",
     "json-stable-stringify": "1.0.1",
     "karma": "0.13.21",
     "karma-chrome-launcher": "0.2.2",
@@ -60,5 +58,8 @@
     "run-sequence": "1.1.5",
     "through2": "1.1.1",
     "wrench": "1.5.8"
+  },
+  "devDependencies": {
+    "gulp-clean": "0.3.2"
   }
 }
