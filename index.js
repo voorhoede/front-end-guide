@@ -1,7 +1,7 @@
 module.exports = function (gulp) {
 
     /* Dependencies (A-Z) */
-    var _ = require('lodash-node');
+    var _ = require('lodash');
     var autoprefixer = require('gulp-autoprefixer');
     var browserSync = require('browser-sync');
     var cached = require('gulp-cached');
@@ -9,8 +9,6 @@ module.exports = function (gulp) {
     var gulpif = require('gulp-if');
     var filter = require('gulp-filter');
     var imagemin = require('gulp-imagemin');
-    var jscs = require('gulp-jscs');
-    var jshint = require('gulp-jshint');
     var fs = require('fs');
     var karma = require('gulp-karma');
     var less = require('gulp-less');
@@ -22,10 +20,8 @@ module.exports = function (gulp) {
     var plumber = require('gulp-plumber');
     var pngquant = require('imagemin-pngquant');
     var prism = require('./lib/prism');
-    var recess = require('gulp-recess');
     var rename = require('gulp-rename');
     var replace = require('gulp-replace');
-    var rjs = require('requirejs');
     var runGulpSequence = require('run-sequence').use(gulp);
     var sourcemaps = require('gulp-sourcemaps');
     var zip = require('gulp-zip');
@@ -118,13 +114,6 @@ module.exports = function (gulp) {
         };
     }
 
-    function editModule() {
-        return function () {
-            return moduleUtility.edit();
-        };
-    }
-
-
     function runSequence() {
         var args = Array.prototype.slice.call(arguments);
         return function (cb) {
@@ -202,26 +191,9 @@ module.exports = function (gulp) {
     }
 
     function buildJs(options) {
-        return function (cb) {
+        return function () {
             var settings = taskSettings(options);
-            var amdConfig = _.extend(
-                require('../../src/amd-config.json'),
-                {
-                    baseUrl: paths.src,
-                    generateSourceMaps: settings.sourceMaps || true, // http://requirejs.org/docs/optimization.html#sourcemaps
-                    include: ['index'],
-                    name: 'vendor/almond/almond',
-                    optimize: settings.uglify || 'uglify2',
-                    out: settings.paths.distAssets + 'index.js',
-                    preserveLicenseComments: false
-                }
-            );
-            rjs.optimize(amdConfig);
-            if (browserSync.active) {
-                browserSync.reload();
-            }
-            cb();
-        };
+        }
     }
 
     function buildLess(options) {
@@ -235,8 +207,6 @@ module.exports = function (gulp) {
                         pathToAssets: '"assets/"'
                     }
                 }))
-                .pipe(recess())
-                .pipe(recess.reporter())
                 .pipe(autoprefixer({browsers: settings.autoprefixBrowsers}))
                 .pipe(sourcemaps.write('.', {includeContent: true, sourceRoot: ''}))
                 .pipe(plumber.stop())
@@ -333,24 +303,6 @@ module.exports = function (gulp) {
         };
     }
 
-    function jshintNode() {
-        return function () {
-            return gulp.src(['*.js'])
-                .pipe(jshint('.jshintrc'))
-                .pipe(jshint.reporter(require('jshint-stylish')));
-        };
-    }
-
-    function jshintSrc() {
-        return function () {
-            return srcFiles('js')
-                .pipe(cached('hinting')) // filter down to changed files only
-                .pipe(jscs())
-                .pipe(jshint(paths.src + '.jshintrc'))
-                .pipe(jshint.reporter(require('jshint-stylish')));
-        };
-    }
-
     function test() {
         return function (action) {
             return function () {
@@ -402,10 +354,7 @@ module.exports = function (gulp) {
             copyFiles: copyFiles,
             createModule: createModule,
             cleanDist: cleanDist,
-            editModule: editModule,
             runImagemin: runImagemin,
-            jshintNode: jshintNode,
-            jshintSrc: jshintSrc,
             test: test,
             serve: serve,
             runSequence: runSequence,
