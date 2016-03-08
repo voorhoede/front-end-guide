@@ -47,7 +47,7 @@
     "karma": "0.13.21",
     "karma-chrome-launcher": "0.2.2",
     "karma-jasmine": "0.3.7",
-    "karma-phantomjs-launcher": "0.1.4",
+    "karma-phantomjs-launcher": "1.0.0",
     "karma-requirejs": "0.2.5",
     "lodash": "4.6.1",
     "markdown-it": "6.0.0",
@@ -57,10 +57,7 @@
     "q": "1.4.1",
     "rimraf": "2.5.2",
     "run-sequence": "1.1.5",
-    "through2": "1.1.1",
+    "through2": "2.0.1",
     "wrench": "1.5.8"
-  },
-  "devDependencies": {
-    "gulp-clean": "0.3.2"
   }
 }
