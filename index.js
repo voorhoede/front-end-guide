@@ -2,14 +2,15 @@ module.exports = function (gulp) {
 
     /* Dependencies (A-Z) */
     var _ = require('lodash');
-    var autoprefixer = require('gulp-autoprefixer');
+    var autoprefixer = require('autoprefixer');
     var browserSync = require('browser-sync');
     var cached = require('gulp-cached');
+    var cssnano = require('gulp-cssnano');
     var del = require('del');
-    var gulpif = require('gulp-if');
     var filter = require('gulp-filter');
-    var imagemin = require('gulp-imagemin');
     var fs = require('fs');
+    var gulpif = require('gulp-if');
+    var imagemin = require('gulp-imagemin');
     var karma = require('gulp-karma');
     var less = require('gulp-less');
     var markdownIt = require('markdown-it');
@@ -19,6 +20,7 @@ module.exports = function (gulp) {
     var path = require('path');
     var plumber = require('gulp-plumber');
     var pngquant = require('imagemin-pngquant');
+    var postcss = require('gulp-postcss');
     var prism = require('./lib/prism');
     var rename = require('gulp-rename');
     var replace = require('gulp-replace');
@@ -198,7 +200,7 @@ module.exports = function (gulp) {
     function buildLess(options) {
         return function () {
             var settings = taskSettings(options);
-            return srcFiles('less')
+            return gulp.src('src/index.less')
                 .pipe(plumber()) // prevent pipe break on less parsing
                 .pipe(sourcemaps.init())
                 .pipe(less({
@@ -206,7 +208,8 @@ module.exports = function (gulp) {
                         pathToAssets: '"assets/"'
                     }
                 }))
-                .pipe(autoprefixer({browsers: settings.autoprefixBrowsers}))
+                .pipe(postcss([ autoprefixer({browsers: settings.autoprefixBrowsers}) ]))
+                .pipe(cssnano())
                 .pipe(sourcemaps.write('.', {includeContent: true, sourceRoot: ''}))
                 .pipe(plumber.stop())
                 .pipe(rename(function (p) {
