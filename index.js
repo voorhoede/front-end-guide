@@ -1,18 +1,17 @@
 module.exports = function (gulp) {
 
     /* Dependencies (A-Z) */
-    var _ = require('lodash-node');
-    var autoprefixer = require('gulp-autoprefixer');
+    var _ = require('lodash');
+    var autoprefixer = require('autoprefixer');
     var browserSync = require('browser-sync');
     var cached = require('gulp-cached');
+    var cssnano = require('gulp-cssnano');
     var del = require('del');
-    var gulpif = require('gulp-if');
     var filter = require('gulp-filter');
-    var imagemin = require('gulp-imagemin');
-    var jscs = require('gulp-jscs');
-    var jshint = require('gulp-jshint');
     var fs = require('fs');
-    var karma = require('gulp-karma');
+    var gulpif = require('gulp-if');
+    var imagemin = require('gulp-imagemin');
+    var server = require('karma').Server;
     var less = require('gulp-less');
     var markdownIt = require('markdown-it');
     var moduleUtility = require('./lib/module-utility');
@@ -21,11 +20,10 @@ module.exports = function (gulp) {
     var path = require('path');
     var plumber = require('gulp-plumber');
     var pngquant = require('imagemin-pngquant');
+    var postcss = require('gulp-postcss');
     var prism = require('./lib/prism');
-    var recess = require('gulp-recess');
     var rename = require('gulp-rename');
     var replace = require('gulp-replace');
-    var rjs = require('requirejs');
     var runGulpSequence = require('run-sequence').use(gulp);
     var sourcemaps = require('gulp-sourcemaps');
     var zip = require('gulp-zip');
@@ -101,7 +99,6 @@ module.exports = function (gulp) {
         };
     }
 
-
     function srcFiles(filetype) {
         return gulp.src(paths.srcFiles, {base: paths.src})
             .pipe(filter('**/*.' + filetype));
@@ -117,13 +114,6 @@ module.exports = function (gulp) {
             return moduleUtility.create();
         };
     }
-
-    function editModule() {
-        return function () {
-            return moduleUtility.edit();
-        };
-    }
-
 
     function runSequence() {
         var args = Array.prototype.slice.call(arguments);
@@ -167,11 +157,11 @@ module.exports = function (gulp) {
                         return (name.substr(0, 1) !== '_');
                     })
                     .map(function (name) {
-                        var srcBasename = paths['src' + moduleType] + name + '/' + name;
-                        var distBasename = paths['dist' + moduleType] + name + '/' + name;
+                        var srcBasename = paths['src' + moduleType] + name + path.sep + name;
+                        var distBasename = paths['dist' + moduleType] + name + path.sep + name;
                         var moduleInfo = {
                             name: name,
-                            readme: markdown.render(getFileContents(paths['src' + moduleType] + name + '/README.md')),
+                            readme: markdown.render(getFileContents(paths['src' + moduleType] + name + path.sep +'README.md')),
                             html: highlightCode(getFileContents(distBasename + '.html'), 'markup'),
                             'demo html': highlightCode(getFileContents(distBasename + '-demo.html'), 'markup'),
                             css: highlightCode(getFileContents(distBasename + '.css'), 'css'),
@@ -202,32 +192,15 @@ module.exports = function (gulp) {
     }
 
     function buildJs(options) {
-        return function (cb) {
+        return function () {
             var settings = taskSettings(options);
-            var amdConfig = _.extend(
-                require('../../src/amd-config.json'),
-                {
-                    baseUrl: paths.src,
-                    generateSourceMaps: settings.sourceMaps || true, // http://requirejs.org/docs/optimization.html#sourcemaps
-                    include: ['index'],
-                    name: 'vendor/almond/almond',
-                    optimize: settings.uglify || 'uglify2',
-                    out: settings.paths.distAssets + 'index.js',
-                    preserveLicenseComments: false
-                }
-            );
-            rjs.optimize(amdConfig);
-            if (browserSync.active) {
-                browserSync.reload();
-            }
-            cb();
-        };
+        }
     }
 
     function buildLess(options) {
         return function () {
             var settings = taskSettings(options);
-            return srcFiles('less')
+            return gulp.src('src/index.less')
                 .pipe(plumber()) // prevent pipe break on less parsing
                 .pipe(sourcemaps.init())
                 .pipe(less({
@@ -235,9 +208,8 @@ module.exports = function (gulp) {
                         pathToAssets: '"assets/"'
                     }
                 }))
-                .pipe(recess())
-                .pipe(recess.reporter())
-                .pipe(autoprefixer({browsers: settings.autoprefixBrowsers}))
+                .pipe(postcss([ autoprefixer({browsers: settings.autoprefixBrowsers}) ]))
+                .pipe(cssnano())
                 .pipe(sourcemaps.write('.', {includeContent: true, sourceRoot: ''}))
                 .pipe(plumber.stop())
                 .pipe(rename(function (p) {
@@ -266,17 +238,17 @@ module.exports = function (gulp) {
      */
     function copyAssets() {
         return function () {
-            paths.assetFiles.map(function (path) {
-                return gulp.src(path, {base: paths.src})
+            paths.assetFiles.map(function (item) {
+                return gulp.src(item, {base: paths.src})
                     .pipe(filter(['**/*', '!**/*.less']))
                     .pipe(newer(paths.distAssets))
                     .pipe(rename(function (p) {
                         p.dirname = p.dirname
-                            .split('/')
+                            .split(path.sep)
                             .filter(function (dir) {
                                 return (dir !== 'assets');
                             })
-                            .join('/');
+                            .join(path.sep);
                     }))
                     .pipe(gulp.dest(paths.distAssets));
             });
@@ -285,8 +257,10 @@ module.exports = function (gulp) {
 
     function cleanDist() {
         return function (cb) {
-            del([paths.dist], cb);
-        };
+            del(['tmp/*.js']).then(paths => {
+                cb();
+            });
+         };
     }
 
     /**
@@ -333,39 +307,13 @@ module.exports = function (gulp) {
         };
     }
 
-    function jshintNode() {
-        return function () {
-            return gulp.src(['*.js'])
-                .pipe(jshint('.jshintrc'))
-                .pipe(jshint.reporter(require('jshint-stylish')));
-        };
-    }
-
-    function jshintSrc() {
-        return function () {
-            return srcFiles('js')
-                .pipe(cached('hinting')) // filter down to changed files only
-                .pipe(jscs())
-                .pipe(jshint(paths.src + '.jshintrc'))
-                .pipe(jshint.reporter(require('jshint-stylish')));
-        };
-    }
-
     function test() {
-        return function (action) {
-            return function () {
-                return gulp.src([
-                    // files you put in this array override the files array in karma.conf.js
-                ])
-                    .pipe(karma({
-                        configFile: paths.karmaConfig,
-                        action: action
-                    }))
-                    .on('error', function (err) {
-                        throw err;
-                    });
-            };
-        };
+        return function (){
+            return new server({
+                configFile: process.cwd() + '/test/karma.conf.js',
+                singleRun: true
+            }).start();
+        }
     }
 
     function serve() {
@@ -402,10 +350,7 @@ module.exports = function (gulp) {
             copyFiles: copyFiles,
             createModule: createModule,
             cleanDist: cleanDist,
-            editModule: editModule,
             runImagemin: runImagemin,
-            jshintNode: jshintNode,
-            jshintSrc: jshintSrc,
             test: test,
             serve: serve,
             runSequence: runSequence,
